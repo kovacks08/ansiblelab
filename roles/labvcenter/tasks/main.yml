@@ -1,0 +1,49 @@
+---
+    - name: Create Datacenter
+      vmware_datacenter:
+            datacenter_name: "{{ lab_dc }}"
+            hostname: "{{ vmware_vcenter }}" 
+            username: "{{ vcenter_user }}" 
+            password: "{{ vcenter_password }}"
+            validate_certs: False
+            state: present
+    - name: Create VMwareCluster
+      vmware_cluster:
+            cluster_name: "{{ lab_cluster }}"
+            datacenter_name: "{{ lab_dc }}"
+            hostname: "{{ vmware_vcenter }}" 
+            username: "{{ vcenter_user }}" 
+            password: "{{ vcenter_password }}"
+            validate_certs: False
+            enable_drs: True
+            enable_ha: True
+            enable_vsan: False
+            state: present
+    - name: Add ESXi Host to VC
+      with_dict: "{{ esxi_hosts }}" 
+      vmware_host:
+            esxi_hostname: "{{ item.value.hostname }}"
+            esxi_username: "{{ esxi_username }}"
+            esxi_password: "{{ esxi_password }}"
+            cluster_name: "{{ lab_cluster }}"
+            datacenter_name: "{{ lab_dc }}"
+            hostname: "{{ vmware_vcenter }}" 
+            username: "{{ vcenter_user }}" 
+            password: "{{ vcenter_password }}"
+            validate_certs: False
+            state: present
+    - name: Create distributed vSwitches
+      with_dict: "{{ vmware_dvs }}"
+      vds:
+            vds_name: "{{ item.key }}"
+            discovery_proto: "{{ item.value.discovery_protocol }}"
+            discovery_operation: "{{ item.value.discovery_operation }}"
+            numUplinks: "{{ item.value.uplink_quantity }}"
+            numPorts: "{{ item.value.numPorts }}"
+            mtu: "{{ item.value.mtu }}"
+            datacenter_name: "{{ lab_dc }}"
+            hostname: "{{ vmware_vcenter }}" 
+            username: "{{ vcenter_user }}" 
+            password: "{{ vcenter_password }}"
+            validate_certs: False
+            state: present

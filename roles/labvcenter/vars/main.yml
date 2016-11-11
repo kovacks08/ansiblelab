@@ -1,0 +1,34 @@
+vmware_vcenter: "vdc-ll15-cpvsp1.lablon15.cp.vdc" 
+vcenter_user: "cloudplatform"
+vcenter_password: "Interoute01"
+lab_dc: lablon15test
+lab_cluster: ESX15Clustertest
+esxi_hosts:
+    host1:
+        hostname: "vdc-lablon15-vh09.lablon15.cp.vdc"
+        user: "root"
+        password: "Interoute01"
+    host2:
+        hostname: "vdc-lablon15-vh0a.lablon15.cp.vdc"
+        user: "root"
+        password: "Interoute01"
+vmware_dvs:
+    ext_dvs:
+        mtu: 9000
+        uplink_quantity: 2
+        numPorts: 128
+        discovery_protocol: "cdp"
+        discovery_operation: "both"
+        port_groups:
+            - portgroup_name: "VMk_NFS"
+            - portgroup_type: ""
+            - vlan_id: 1507
+    sto_dvs:
+        mtu: 9000
+        uplink_quantity: 2
+        numPorts: 128
+        discovery_protocol: "cdp"
+        discovery_operation: "both"
+
+esxi_username: "root"
+esxi_password: "Interoute01"
