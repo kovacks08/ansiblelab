@@ -7,6 +7,7 @@
             password: "{{ vcenter_password }}"
             validate_certs: False
             state: present
+
     - name: Create VMwareCluster
       vmware_cluster:
             cluster_name: "{{ lab_cluster }}"
@@ -19,10 +20,12 @@
             enable_ha: True
             enable_vsan: False
             state: present
+
     - name: Add ESXi Host to VC
-      with_dict: "{{ esxi_hosts }}" 
+      with_items: "{{ blades }}" 
       vmware_host:
-            esxi_hostname: "{{ item.value.hostname }}"
+            #esxi_hostname: "vdc-lablon{{ lab_number }}-{{ bladenames[item] }}.lablon{{ lab_number }}.cp.vdc"
+            esxi_hostname: "{{item}}"
             esxi_username: "{{ esxi_username }}"
             esxi_password: "{{ esxi_password }}"
             cluster_name: "{{ lab_cluster }}"
@@ -32,16 +35,42 @@
             password: "{{ vcenter_password }}"
             validate_certs: False
             state: present
+
     - name: Create distributed vSwitches
       with_dict: "{{ vmware_dvs }}"
-      vds:
-            vds_name: "{{ item.key }}"
+      #vmware_dvswitch:
+      vmware_dvswitch:
+            #vds_name: "{{ item.key }}"
+            switch_name: "{{ item.key }}"
             discovery_proto: "{{ item.value.discovery_protocol }}"
+            #discovery_protocol: "{{ item.value.discovery_protocol }}"
             discovery_operation: "{{ item.value.discovery_operation }}"
-            numUplinks: "{{ item.value.uplink_quantity }}"
-            numPorts: "{{ item.value.numPorts }}"
+            uplink_quantity: "{{ item.value.uplink_quantity }}"
+            #numUplinks: "{{ item.value.uplink_quantity }}"
+            #numPorts: "{{ item.value.numPorts }}"
             mtu: "{{ item.value.mtu }}"
+            #productVersion: "5.5.0"
             datacenter_name: "{{ lab_dc }}"
+            hostname: "{{ vmware_vcenter }}" 
+            username: "{{ vcenter_user }}" 
+            password: "{{ vcenter_password }}"
+            validate_certs: False
+            state: present
+
+    - name: Create dvs port_groups
+      with_subelements: 
+        - "{{ vmware_dvs }}"
+        - "portgroups" 
+      vmware_dvs_portgroup:
+            #vds_name: "{{ item.0.name }}"
+            switch_name: "{{ item.0.name }}"
+            portgroup_name: "{{ item.1.name }}"
+            portgroup_type: "{{ item.1.portgroup_type }}"
+            #port_allocation: "{{ item.1.port_allocation }}"
+            #numPorts: "{{ item.1.numPorts }}"
+            num_ports: "{{ item.1.numPorts }}"
+            vlan_id: "{{ item.1.vlan }}"
+            #datacenter_name: "{{ lab_dc }}"
             hostname: "{{ vmware_vcenter }}" 
             username: "{{ vcenter_user }}" 
             password: "{{ vcenter_password }}"

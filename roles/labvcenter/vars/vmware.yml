@@ -1,26 +1,6 @@
----
 vmware_vcenter: "vdc-ll{{lab_number}}-cpvsp1.lablon15.cp.vdc" 
 vcenter_user: "cloudplatform"
 vcenter_password: "Interoute01"
-
-bladenames:
-   1: "vh00" 
-   2: "vh01"
-   3: "vh02"
-   4: "vh03"
-   5: "vh04"
-   6: "vh05"
-   7: "vh06"
-   8: "vh07"
-   9: "vh08"
-   10: "vh09"
-   11: "vh0a"
-   12: "vh0b"
-   13: "vh0c"
-   14: "vh0d"
-   15: "vh0e"
-   16: "vhef"
-
 lab_dc: "lablon{{lab_number}}"
 lab_cluster: "ESX{{lab_number}}Clustertest"
 esxi_hosts: hostname="vdc-lablon{{lab_number}}-bladename['{{item}}'].labloni{{lab_number}}.cp.vdc" user="root" password="Interoute01"
@@ -78,4 +58,3 @@ vmware_dvs:
 
 esxi_username: "root"
 esxi_password: "Interoute01"
-
