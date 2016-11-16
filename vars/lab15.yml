@@ -1,0 +1,13 @@
+lab_number: 15
+dc_name: "lablon15"
+vc_name: "vdc-ll15-cpvsp1.lablon15.cp.vdc"
+ip_range: "10.220.112.0"
+clusters:
+      - name: ESXCluster15a
+        blades:
+          #- 'vh09'
+          - 'blade10'
+      - name: ESXCluster15b
+        blades: 
+          #- 'vh0a'
+          - 'blade11'

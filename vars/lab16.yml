@@ -1,0 +1,7 @@
+lab_number: 16
+dc_name: "lablon16"
+vc_name: "vdc-ll16-cpvsp1.lablon16.cp.vdc"
+clusters:
+      - name: ESXCluster16
+        blades:
+          - 'vh0e'
