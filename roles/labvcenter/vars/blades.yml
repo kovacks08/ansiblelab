@@ -1,5 +1,13 @@
 bladenames:
     'blade01':  "vdc-lablon{{ lab_number }}-vh00.lablon{{ lab_number }}.cp.vdc"
+    'blade02':  "vdc-lablon{{ lab_number }}-vh01.lablon{{ lab_number }}.cp.vdc"
+    'blade03':  "vdc-lablon{{ lab_number }}-vh02.lablon{{ lab_number }}.cp.vdc"
+    'blade04':  "vdc-lablon{{ lab_number }}-vh03.lablon{{ lab_number }}.cp.vdc"
+    'blade05':  "vdc-lablon{{ lab_number }}-vh04.lablon{{ lab_number }}.cp.vdc"
+    'blade06':  "vdc-lablon{{ lab_number }}-vh05.lablon{{ lab_number }}.cp.vdc"
+    'blade07':  "vdc-lablon{{ lab_number }}-vh06.lablon{{ lab_number }}.cp.vdc"
+    'blade08':  "vdc-lablon{{ lab_number }}-vh07.lablon{{ lab_number }}.cp.vdc"
+    'blade09':  "vdc-lablon{{ lab_number }}-vh08.lablon{{ lab_number }}.cp.vdc"
     'blade10':  "vdc-lablon{{ lab_number }}-vh09.lablon{{ lab_number }}.cp.vdc"
     'blade11':  "vdc-lablon{{ lab_number }}-vh0a.lablon{{ lab_number }}.cp.vdc"
     'blade12':  "vdc-lablon{{ lab_number }}-vh0b.lablon{{ lab_number }}.cp.vdc"
@@ -9,9 +17,37 @@ bladenames:
     'blade16':  "vdc-lablon{{ lab_number }}-vh0f.lablon{{ lab_number }}.cp.vdc"
 
 bladeips:
+    'blade01': 1
+    'blade02': 2
+    'blade03': 3
+    'blade04': 4
+    'blade05': 5
+    'blade06': 6
+    'blade07': 7
+    'blade08': 8
+    'blade09': 9
     'blade10': 10
     'blade11': 11
+    'blade12': 12
+    'blade13': 13
+    'blade14': 14
+    'blade15': 15
+    'blade16': 16
 
 bladeipsupper:
-    'blade10': 140
-    'blade11': 141
+    'blade01': 129
+    'blade02': 130
+    'blade03': 131
+    'blade04': 132
+    'blade05': 133
+    'blade06': 134
+    'blade07': 135
+    'blade08': 136
+    'blade09': 137
+    'blade10': 138
+    'blade11': 139
+    'blade12': 140
+    'blade13': 141
+    'blade14': 142
+    'blade15': 143
+    'blade16': 144

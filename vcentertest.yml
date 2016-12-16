@@ -2,6 +2,22 @@
 -   hosts: localhost
     connection: local 
     gather_facts: False
-        - answerfile.yml 
+    vars:
+       vcenter_user: cloudplatform
+       vcenter_password: Interoute01
+    vars_files:
+       -  vars/lab15.yml
     roles:
-      - labvcenter
+       - { role: labvcenter }
+
+
+#-   hosts: localhost
+    #connection: local 
+    #gather_facts: False
+    #vars:
+       #vcenter_user: cloudplatform
+       #vcenter_password: Interoute02
+    #vars_files:
+       #-  vars/lab16.yml
+    #roles:
+       #- { role: labvcenter }

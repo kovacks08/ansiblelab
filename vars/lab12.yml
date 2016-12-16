@@ -1,16 +1,15 @@
-lab_number: 16
-mgmt_lab_number: 16
+lab_number: 12
 vcenter_user: cloudplatform
 vcenter_password: Interoute01
 vc_name: 'VDC-LABLON09-VM.vdclab.internal'
-ip_range: "10.220.120.0"
-cpman_server: 'vdc-lablon16-cpman1'
+ip_range: "10.220.88.0"
+cpman_server: 'vdc-lablon12-cpman1'
 repo_version: "4.6.1-shapeblue5"
 system_vm_template: "http://10.220.2.77/systemvm64template-master-4.6.0-vmware.ova"
 dns_servers:
-    - '10.220.122.107'
-    - '10.220.122.108'
+    - '10.220.90.107'
+    - '10.220.90.108'
 clusters:
-      - name: ESXCluster16
+      - name: ESXCluster12
         blades:
-          - 'blade10'
+          - 'blade07'

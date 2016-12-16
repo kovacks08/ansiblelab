@@ -1,0 +1,77 @@
+---
+    - name: Download mysql repository
+      yum:
+        name: http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
+        state: present
+    
+    - name: Ensure mysql server is installed
+      yum: name=mysql-server state=present
+
+    - name: Ensure mysql python is installed
+      yum: name=MySQL-python state=present
+
+    - name: Ensure selinux python bindings are installed
+      yum: name=libselinux-python state=present
+
+    - name: Ensure cloudstack specfic my.cnf lines are present
+      lineinfile: 
+            dest: /etc/my.cnf 
+            insertafter: 'symbolic-links=0'
+            regexp: "{{ item.regexp }}"
+            line: "{{ item.line }}"
+      with_items:
+         - { regexp: "innodb_rollback_on_timeout", line: "innodb_rollback_on_timeout=1" } 
+         - { regexp: "innodb_lock_wait_timeout", line: "innodb_lock_wait_timeout=60" } 
+         - { regexp: "max_connections", line: "max_connections=350"}
+         - { regexp: "log-bin", line: "log-bin=mysql-bin"}
+         - { regexp: "binlog-format", line: "binlog-format = 'ROW'"}
+
+    - name: Ensure MySQL service is started
+      systemd: name=mysqld state=started
+
+    - name: Ensure MySQL service is enabled at boot
+      systemd: name=mysqld enabled=yes
+
+    - name: Ensure Firewalld service is stopped 
+      systemd: name=firewalld state=stopped
+
+    - name: Ensure Firewalld service is stopeed at boot
+      systemd: name=firewalld enabled=no
+
+    - name: Ensure root password is set
+      mysql_user: user=root password=Interoute01 host=localhost
+      ignore_errors: true
+
+    - name: Create .my.cnf
+      template:
+        src: "client.my.cnf.j2"
+        dest: "/root/.my.cnf"
+        owner: root
+        group: root
+        mode: 0600
+
+    - name: Ensure root has sufficient privileges
+      mysql_user: 
+        #login_user: "root"
+        #login_password: "Interoute01"
+        name: "root"
+        host: "%"
+        password: "Interoute01"
+        priv: "*.*:ALL,GRANT"
+        state: present
+
+    - name: Drop databases cloud and cloud_usage
+      mysql_db:
+        name: "{{ item }}"
+        state: absent
+      with_items:
+        - cloud
+        - cloud_usage
+
+    - name: Create databases cloud and cloud_usage
+      mysql_db:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - cloud
+        - cloud_usage

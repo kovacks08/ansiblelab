@@ -1,0 +1,37 @@
+---
+    - name: Make sure bind service is installed
+      yum: name=bind state=present
+
+    - name: Ensure Firewalld service is stopped
+      systemd: name=firewalld state=stopped
+
+    - name: Ensure Firewalld service is stopeed at boot
+      systemd: name=firewalld enabled=no
+
+    - name: named.conf
+      template: 
+        src: "named.conf.j2"
+        dest: "/etc/named.conf"
+
+    - name: named master directories
+      file: path="/var/named/master/{{lab_name}}/" state=directory 
+
+    - name: named slave directory
+      file: path="/var/named/slave/" state=directory 
+
+    - name: Zone_files
+      with_items:
+        - fwd
+        - rev.esx
+        - rev.iscsi
+        - rev.kvmxen
+        - rev.mgmtnfs
+      template:
+        src: "{{item}}.lablonxx.cp.vdc.j2"
+        dest: "/var/named/master/{{lab_name}}/{{item}}.{{lab_name}}.cp.vdc"
+
+    - name: Ensure BIND service is started
+      systemd: name=named state=started
+
+    - name: Ensure BIND service is enabled at boot
+      systemd: name=named enabled=yes

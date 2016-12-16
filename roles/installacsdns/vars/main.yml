@@ -1,0 +1,12 @@
+---
+lab_name: "lablon{{lab_number}}"
+
+ip_octet: "{{ ip_range.split('.')[2] }}"
+esx_octet: "{{ ip_octet | int + 0 }}"
+xen_octet: "{{ ip_octet | int + 1 }}"
+kvm_octet: "{{ ip_octet | int + 1 }}"
+nfs_octet: "{{ ip_octet | int + 2 }}"
+mgmt_octet: "{{ ip_octet | int + 2 }}"
+iscsi_octet: "{{ ip_octet | int + 4 }}"
+
+date: "{{ lookup('pipe', 'date +%Y%m%d') }}"

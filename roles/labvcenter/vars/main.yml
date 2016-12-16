@@ -3,30 +3,22 @@ vmware_vcenter: "vdc-ll{{lab_number}}-cpvsp1.lablon15.cp.vdc"
 vcenter_user: "cloudplatform"
 vcenter_password: "Interoute01"
 
-bladenames:
-   1: "vh00" 
-   2: "vh01"
-   3: "vh02"
-   4: "vh03"
-   5: "vh04"
-   6: "vh05"
-   7: "vh06"
-   8: "vh07"
-   9: "vh08"
-   10: "vh09"
-   11: "vh0a"
-   12: "vh0b"
-   13: "vh0c"
-   14: "vh0d"
-   15: "vh0e"
-   16: "vhef"
+ip_octet: "{{ ip_range.split('.')[2] }}"
+nfs_octet: "{{ ip_octet | int + 2 }}"
+mgmt_octet: "{{ ip_octet | int + 2 }}"
+iscsi_octet: "{{ ip_octet | int + 4 }}"
 
-lab_dc: "lablon{{lab_number}}"
-lab_cluster: "ESX{{lab_number}}Clustertest"
-esxi_hosts: hostname="vdc-lablon{{lab_number}}-bladename['{{item}}'].labloni{{lab_number}}.cp.vdc" user="root" password="Interoute01"
-with_items:
-    - "vh09"
-    - "vh0a"
+bladeips:
+    'blade10': 10
+    'blade11': 11
+
+bladeipsupper:
+    'blade10': 140
+    'blade11': 141
+
+#lab_dc: "lablon{{lab_number}}"
+#lab_cluster: "ESX{{lab_number}}Clustertest"
+
 vmware_dvs:
     storage:
         name: storage
@@ -42,13 +34,16 @@ vmware_dvs:
               port_allocation: "elastic"
               numPorts: 64
               vlan: "{{lab_number}}07"
+              mtu: 9000
+              vmkipdiff: 2
+              subnet_mask: "255.255.255.128" 
             - name: "VMk-iSCSI-1"
               port_binding: "dynamic"
               portgroup_type: "earlyBinding"
               port_allocation: "elastic"
               numPorts: 64
               vlan: "{{lab_number}}04"
-            - name: "VMk_iSCSI_2"
+            - name: "VMk-iSCSI-2"
               port_binding: "dynamic"
               portgroup_type: "earlyBinding"
               port_allocation: "elastic"
@@ -59,7 +54,7 @@ vmware_dvs:
               portgroup_type: "earlyBinding"
               port_allocation: "elastic"
               numPorts: 64
-              vlan: "{{lab_number}}04"
+              vlan: "{{lab_number}}07"
     external:
         name: external
         mtu: 9000

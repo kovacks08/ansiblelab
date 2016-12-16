@@ -1,0 +1,130 @@
+---
+    - name: Ensure selinux python bindings are installed
+      yum: name=libselinux-python state=present
+
+    - name: Ensure the Apache Cloudstack Repo file exists as per template
+      template: src=cloudstack.repo.j2 dest=/etc/yum.repos.d/Cloudstack.repo
+
+    - name: Ensure selinux is in permissive mode
+      command: setenforce permissive
+
+    - name: Ensure selinux is set permanently
+      selinux: policy=targeted state=permissive
+
+    - name: Ensure Packages are installed
+      yum: name="{{ item }}" state=present
+      with_items: 
+        - "{{ yum_packages }}"
+
+    - name: Install CloudMonkey
+      pip:
+        name: cloudmonkey
+
+    - name: Make sure Cloudstack is stopped
+      systemd:
+        name: "{{ item }}"
+        state: stopped
+      with_items:
+        - "cloudstack-management"
+        - "cloudstack-usage"
+
+    - name: Cloudstack Setup Databases
+      command: "/usr/bin/cloudstack-setup-databases cloud:{{password}}@{{db_server}} --deploy-as=root:{{password}}  -e file -m {{password}} -k {{password}} -i {{cpman_server}}"
+      tags:
+        - install_cpman1
+
+    - name: Cloudstack Setup Tomcat
+      command: "/usr/bin/cloudstack-setup-management --tomcat7"
+      tags:
+        - install_cpman1
+
+    - name: Ensure Firewalld service is stopped
+      systemd: 
+        name: firewalld
+        state: stopped
+        enabled: False
+
+    - name: Ensure Iptables service is stopped
+      systemd:
+        name: iptables
+        state: stopped
+        enabled: False
+
+    - name: Start Cloudstack Service
+      systemd:
+        name: cloudstack-management
+        enabled: True
+        state: started
+
+    - name: Wait for the actual app to respond
+      wait_for:
+        port: 8080
+        delay: 60
+
+    - name: Wait for Cloudtack to start
+      uri:
+        url: http://localhost:8080/client status_code=200 timeout=300
+        async: 300
+        poll: 10
+
+    - name: Create some directories
+      with_items:
+        - "/usr/local/bin"
+        - "/root/.cloudmonkey"
+      file:
+        path: "{{ item }}"
+        state: directory
+
+    - name: Create the cloudmonkey file with no keys
+      template:
+        src: "cloudmonkey.config.nokeys.j2"
+        dest: "/root/.cloudmonkey/config.nokeys"
+
+    - name: Create /usr/local/bin
+      file:
+        path: "/usr/local/bin"
+        state: directory
+
+    - name: Copy the script to get initial keys
+      template:
+        src: "getinitialkeys.sh.j2"
+        dest: "/usr/local/bin/getinitialkeys.sh"
+        mode: 0755
+
+    - name: Create the keys
+      command: /usr/local/bin/getinitialkeys.sh
+      register: adminkeypair
+
+    - name: Set facts for apikeys
+      set_fact:
+        admin_api_key: "{{ adminkeypair.stdout.split(':')[0] }}"
+        admin_secret_key: "{{ adminkeypair.stdout.split(':')[1] }}"
+
+    - name: Create cloudmonkey configuration file remotely
+      template:
+        src: "cloudmonkey.config.j2"
+        dest: "/root/.cloudmonkey/config"
+
+    - name: Fetch the actual cloudmonkey file
+      fetch:
+         src: "/root/.cloudmonkey/config"
+         dest: "/root/.cloudmonkey/config.lab{{lab_number}}"
+         flat: yes
+
+    - name: Create cloudmonkey configuration file remotely
+      template:
+        src: "global.settings.j2"
+        dest: "/root/global.settings"
+
+    - name: Apply global settings
+      shell: while read line; do cloudmonkey  $line; done < /root/global.settings
+      args:
+         chdir: /root/
+
+    - name: Restart Cloudstack
+      systemd:
+        name: "{{ item }}"
+        state: restarted
+      with_items:
+        - "cloudstack-management"
+        - "cloudstack-usage"

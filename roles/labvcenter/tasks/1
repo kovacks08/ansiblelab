@@ -116,11 +116,10 @@
     # Try to configure iSCSI portgroups with a single uplink
     - name: Configure only one uplink to dvs portgroup iSCSI1
       vcenter_pg_activeuplinks:
-            vds_name: "storage"            
-            pg_name: "VMk-iSCSI-1"
+            vds_name: "VMk-iSCSI-1"
             uplink_state: "active"
             uplinks:
-                - 'uplink1'
+                - vmnic0
             hostname: "{{ vc_name }}" 
             username: "{{ vcenter_user }}" 
             password: "{{ vcenter_password }}"
@@ -129,11 +128,10 @@
             
     - name: Configure only one uplink to dvs portgroup iSCSI2
       vcenter_pg_activeuplinks:
-            vds_name: "storage"
-            pg_name: "VMk-iSCSI-2"
+            vds_name: "VMk-iSCSI-2"
             uplink_state: "active"
             uplinks:
-                - 'uplink2'
+                - vmnic1
             hostname: "{{ vc_name }}" 
             username: "{{ vcenter_user }}" 
             password: "{{ vcenter_password }}"
@@ -155,8 +153,7 @@
             username: "{{ vcenter_user }}"
             password: "{{ vcenter_password }}"
             validate_certs: False
-      # We ignore the errors not to fail the second time around
-      ignore_errors: True
+
 
     - name: Create vmkernel ports NFS
       with_subelements:
@@ -175,24 +172,6 @@
             portgroup_name: "VMk-NFS"
             state: present
 
-    - name: Create vmkernel ports vMotion
-      with_subelements:
-        - "{{ clusters }}"
-        - blades
-      vcenter_addvmk:
-            mtu: "9000"
-            dhcp: "False"
-            ip_address: "192.168.{{nfs_octet}}.{{ bladeips[item.1] }}"
-            subnet_mask: "255.255.255.0"
-            hostname: "{{ vmware_vcenter }}"
-            esxi_hostname: "{{ bladenames[item.1] }}"
-            username: "{{ vcenter_user }}"
-            password: "{{ vcenter_password }}"
-            validate_certs: False
-            portgroup_name: "VMk-vMotion"
-            service_type: 'vmotion'
-            state: present
-
     - name: Create vmkernel ports iSCSI1
       with_subelements:
         - "{{ clusters }}"
@@ -201,7 +180,7 @@
             mtu: "9000"
             dhcp: "False"
             ip_address: "10.220.{{iscsi_octet}}.{{ bladeips[item.1] }}"
-            subnet_mask: "255.255.255.0"
+            subnet_mask: "255.255.255.128"
             hostname: "{{ vmware_vcenter }}"
             esxi_hostname: "{{ bladenames[item.1] }}"
             username: "{{ vcenter_user }}"
@@ -218,7 +197,7 @@
             mtu: "9000"
             dhcp: "False"
             ip_address: "10.220.{{iscsi_octet}}.{{ bladeipsupper[item.1] }}"
-            subnet_mask: "255.255.255.0"
+            subnet_mask: "255.255.255.128"
             hostname: "{{ vmware_vcenter }}"
             esxi_hostname: "{{ bladenames[item.1] }}"
             username: "{{ vcenter_user }}"
@@ -240,8 +219,6 @@
             password: "{{ esxi_password }}"
             validate_certs: False
             state: absent
-      # We ignore the errors not to fail the second time around
-      ignore_errors: True
 
     # Add vmnic0 to external vswitch
     - name: Add hosts to the external dvs
@@ -259,8 +236,6 @@
             password: "{{ vcenter_password }}"
             validate_certs: False
             state: present
-      # We ignore the errors not to fail the second time around
-      ignore_errors: True
 
     # Recreate vSwitch0
     - name: Recreate vSwitch0 because of cloudstack reasons with vmnic2
@@ -275,5 +250,3 @@
             password: "{{ esxi_password }}"
             validate_certs: False
             state: present
-      # We ignore the errors not to fail the second time around
-      ignore_errors: True

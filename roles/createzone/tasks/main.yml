@@ -1,0 +1,71 @@
+---
+    - name: Create primary and secondary partitions
+      file:
+        path: "/mnt/{{item}}"
+        state: directory
+      with_items:
+        - primary
+        - ebs
+        - secondary
+
+    - name: Mount Primary and Secondary Storage
+      mount:
+        name: "{{ item.name }}"
+        src: "{{ item.src }}"
+        opts: noauto
+        fstype: nfs
+        state: mounted
+      with_items:
+        - { name: '/mnt/primary' , src: "vdc-{{lab_name}}-sa01.nfs.{{lab_name}}.cp.vdc:/vol/LABLON{{lab_number}}_VMS40_HDD1" }
+        - { name: '/mnt/ebs' , src: "vdc-{{lab_name}}-sa02.nfs.{{lab_name}}.cp.vdc:/vol/LABLON{{lab_number}}_EBS40_HDD1" }
+        - { name: '/mnt/secondary' , src: "vdc-{{lab_name}}-sa02.nfs.{{lab_name}}.cp.vdc:/vol/LL{{lab_number}}_CPSecondary" }
+
+    - name: Clean remote directories
+      shell: rm -Rf {{ item }}
+      with_items:
+        - primary
+        - ebs
+        - secondary
+
+    - name: Install system template VM
+      command: /usr/share/cloudstack-common/scripts/storage/secondary/cloud-install-sys-tmplt -m /mnt/secondary -u "{{system_vm_template}}" -h vmware -s {{password}} -F
+
+    - name: Unmount Primary and Secondary Storage
+      mount:
+        name: "{{ item.name }}"
+        src: "{{ item.src }}"
+        fstype: nfs
+        state: unmounted
+      with_items:
+        - { name: '/mnt/primary' , src: "vdc-{{lab_name}}-sa01.nfs.{{lab_name}}.cp.vdc:/vol/LABLON{{lab_number}}_VMS40_HDD1" }
+        - { name: '/mnt/ebs' , src: "vdc-{{lab_name}}-sa02.nfs.{{lab_name}}.cp.vdc:/vol/LABLON{{lab_number}}_EBS40_HDD1" }
+        - { name: '/mnt/secondary' , src: "vdc-{{lab_name}}-sa01.nfs.{{lab_name}}.cp.vdc:/vol/LL{{lab_number}}_CPSecondary" }
+
+    - name: Delete primary and secondary partitions
+      file:
+        path: "/mnt/{{item}}"
+        state: absent
+      with_items:
+        - primary
+        - ebs
+        - secondary
+
+    - name: Copy zonecreate file
+      template: 
+        src: "zone.dvs.cfg.j2"
+        dest: "/root/zone_{{lab_number}}.dvs.cfg"
+      tags:
+         - dvs
+
+    - name: Copy zonecreate file
+      template: 
+        src: "zone.svs.cfg.j2"
+        dest: "/root/zone_{{lab_number}}.svs.cfg"
+      tags:
+         - dvs
+
+        
+
+
+
+    

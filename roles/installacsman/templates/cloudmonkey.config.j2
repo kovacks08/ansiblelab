@@ -1,0 +1,24 @@
+[core]
+profile = local
+asyncblock = true
+paramcompletion = true
+history_file = /usr/share/cloudmonkey_history
+cache_file = /root/.cloudmonkey/cache
+log_file = /var/log/cloudmonkey
+
+[ui]
+color = false
+prompt = vdc-{{lab_name}}>
+display = default
+
+[local]
+username = admin
+domain = /
+url = http://{{ cpman1_ip1 }}:8080/client/api
+apikey = {{ admin_api_key }}
+expires = 600
+timeout = 3600
+password = Interoute01
+verifysslcert = true
+signatureversion = 3
+secretkey = {{ admin_secret_key }}
