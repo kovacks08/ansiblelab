@@ -1,43 +1,68 @@
 ---
-vmware_vcenter: "VDC-LABLON09-VM.vdclab.internal"
+mgmt_vcenter: "VDC-LABLON09-VM.vdclab.internal"
 vcenter_user: "gilil50"
 vcenter_password: "Interoute01"
 
+lab_name: "lablon{{lab_number}}"
+
 ip_octet: "{{ ip_range.split('.')[2] }}"
+esx_octet: "{{ ip_range.split('.')[2] }}"
+esxi_octet: "{{ ip_range.split('.')[2] }}"
 nfs_octet: "{{ ip_octet | int + 2 }}"
 mgmt_octet: "{{ ip_octet | int + 2 }}"
 iscsi_octet: "{{ ip_octet | int + 4 }}"
 
 mgmt_network:  "10.220.{{mgmt_octet}}.0/25"
 
+dns_servers:
+    - "10.220.{{mgmt_octet}}.107"
+    - "10.220.58.101"
+    
+
 folder: "LABLON-{{ lab_number }}"
 datacenter: "VDC-LABLON09" 
-mgmt_network_address: "10.220.{{mgmt_octet}}.0/25"
+mgmt_network: "10.220.{{mgmt_octet}}.0/25"
+mgmt_network_address: "{{ mgmt_network | ipaddr }}"
 mgmt_network_name:  "ll{{ lab_number }}-management"
 mgmt_network_gateway: "10.220.{{mgmt_octet}}.126"
 
 name_base: vdc-lablon{{ lab_number }}
 name_short: vdc-ll{{ lab_number }}
 
-domain: "lablon16.cp.vdc"
+domain: "{{lab_name}}.cp.vdc"
 
+lab_networks:
+    mgmt_network: 
+        network_address: "{{ mgmt_network_address | ipaddr }}"
+        network: "{{ mgmt_network_name }}"
+        gateway: "{{ mgmt_network_gateway }}"
+    
 management_vms:
     - role: cpman1
       name: "{{ name_base }}-cpman1"
       template: "Centos7Shapeblue5"
       ip1: "10.220.{{mgmt_octet}}.111"
+      customize: True
+    - role: cpman2
+      name: "{{ name_base }}-cpman2"
+      template: "Centos7Shapeblue5"
+      ip1: "10.220.{{mgmt_octet}}.113"
+      customize: True
     - role: dns1
       name: "{{ name_base }}-dns1"
       template: "Centos7Shapeblue5"
       ip1: "10.220.{{mgmt_octet}}.107"
+      customize: True
     - role: cpdb1
       name: "{{ name_base }}-cpdb1"
       template: "Centos7Shapeblue5"
       ip1: "10.220.{{mgmt_octet}}.112"
+      customize: True
     - role: cpvsp1
       name: "{{ name_short }}-cpvsp1"
       template: "vdc-lablon{{lab_number}}-cpvsp1-tpl"
       ip1: "10.220.{{mgmt_octet}}.116"
+      customize: False
 
 cpman1_name: "vdc-test{{ lab_number }}_cpman1"
 cpman1_template: 'Centos7ShapeBlue5'

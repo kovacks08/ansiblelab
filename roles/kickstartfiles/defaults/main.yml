@@ -1,0 +1,4 @@
+---
+esxi_password: "Interoute01"
+kernel_name: "ESXi 5.5 update 3"
+kernel_versuion: "esxi55u3"

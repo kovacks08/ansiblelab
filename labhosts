@@ -1,0 +1,84 @@
+cplabgate
+vdc-lablon10-ks1
+
+[lablon15-cpman]
+vdc-lablon15-cpman1.lablon15.cp.vdc
+vdc-lablon15-cpman2.lablon15.cp.vdc
+[lablon15-db]
+vdc-lablon15-cpdb1.lablon15.cp.vdc
+[lablon15-dns]
+vdc-lablon15-dns1.lablon15.cp.vdc
+vdc-lablon15-dns2.lablon15.cp.vdc
+[lablon15-vc]
+vdc-ll15-cpvsp1.lablon15.cp.vdc
+
+[lablon15:children]
+[lablon15-cpman]
+[lablon15-db]
+[lablon15-dns]
+[lablon15-vc]
+
+[lablon16-cpman]
+vdc-lablon16-cpman1.lablon16.cp.vdc customize=True
+vdc-lablon16-cpman2.lablon16.cp.vdc customize=True
+[lablon16-db]
+vdc-lablon16-cpdb1.lablon16.cp.vdc  customize=True
+[lablon16-dns]
+vdc-lablon16-dns1.lablon16.cp.vdc  customize=True
+vdc-lablon16-dns2.lablon16.cp.vdc  customize=True
+[lablon16-vc]
+vdc-ll16-cpvsp1.lablon16.cp.vdc  customize=False
+
+[lablon16:children]
+lablon16-cpman
+lablon16-db
+lablon16-dns
+lablon16-vc
+
+[lablon17-cpman]
+vdc-lablon17-cpman1.lablon17.cp.vdc
+vdc-lablon17-cpman2.lablon17.cp.vdc
+[lablon17-db]
+vdc-lablon17-cpdb1.lablon17.cp.vdc
+[lablon17-dns]
+vdc-lablon17-dns1.lablon17.cp.vdc
+vdc-lablon17-dns2.lablon17.cp.vdc
+
+[lablon17:children]
+[lablon17-cpman]
+[lablon17-db]
+[lablon17-dns]
+[lablon17-vc]
+
+[cpman:children]
+lablon15-cpman
+lablon16-cpman
+lablon17-cpman
+
+[db:children]
+lablon15-db
+lablon16-db
+lablon17-db
+
+[vc:children]
+lablon15-vc
+lablon16-vc
+lablon17-vc
+
+[blades]
+blade01 ansible_host=10.1.115.37
+blade02 ansible_host=10.1.115.38
+blade03 ansible_host=10.1.115.39
+blade04 ansible_host=10.1.115.40
+blade05 ansible_host=10.1.115.41
+blade06 ansible_host=10.1.115.42
+blade07 ansible_host=10.1.115.43
+blade08 ansible_host=10.1.115.44
+blade09 ansible_host=10.1.115.45
+blade10 ansible_host=10.1.115.46
+blade11 ansible_host=10.1.115.47
+blade12 ansible_host=10.1.115.48
+blade13 ansible_host=10.1.115.49
+blade14 ansible_host=10.1.115.50
+blade15 ansible_host=10.1.115.51
+blade16 ansible_host=10.1.115.52

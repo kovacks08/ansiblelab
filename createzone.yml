@@ -1,6 +1,11 @@
 ---
--   hosts: vdc-lablon16-cpman1.lablon16.cp.vdc
-    vars_files:
-       -  vars/lab16.yml
-    roles:
-       - { role: createzone }
+    - hosts: vdc-lablon16-cpman1.lablon16.cp.vdc
+      vars_files:
+        -  vars/lab16.yml
+      roles:
+        - { role: createzone }
+    #- hosts: localhost
+      #vars_files:
+        #-  vars/lab16.yml
+      #roles:
+        #- { role: postinstall }

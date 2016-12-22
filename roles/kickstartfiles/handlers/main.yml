@@ -1,0 +1,6 @@
+---
+ - name: Restart dhcpd server
+   systemd:
+        name: dhcpd
+        state: restarted
+   delegate_to: vdc-lablon10-ks1

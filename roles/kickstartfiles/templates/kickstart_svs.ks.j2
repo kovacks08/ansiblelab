@@ -1,0 +1,95 @@
+#Kickstart tempplate to install ESX with a single inteface on vSwitch0
+
+accepteula
+install --firstdisk --overwritevmfs
+rootpw {{esxi_password}}
+network --bootproto=dhcp --device=vmnic0
+reboot
+
+%firstboot --interpreter=busybox
+
+esxcli system  hostname set --fqdn {{ bladenames[inventory_hostname] }}
+esxcli network ip interface remove -i vmk0
+esxcli network vswitch standard remove -v "vSwitch0"
+esxcli network vswitch standard add -P 2040 -v "vSwitch0"
+esxcli network vswitch standard set -m 9000 -c both -v "vSwitch0"
+esxcli network vswitch standard uplink add -u vmnic0 -v "vSwitch0"
+esxcli network vswitch standard uplink add -u vmnic1 -v "vSwitch0"
+esxcli network vswitch standard portgroup add -p "Management Network" -v "vSwitch0"
+esxcli network vswitch standard portgroup set -p "Management Network" -v {{ mgmt_ vlan }}
+esxcli network ip interface add -i vmk0 -m 9000 -p "Management Network"
+esxcli network ip interface ipv4 set -t static -I 10.220.{{esxi_octet}}.{{bladeips[inventory_hostname]}} -N 255.255.255.0 -i vmk0
+esxcfg-route 10.220.{{esxi_octet}}.254
+esxcli network ip interface tag add -i vmk0 -t Management
+
+esxcli network ip interface tag add -i vmk0 -t Management
+esxcli network vswitch standard add -v "vSwitch_Storage"
+esxcli network vswitch standard set -m 9000 -c both -v "vSwitch_Storage"
+esxcli network vswitch standard uplink add -u vmnic4 -v "vSwitch_Storage"
+esxcli network vswitch standard uplink add -u vmnic5 -v "vSwitch_Storage"
+esxcli network vswitch standard policy failover set -a vmnic2,vmnic3 -v "vSwitch_Storage"
+esxcli network vswitch standard portgroup add -p "VMk_NFS" -v "vSwitch_Storage"
+esxcli network vswitch standard portgroup set -p "VMk_NFS" -v {{nfs_vlan}}
+esxcli network ip interface add -i vmk1 -m 9000 -p "VMk_NFS"
+esxcli network ip interface ipv4 set -t static -I 10.220.{{nfs_octet}}.{{bladeipsupper[inventory_hostname]}} -N 255.255.255.128 -i vmk1
+esxcli network vswitch standard portgroup add -p "VMk_vMotion" -v "vSwitch_Storage"
+esxcli network vswitch standard portgroup set -p "VMk_vMotion" -v {{nfs_vlan}}
+esxcli network ip interface add -i vmk2 -m 9000 -p "VMk_vMotion"
+esxcli network ip interface ipv4 set -t static -I 192.168.220.{{bladeips[inventory_hostname]}} -N 255.255.255.0 -i vmk2
+esxcli network ip interface tag add -i vmk2 -t VMotion
+
+esxcli network vswitch standard portgroup add -p "VMk_iSCSI-single-1" -v "vSwitch_Storage"
+esxcli network vswitch standard portgroup set -p "VMk_iSCSI-single-1" -v {{iscsi_vlan}}
+esxcli network ip interface add -i vmk3 -m 9000 -p "VMk_iSCSI-single-1"
+esxcli network ip interface ipv4 set -t static -I 10.220.{{iscsi_octet}}.{{bladeips[inventory_hostname]}} -N 255.255.255.0 -i vmk3
+esxcli network vswitch standard portgroup policy failover set -a vmnic2 -p "VMk_iSCSI-single-1"
+esxcli network vswitch standard portgroup add -p "VMk_iSCSI-single-2" -v "vSwitch_Storage"
+esxcli network vswitch standard portgroup set -p "VMk_iSCSI-single-2" -v {{iscsi_vlan}}
+esxcli network ip interface add -i vmk4 -m 9000 -p "VMk_iSCSI-single-2"
+esxcli network ip interface ipv4 set -t static -I 10.228.{{iscsi_octet}}.{{bladeipsupper[inventory_hostname]}} -N 255.255.255.0 -i vmk4
+esxcli network vswitch standard portgroup policy failover set -a vmnic3 -p "VMk_iSCSI-single-2"
+esxcli iscsi software set --enabled=true
+esxcli iscsi networkportal add -n vmk3 -A vmhba32
+esxcli iscsi networkportal add -n vmk4 -A vmhba32
+esxcli iscsi adapter set -A vmhba32 -n  iqn.1998-01.com.vmware:$(hostname -s)
+esxcli iscsi adapter discovery sendtarget add --address=10.208.{{iscsi_octet}}.100:3260 --adapter=vmhba32
+
+{% for dns in dns_servers %}
+esxcli network ip dns server add -s {{dns}}
+{% endfor %}
+esxcli network ip dns search add -d "esx.lablon{{lab_number}}.cp.vdc lablon{{lab_number}}.cp.vdc vdclab.internal"
+echo "server 10.42.42.53" >> /etc/ntp.conf
+echo "server 10.42.42.54" >> /etc/ntp.conf
+echo "tos maxdist 30" >> /etc/ntp.conf
+chkconfig ntpd on
+chmod +w /etc/likewise/lsassd.conf
+echo "sync-system-time = no" >> /etc/likewise/lsassd.conf
+vim-cmd hostsvc/datastore/rename datastore1 "$(hostname -s)-local"
+vim-cmd hostsvc/enable_ssh
+vim-cmd hostsvc/start_ssh
+vim-cmd hostsvc/enable_esx_shell
+vim-cmd hostsvc/start_esx_shell
+esxcli system settings advanced set -o /UserVars/SuppressShellWarning -i 1
+esxcli system settings advanced set -o /Net/BlockGuestBPDU -i 1
+esxcli system settings advanced set --option=/Power/CpuPolicy --string-value="High Performance"
+esxcli system module parameters set -m tcpip3 -p ipv6=0
+esxcli software acceptance set --level=CommunitySupported
+wget http://10.220.2.77/cpFirewall.vib -O /vmfs/volumes/$(hostname -s)-local/cpFirewall.vib
+wget http://10.220.2.77/cpFirewall2.vib -O /vmfs/volumes/$(hostname -s)-local/cpFirewall2.vib
+wget http://10.220.2.77/hp-ams-esxi5.0-bundle-10.0.1-2.zip -O /vmfs/volumes/$(hostname -s)-local/hp-ams-esxi5.0-bundle-10.0.1-2.zip
+esxcli software vib install -v /vmfs/volumes/$(hostname -s)-local/cpFirewall.vib
+esxcli software vib install -v /vmfs/volumes/$(hostname -s)-local/cpFirewall2.vib
+esxcli storage nmp satp set -s "VMW_SATP_DEFAULT_AA" -P "VMW_PSP_RR"
+#esxcli storage nmp satp rule add -s "VMW_SATP_ALUA" -P "VMW_PSP_RR" -O iops=100 -c "tpgs_on" -V "3PARdata" -M "VV" -e "HP 3PAR Custom iSCSI/FC/FCoE ALUA Rule"
+esxcli network firewall ruleset set --ruleset-id=syslog --enabled=true
+esxcli system snmp set -c INTH1
+esxcli system snmp set -e yes
+/sbin/auto-backup.sh
+esxcli system maintenanceMode set -e true
+cp /var/log/hostd.log "/vmfs/volumes/$(hostname -s)-local/firstboot-hostd.log"
+cp /var/log/esxi_install.log "/vmfs/volumes/$(hostname -s)-local/firstboot-esxi_install.log"
+#esxcli software vib install -d /vmfs/volumes/$(hostname -s)-local/hp-ams-esxi5.0-bundle-10.0.1-2.zip
+esxcli system settings advanced set -i 64 -o /NFS/MaxQueueDepth
+esxcli system settings advanced set -i 64 -o /NFS/MaxVolumes
+esxcli system coredump partition set --enable true
+esxcli system shutdown reboot -d 60 -r "rebooting after host configurations"

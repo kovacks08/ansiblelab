@@ -5,9 +5,7 @@ ip_range: "10.220.112.0"
 clusters:
       - name: ESXCluster15a
         blades:
-          #- 'vh09'
           - 'blade10'
       - name: ESXCluster15b
         blades: 
-          #- 'vh0a'
           - 'blade11'

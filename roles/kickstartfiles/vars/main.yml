@@ -1,17 +1,28 @@
 ---
-vc_name: "vdc-ll{{lab_number}}-cpvsp1.lablon{{lab_number}}.cp.vdc" 
-dc_name: "lablon{{lab_number}}"
-vcenter_user: "cloudplatform"
-vcenter_password: "Interoute01"
+kickstart_file: "{{hw_eth0.macaddress_dash}}.{{inventory_hostname}}.ks"
 
 ip_octet: "{{ ip_range.split('.')[2] }}"
+esxi_octet: "{{ ip_octet | int}}"
+esx_octet: "{{ ip_octet | int}}"
 nfs_octet: "{{ ip_octet | int + 2 }}"
 mgmt_octet: "{{ ip_octet | int + 2 }}"
 iscsi_octet: "{{ ip_octet | int + 4 }}"
 
+esx_vlan: "{{lab_number| int*100 + 11}}"
+esxi_vlan: "{{lab_number| int*100 + 11}}"
+nfs_vlan: "{{lab_number| int*100 + 7}}"
+storage_vlan: "{{lab_number| int*100 + 7}}"
+mgmt_vlan: "{{lab_number| int*100 + 2}}"
+iscsi_vlan: "{{lab_number| int*100 + 4}}"
 
-#lab_dc: "lablon{{lab_number}}"
-#lab_cluster: "ESX{{lab_number}}Clustertest"
+    
+dns_servers:
+    - "10.220.{{mgmt_octet}}.107"
+    - "10.220.58.101"
+
+tftp_path: "/var/lib/tftpboot"
+html_path: "/var/www/html"
+ks_server: "vdc-lablon10-ks1"
 
 vmware_dvs:
     storage:
@@ -63,7 +74,6 @@ vmware_dvs:
              port_allocation: "elastic"
              numPorts: 64
              vlan: "{{lab_number}}11"
-
 
 esxi_username: "root"
 esxi_password: "Interoute01"

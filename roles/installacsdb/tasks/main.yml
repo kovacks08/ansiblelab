@@ -3,15 +3,23 @@
       yum:
         name: http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
         state: present
+      tags:
+        - initial_install
     
     - name: Ensure mysql server is installed
       yum: name=mysql-server state=present
+      tags:
+        - initial_install
 
     - name: Ensure mysql python is installed
       yum: name=MySQL-python state=present
+      tags:
+        - initial_install
 
     - name: Ensure selinux python bindings are installed
       yum: name=libselinux-python state=present
+      tags:
+        - initial_install
 
     - name: Ensure cloudstack specfic my.cnf lines are present
       lineinfile: 
@@ -25,22 +33,34 @@
          - { regexp: "max_connections", line: "max_connections=350"}
          - { regexp: "log-bin", line: "log-bin=mysql-bin"}
          - { regexp: "binlog-format", line: "binlog-format = 'ROW'"}
+      tags:
+        - initial_install
 
     - name: Ensure MySQL service is started
       systemd: name=mysqld state=started
+      tags:
+        - initial_install
 
     - name: Ensure MySQL service is enabled at boot
       systemd: name=mysqld enabled=yes
+      tags:
+        - initial_install
 
     - name: Ensure Firewalld service is stopped 
       systemd: name=firewalld state=stopped
+      tags:
+        - initial_install
 
     - name: Ensure Firewalld service is stopeed at boot
       systemd: name=firewalld enabled=no
+      tags:
+        - initial_install
 
     - name: Ensure root password is set
       mysql_user: user=root password=Interoute01 host=localhost
       ignore_errors: true
+      tags:
+        - initial_install
 
     - name: Create .my.cnf
       template:
@@ -49,6 +69,8 @@
         owner: root
         group: root
         mode: 0600
+      tags:
+        - initial_install
 
     - name: Ensure root has sufficient privileges
       mysql_user: 
@@ -59,6 +81,8 @@
         password: "Interoute01"
         priv: "*.*:ALL,GRANT"
         state: present
+      tags:
+        - initial_install
 
     - name: Drop databases cloud and cloud_usage
       mysql_db:
@@ -67,6 +91,11 @@
       with_items:
         - cloud
         - cloud_usage
+      tags:
+        - initial_install
+        - reset_db
+        - reinstall
+        
 
     - name: Create databases cloud and cloud_usage
       mysql_db:
@@ -75,3 +104,7 @@
       with_items:
         - cloud
         - cloud_usage
+      tags:
+        - initial_install
+        - reset_db
+        - reinstall

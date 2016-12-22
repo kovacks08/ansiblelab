@@ -8,6 +8,7 @@ ADMINID=`cloudmonkey -c $CONFIGFILE list users admin filter=id | grep ^id | awk 
 
 #Check if the apikey exists
 APIKEY=`cloudmonkey -c $CONFIGFILE list users admin filter=apikey | grep ^apikey | awk '{print $3}'`
+
 if [[ -z $APIKEY ]]; then
     #echo "keys not set. Create"
     APIKEY=`cloudmonkey -c $CONFIGFILE register userkeys id=${ADMINID} | grep ^apikey | awk '{print $3}'`

@@ -1,24 +1,36 @@
 ---
     - name: Ensure selinux python bindings are installed
       yum: name=libselinux-python state=present
+      tags:
+        - initial_install
 
     - name: Ensure the Apache Cloudstack Repo file exists as per template
       template: src=cloudstack.repo.j2 dest=/etc/yum.repos.d/Cloudstack.repo
+      tags:
+        - initial_install
 
     - name: Ensure selinux is in permissive mode
       command: setenforce permissive
+      tags:
+        - initial_install
 
     - name: Ensure selinux is set permanently
       selinux: policy=targeted state=permissive
+      tags:
+        - initial_install
 
     - name: Ensure Packages are installed
       yum: name="{{ item }}" state=present
       with_items: 
         - "{{ yum_packages }}"
+      tags:
+        - initial_install
 
     - name: Install CloudMonkey
       pip:
         name: cloudmonkey
+      tags:
+        - initial_install
 
     - name: Make sure Cloudstack is stopped
       systemd:
@@ -27,104 +39,217 @@
       with_items:
         - "cloudstack-management"
         - "cloudstack-usage"
+      tags:
+        - initial_install
+        - reinstall
 
     - name: Cloudstack Setup Databases
-      command: "/usr/bin/cloudstack-setup-databases cloud:{{password}}@{{db_server}} --deploy-as=root:{{password}}  -e file -m {{password}} -k {{password}} -i {{cpman_server}}"
+      command: "/usr/bin/cloudstack-setup-databases cloud:{{password}}@{{db_server}} --deploy-as=root:{{password}}  -e file -m {{password}} -k {{password}} -i {{cpman1_name}}"
+      when: "cpman1" in ansible_hostname
       tags:
-        - install_cpman1
+        - initial_install
+        - reinstall
+
+    - name: Cloudstack Setup Databases
+      command: "/usr/bin/cloudstack-setup-databases cloud:{{password}}@{{db_server}} -e file -m {{password}} -k {{password}} -i {{cpman2_name}}"
+      when: "cpman2" in ansible_hostname
+      tags:
+        - initial_install
+        - reinstall
 
     - name: Cloudstack Setup Tomcat
       command: "/usr/bin/cloudstack-setup-management --tomcat7"
       tags:
-        - install_cpman1
+        - initial_install
+        - reinstall
+
 
     - name: Ensure Firewalld service is stopped
       systemd: 
         name: firewalld
         state: stopped
         enabled: False
+      tags:
+        - initial_install
+        - reinstall
 
     - name: Ensure Iptables service is stopped
       systemd:
         name: iptables
         state: stopped
         enabled: False
+      tags:
+        - initial_install
+        - reinstall
 
     - name: Start Cloudstack Service
       systemd:
         name: cloudstack-management
         enabled: True
-        state: started
+        state: restarted
+      tags:
+        - initial_install
+        - reinstall
 
     - name: Wait for the actual app to respond
+      when: "cpman1" in ansible_hostname
       wait_for:
         port: 8080
         delay: 60
+      tags:
+        - initial_install
+        - reinstall
+        - test
 
     - name: Wait for Cloudtack to start
+      when: mgmt_server == 'cpman1'
       uri:
-        url: http://localhost:8080/client status_code=200 timeout=300
+        url: "http://{{cpman1_ip1}}:8080/client" 
+        status_code: 200
+        timeout: 300
         async: 300
         poll: 10
+      tags:
+        - initial_install
+        - reinstall
+        - test
 
     - name: Create some directories
+      when: "cpman1" in ansible_hostname
       with_items:
         - "/usr/local/bin"
         - "/root/.cloudmonkey"
       file:
         path: "{{ item }}"
         state: directory
+      tags:
+        - initial_install
+        - reinstall
+        - test
 
     - name: Create the cloudmonkey file with no keys
+      when: "cpman1" in ansible_hostname
       template:
         src: "cloudmonkey.config.nokeys.j2"
         dest: "/root/.cloudmonkey/config.nokeys"
+      tags:
+        - initial_install
+        - reinstall
+        - test
 
     - name: Create /usr/local/bin
       file:
         path: "/usr/local/bin"
         state: directory
+      tags:
+        - initial_install
+        - reinstall
+        - test
+
+    - block:
+      when: "cpman1" in ansible_hostname
 
     - name: Copy the script to get initial keys
-      template:
-        src: "getinitialkeys.sh.j2"
+      when: "cpman1" in ansible_hostname
+      copy:
+        src: "getinitialkeys.sh"
         dest: "/usr/local/bin/getinitialkeys.sh"
         mode: 0755
+      tags:
+        - initial_install
+        - reinstall
+        - test
 
     - name: Create the keys
+      when: "cpman1" in ansible_hostname
       command: /usr/local/bin/getinitialkeys.sh
       register: adminkeypair
+      tags:
+        - initial_install
+        - reinstall
+        - test
 
     - name: Set facts for apikeys
+      when: "cpman1" in ansible_hostname
       set_fact:
         admin_api_key: "{{ adminkeypair.stdout.split(':')[0] }}"
         admin_secret_key: "{{ adminkeypair.stdout.split(':')[1] }}"
+      tags:
+        - initial_install
+        - reinstall
+        - test
 
     - name: Create cloudmonkey configuration file remotely
+      when: "cpman1" in ansible_hostname
       template:
         src: "cloudmonkey.config.j2"
         dest: "/root/.cloudmonkey/config"
+      tags:
+        - initial_install
+        - reinstall
+        - test
 
     - name: Fetch the actual cloudmonkey file
+      when: "cpman1" in ansible_hostname
       fetch:
          src: "/root/.cloudmonkey/config"
          dest: "/root/.cloudmonkey/config.lab{{lab_number}}"
          flat: yes
+      tags:
+        - initial_install
+        - reinstall
+        - test
 
-    - name: Create cloudmonkey configuration file remotely
+    - name: Create a VDCAPI file
+      when: "cpman1" in ansible_hostname
+      template:
+        src: "vdcapi.lablonxx.j2"
+        dest: "/root/.vdcapi" 
+      tags:
+        - initial_install
+        - reinstall
+        - test
+
+    - name: Fetch the actual cloudmonkey file
+      when: "cpman1" in ansible_hostname
+      fetch:
+         src: "/root/.vdcapi"
+         dest: "/root/.vdcapi.{{lab_name}}"
+         flat: yes
+      tags:
+        - initial_install
+        - reinstall
+        - test
+
+    - name: Create Global Settings configuration file remotely
+      when: "cpman1" in ansible_hostname
       template:
         src: "global.settings.j2"
         dest: "/root/global.settings"
+      tags:
+        - initial_install
+        - reinstall
+        - test
 
     - name: Apply global settings
+      when: "cpman1" in ansible_hostname
       shell: while read line; do cloudmonkey  $line; done < /root/global.settings
       args:
          chdir: /root/
+      tags:
+        - initial_install
+        - reinstall
+        - test
 
     - name: Restart Cloudstack
+      when: mgmt_server == 'cpman1'
       systemd:
         name: "{{ item }}"
         state: restarted
       with_items:
         - "cloudstack-management"
         - "cloudstack-usage"
+      tags:
+        - initial_install
+        - reinstall
+        - test

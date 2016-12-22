@@ -50,6 +50,7 @@
             state: present
 
     - name: Create distributed vSwitches
+      when: switch_type == "dvs"
       with_dict: "{{ vmware_dvs }}"
       vmware_dvswitch:
             switch_name: "{{ item.value.name }}"
@@ -66,6 +67,7 @@
 
     # hardcoded swtichnames. Didn't find a way to loop over the switches too
     - name: Add hosts to the storage dvs
+      when: switch_type == "dvs"
       with_subelements:
         - "{{ clusters }}"
         - blades
@@ -83,6 +85,7 @@
 
     # hardcoded swtichnames. Didn't find a way to loop over the switches too
     - name: Add hosts to the external dvs
+      when: switch_type == "dvs"
       with_subelements:
         - "{{ clusters }}"
         - blades
@@ -98,6 +101,7 @@
             state: present
 
     - name: Create dvs port_groups
+      when: switch_type == "dvs"
       with_subelements:
         - "{{ vmware_dvs }}"
         - portgroups
@@ -115,6 +119,7 @@
 
     # Try to configure iSCSI portgroups with a single uplink
     - name: Configure only one uplink to dvs portgroup iSCSI1
+      when: switch_type == "dvs"
       vcenter_pg_activeuplinks:
             vds_name: "storage"            
             pg_name: "VMk-iSCSI-1"
@@ -128,6 +133,7 @@
             state: present
             
     - name: Configure only one uplink to dvs portgroup iSCSI2
+      when: switch_type == "dvs"
       vcenter_pg_activeuplinks:
             vds_name: "storage"
             pg_name: "VMk-iSCSI-2"
@@ -141,6 +147,7 @@
             state: present
             
     - name: Migrate management to external portgroup
+      when: switch_type == "dvs"
       with_subelements:
         - "{{ clusters }}"
         - blades
@@ -157,8 +164,11 @@
             validate_certs: False
       # We ignore the errors not to fail the second time around
       ignore_errors: True
+      tags:
+        - initial_dvs_setup
 
     - name: Create vmkernel ports NFS
+      when: switch_type == "dvs"
       with_subelements:
         - "{{ clusters }}"
         - blades
@@ -167,7 +177,7 @@
             dhcp: "False"
             ip_address: "10.220.{{nfs_octet}}.{{ bladeipsupper[item.1] }}"
             subnet_mask: "255.255.255.128"
-            hostname: "{{ vmware_vcenter }}"
+            hostname: "{{ vc_name }}"
             esxi_hostname: "{{ bladenames[item.1] }}"
             username: "{{ vcenter_user }}"
             password: "{{ vcenter_password }}"
@@ -176,6 +186,7 @@
             state: present
 
     - name: Create vmkernel ports vMotion
+      when: switch_type == "dvs"
       with_subelements:
         - "{{ clusters }}"
         - blades
@@ -184,7 +195,7 @@
             dhcp: "False"
             ip_address: "192.168.{{nfs_octet}}.{{ bladeips[item.1] }}"
             subnet_mask: "255.255.255.0"
-            hostname: "{{ vmware_vcenter }}"
+            hostname: "{{ vc_name }}"
             esxi_hostname: "{{ bladenames[item.1] }}"
             username: "{{ vcenter_user }}"
             password: "{{ vcenter_password }}"
@@ -194,6 +205,7 @@
             state: present
 
     - name: Create vmkernel ports iSCSI1
+      when: switch_type == "dvs"
       with_subelements:
         - "{{ clusters }}"
         - blades
@@ -202,7 +214,7 @@
             dhcp: "False"
             ip_address: "10.220.{{iscsi_octet}}.{{ bladeips[item.1] }}"
             subnet_mask: "255.255.255.0"
-            hostname: "{{ vmware_vcenter }}"
+            hostname: "{{ vc_name }}"
             esxi_hostname: "{{ bladenames[item.1] }}"
             username: "{{ vcenter_user }}"
             password: "{{ vcenter_password }}"
@@ -211,6 +223,7 @@
             state: present
 
     - name: Create vmkernel ports iSCSI2
+      when: switch_type == "dvs"
       with_subelements:
         - "{{ clusters }}"
         - blades
@@ -219,7 +232,7 @@
             dhcp: "False"
             ip_address: "10.220.{{iscsi_octet}}.{{ bladeipsupper[item.1] }}"
             subnet_mask: "255.255.255.0"
-            hostname: "{{ vmware_vcenter }}"
+            hostname: "{{ vc_name }}"
             esxi_hostname: "{{ bladenames[item.1] }}"
             username: "{{ vcenter_user }}"
             password: "{{ vcenter_password }}"
@@ -229,6 +242,7 @@
 
     # Delete vSwitch0
     - name: Delete vSwitch0 to free up vmnic0
+      when: switch_type == "dvs"
       with_subelements:
         - "{{ clusters }}"
         - blades
@@ -242,9 +256,12 @@
             state: absent
       # We ignore the errors not to fail the second time around
       ignore_errors: True
+      tags:
+        - initial_dvs_setup
 
     # Add vmnic0 to external vswitch
     - name: Add hosts to the external dvs
+      when: switch_type == "dvs"
       with_subelements:
         - "{{ clusters }}"
         - blades
@@ -261,9 +278,12 @@
             state: present
       # We ignore the errors not to fail the second time around
       ignore_errors: True
+      tags:
+        - initial_dvs_setup
 
     # Recreate vSwitch0
     - name: Recreate vSwitch0 because of cloudstack reasons with vmnic2
+      when: switch_type == "dvs"
       with_subelements:
         - "{{ clusters }}"
         - blades
@@ -277,3 +297,24 @@
             state: present
       # We ignore the errors not to fail the second time around
       ignore_errors: True
+      tags:
+        - initial_dvs_setup
+
+    - name: Create a portgroup "VM Network"
+      when: switch_type == "dvs"
+      with_subelements:
+        - "{{ clusters }}"
+        - blades
+      vmware_portgroup:
+            hostname: "{{ bladenames[item.1] }}"
+            porgroup_name: "vmnic2"
+            #vlan_id: "{{lab_number| integer*100}"
+            switch_name: "vSwitch0"
+            username: "{{ esxi_username }}"
+            password: "{{ esxi_password }}"
+            validate_certs: False
+            state: present
+      # We ignore the errors not to fail the second time around
+      ignore_errors: True 
+      tags:
+        - initial_dvs_setup

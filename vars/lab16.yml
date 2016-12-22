@@ -1,16 +1,39 @@
 lab_number: 16
 mgmt_lab_number: 16
+
+dc_name: "lablon16"
+#vc_name: "vdc-ll16-cpvsp1.lablon16.cp.vdc"
+
+# Kickstart information
+kernel_name: "ESXi 5.5 update 3"
+kernel_version: "esxi55u3"
+
+# Vmware vswitch type
+switch_type: "dvs"
+
 vcenter_user: cloudplatform
 vcenter_password: Interoute01
-vc_name: 'VDC-LABLON09-VM.vdclab.internal'
+mgmt_vc_name: 'VDC-LABLON09-VM.vdclab.internal'
+
+# Starting IP range
 ip_range: "10.220.120.0"
-cpman_server: 'vdc-lablon16-cpman1'
+#cpman_server: 'vdc-lablon16-cpman1'
+
+# Repository version in server 10.42.42.55 for Cloudstack
 repo_version: "4.6.1-shapeblue5"
+
+# Location of the system vm file 
 system_vm_template: "http://10.220.2.77/systemvm64template-master-4.6.0-vmware.ova"
-dns_servers:
-    - '10.220.122.107'
-    - '10.220.122.108'
+
+#dns_servers:
+    #- '10.220.122.107'
+    #- '10.220.122.108'
+
+# Configuration of the clusters (Cluster names + blades numbered blade01 to blade16)
 clusters:
       - name: ESXCluster16
         blades:
           - 'blade10'
+      - name: ESXCluster16b
+        blades:
+          - 'blade16'

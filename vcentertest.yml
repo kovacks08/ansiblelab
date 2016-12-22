@@ -6,7 +6,7 @@
        vcenter_user: cloudplatform
        vcenter_password: Interoute01
     vars_files:
-       -  vars/lab15.yml
+       -  vars/lab16.yml
     roles:
        - { role: labvcenter }
 

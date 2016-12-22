@@ -1,0 +1,62 @@
+#Kickstart tempplate to install ESX with a single inteface on vSwitch0
+
+accepteula
+install --firstdisk --overwritevmfs
+rootpw {{esxi_password}}
+network --bootproto=dhcp --device=vmnic0
+reboot
+
+%firstboot --interpreter=busybox
+
+esxcli system  hostname set --fqdn {{ bladenames[inventory_hostname] }}
+esxcli network ip interface remove -i vmk0
+esxcli network vswitch standard remove -v "vSwitch0"
+esxcli network vswitch standard add -P 2040 -v "vSwitch0"
+esxcli network vswitch standard set -m 9000 -c both -v "vSwitch0"
+esxcli network vswitch standard uplink add -u vmnic0 -v "vSwitch0"
+esxcli network vswitch standard portgroup add -p "Management Network" -v "vSwitch0"
+esxcli network vswitch standard portgroup set -p "Management Network" -v {{ lab_number | int*100 + 11}}
+esxcli network ip interface add -i vmk0 -m 9000 -p "Management Network"
+esxcli network ip interface ipv4 set -t static -I 10.220.{{esxi_octet}}.10 -N 255.255.255.0 -i vmk0
+esxcfg-route 10.220.{{esxi_octet}}.254
+esxcli network ip interface tag add -i vmk0 -t Management
+
+{% for dns in dns_servers %}
+esxcli network ip dns server add -s {{dns}}
+{% endfor %}
+esxcli network ip dns search add -d "esx.lablon{{lab_number}}.cp.vdc lablon{{lab_number}}.cp.vdc vdclab.internal"
+echo "server 10.42.42.53" >> /etc/ntp.conf
+echo "server 10.42.42.54" >> /etc/ntp.conf
+echo "tos maxdist 30" >> /etc/ntp.conf
+chkconfig ntpd on
+chmod +w /etc/likewise/lsassd.conf
+echo "sync-system-time = no" >> /etc/likewise/lsassd.conf
+vim-cmd hostsvc/datastore/rename datastore1 "$(hostname -s)-local"
+vim-cmd hostsvc/enable_ssh
+vim-cmd hostsvc/start_ssh
+vim-cmd hostsvc/enable_esx_shell
+vim-cmd hostsvc/start_esx_shell
+esxcli system settings advanced set -o /UserVars/SuppressShellWarning -i 1
+esxcli system settings advanced set -o /Net/BlockGuestBPDU -i 1
+esxcli system settings advanced set --option=/Power/CpuPolicy --string-value="High Performance"
+esxcli system module parameters set -m tcpip3 -p ipv6=0
+esxcli software acceptance set --level=CommunitySupported
+wget http://10.220.2.77/cpFirewall.vib -O /vmfs/volumes/$(hostname -s)-local/cpFirewall.vib
+wget http://10.220.2.77/cpFirewall2.vib -O /vmfs/volumes/$(hostname -s)-local/cpFirewall2.vib
+wget http://10.220.2.77/hp-ams-esxi5.0-bundle-10.0.1-2.zip -O /vmfs/volumes/$(hostname -s)-local/hp-ams-esxi5.0-bundle-10.0.1-2.zip
+esxcli software vib install -v /vmfs/volumes/$(hostname -s)-local/cpFirewall.vib
+esxcli software vib install -v /vmfs/volumes/$(hostname -s)-local/cpFirewall2.vib
+esxcli storage nmp satp set -s "VMW_SATP_DEFAULT_AA" -P "VMW_PSP_RR"
+#esxcli storage nmp satp rule add -s "VMW_SATP_ALUA" -P "VMW_PSP_RR" -O iops=100 -c "tpgs_on" -V "3PARdata" -M "VV" -e "HP 3PAR Custom iSCSI/FC/FCoE ALUA Rule"
+esxcli network firewall ruleset set --ruleset-id=syslog --enabled=true
+esxcli system snmp set -c INTH1
+esxcli system snmp set -e yes
+/sbin/auto-backup.sh
+esxcli system maintenanceMode set -e true
+cp /var/log/hostd.log "/vmfs/volumes/$(hostname -s)-local/firstboot-hostd.log"
+cp /var/log/esxi_install.log "/vmfs/volumes/$(hostname -s)-local/firstboot-esxi_install.log"
+#esxcli software vib install -d /vmfs/volumes/$(hostname -s)-local/hp-ams-esxi5.0-bundle-10.0.1-2.zip
+esxcli system settings advanced set -i 64 -o /NFS/MaxQueueDepth
+esxcli system settings advanced set -i 64 -o /NFS/MaxVolumes
+esxcli system coredump partition set --enable true
+esxcli system shutdown reboot -d 60 -r "rebooting after host configurations"

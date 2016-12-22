@@ -1,0 +1,112 @@
+---
+    - include_vars: blades.yml
+    
+
+    # Gather the blade data only when the blade is mentioned in the cluster list
+    - name: Gather iLO facts
+      with_subelements: 
+        - "{{clusters}}"
+        - blades
+      when: item.1 == inventory_hostname
+      hpilo_facts:
+         host: "{{ ansible_host }}"
+         login: VDCAdmin
+         password: Interoute01
+      delegate_to: cplabgate
+      tags:
+        - always
+
+    # We use the mac_address as a key that we gathered the facts for those hosts
+    - name: check ilo facts
+      with_items:
+        - hw_eth0
+        - hw_eth1
+        - hw_eth2
+        - hw_eth3
+      when: hw_eth1 is defined
+      debug: var="{{item}}"
+      tags:
+        - test
+
+    - name: Make sure there is an entry in the dhcp server for the server
+      #Reference lime
+      # host vdc-lablon-vh0a { hardware ethernet 00:17:A4:77:9C:78; fixed-address 192.168.168.4; }
+      when: hw_eth0 is defined
+      lineinfile:
+        dest: /etc/dhcp/dhcpd.conf
+        line: "host {{ bladehexname[inventory_hostname] }} {  hardware ethernet {{hw_eth0.macaddress}}; fixed-address 192.168.168.{{bladeips[inventory_hostname]}}; }"
+        regexp: "^host {{ bladehexname[inventory_hostname] }}"
+      notify:
+        - Restart dhcpd server
+      delegate_to: vdc-lablon10-ks1
+      tags:
+        - create_kickstart
+
+    #- name: Restart dhcpd server
+    #  when: hw_eth0 is defined
+    #  systemd:
+    #    name: dhcpd
+    #    state: restarted
+    #  delegate_to: vdc-lablon10-ks1
+
+
+    - name: Lets create the pxe file
+      when: hw_eth0 is defined
+      template:
+        #dest: /var/lib/tftpboot/pxelinux.cfg/01-{{hw_eth0.macaddress_dash}}
+        dest: "{{ tftp_path }}/pxelinux.cfg/01-{{ hw_eth0.macaddress_dash|lower }}"
+        src: pxelinux.cfg.j2
+      delegate_to: vdc-lablon10-ks1
+      tags:
+        - create_kickstart
+
+    - name: Lets create the ks file (dvs switch)
+      when: hw_eth0 is defined and switch_type == "dvs"
+      template:
+        #dest: /var/www/html/ks/{{kickstart_file}}
+        dest: "{{html_path}}/ks/{{kickstart_file}}"
+        src:  kickstart_dvs.ks.j2
+      delegate_to: vdc-lablon10-ks1
+      tags:
+        - create_kickstart
+
+    - name: Lets create the ks file (svs switch)
+      when: hw_eth0 is defined and switch_type == "svs"
+      template:
+        dest: /var/www/html/ks/{{kickstart_file}}
+        src:  kickstart_svs.ks.j2
+      delegate_to: vdc-lablon10-ks1
+      tags:
+        - create_kickstart
+
+    # Reboot the blade
+    - name: power off the server
+      when: hw_eth0 is defined
+      hpilo_boot:
+         host: "{{ ansible_host }}"
+         login: VDCAdmin
+         password: Interoute01
+         media: network
+         state: poweroff
+      delegate_to: cplabgate
+      tags:
+        - reinstall_blade
+
+    ## Let's wait a minute ##
+    - name: Pause for a minute
+      when: hw_eth0 is defined
+      pause:
+        minutes: 1
+
+
+    - name: Lets reboot the server
+      when: hw_eth0 is defined
+      hpilo_boot:
+         host: "{{ ansible_host }}"
+         login: VDCAdmin
+         password: Interoute01
+         media: network
+         state: boot_once 
+      delegate_to: cplabgate
+      tags:
+        - reinstall_blade

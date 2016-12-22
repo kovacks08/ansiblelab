@@ -50,22 +50,26 @@
         - ebs
         - secondary
 
-    - name: Copy zonecreate file
+    - name: Copy zonecreate file for dvs without vmware_cluster
+      when: switch_type == 'dvs' 
       template: 
         src: "zone.dvs.cfg.j2"
-        dest: "/root/zone_{{lab_number}}.dvs.cfg"
-      tags:
-         - dvs
+        dest: "/root/zone_{{lab_number}}.cfg"
 
-    - name: Copy zonecreate file
+    - name: Copy zonecreate file for svs
+      when: switch_type == 'svs'
       template: 
         src: "zone.svs.cfg.j2"
-        dest: "/root/zone_{{lab_number}}.svs.cfg"
-      tags:
-         - dvs
-
-        
+        dest: "/root/zone_{{lab_number}}.cfg"
 
 
+    - name: Copy the deploy cloudstack script to /usr/local/bin
+      copy:
+        src: deploy_cloudstack.sh
+        dest: /usr/local/bin/deploy_cloudstack.sh
+        mode: 0755
 
-    
+    - name: Execute deploy cloudstack
+      shell: "/usr/local/bin/deploy_cloudstack.sh -c /root/.cloudmonkey/config -z zone_{{lab_number}}.cfg" 
+      args:
+        chdir: /root/
