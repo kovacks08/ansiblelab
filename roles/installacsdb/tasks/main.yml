@@ -3,11 +3,13 @@
       yum:
         name: http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
         state: present
+      ignore_errors: True
       tags:
         - initial_install
     
     - name: Ensure mysql server is installed
       yum: name=mysql-server state=present
+      ignore_errors: True
       tags:
         - initial_install
 

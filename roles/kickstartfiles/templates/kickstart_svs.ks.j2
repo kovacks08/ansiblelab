@@ -85,7 +85,7 @@ esxcli network firewall ruleset set --ruleset-id=syslog --enabled=true
 esxcli system snmp set -c INTH1
 esxcli system snmp set -e yes
 /sbin/auto-backup.sh
-esxcli system maintenanceMode set -e true
+#esxcli system maintenanceMode set -e true
 cp /var/log/hostd.log "/vmfs/volumes/$(hostname -s)-local/firstboot-hostd.log"
 cp /var/log/esxi_install.log "/vmfs/volumes/$(hostname -s)-local/firstboot-esxi_install.log"
 #esxcli software vib install -d /vmfs/volumes/$(hostname -s)-local/hp-ams-esxi5.0-bundle-10.0.1-2.zip

@@ -1,87 +1,140 @@
 ---
-    - name: Stop the VMs
+    - name: Debug
+      debug:
+        var: nameips
+      tags:
+        - debug
+
+    - name: Debug
+      debug:
+        var: nameips["{{ inventory_hostname.split('.')[0].split('-')[2] }}"]
+      tags:
+        - debug
+
+    - name: Stop linux mgmt vms in the lab
       vmware_guest_mod:
         validate_certs: False
         hostname: "{{ mgmt_vcenter }}"
-        username: "{{ vcenter_user }}"
-        password: "{{ vcenter_password }}"
-        cluster: "VDC-LABLON09"
-        domain: "{{ domain }}"
-        #name: "{{ cpman1_name }}"
-        name: "{{ ansible_host.split('.')[0] }}"
-        state: powerdoff
-        #folder: "{{ folder }}"
-        #template: "{{ cpman1_template }}"
-        datacenter: "{{ datacenter }}"
+        username: "{{ mgmt_vcenter_user }}"
+        password: "{{ mgmt_vcenter_password }}"
+        cluster: "{{ mgmt_datacenter }}"
+        name: "{{ inventory_hostname.split('.')[0] }}"
+        state: poweredoff
+        datacenter: "{{ mgmt_datacenter }}"
         networks: "{{ lab_networks }}"
+        template: "{{ linux_template }}"
       ignore_errors: True
       delegate_to: localhost
       tags:
-        - clean_up
+        #- clean_up
+        - stop
+        - stop_linux
 
-    - name: Delete the vms
-      with_items:
-        - "{{ management_vms }}"
+    - name: Stop the VCenter VM
+      when: "'cpvsp1' in inventory_hostname"
       vmware_guest_mod:
         validate_certs: False
         hostname: "{{ mgmt_vcenter }}"
-        username: "{{ vcenter_user }}"
-        password: "{{ vcenter_password }}"
-        cluster: "VDC-LABLON09"
-        domain: "{{ domain }}"
-        #name: "{{ cpman1_name }}"
-        #name: "{{ item.name }}"
-        name: "{{ ansible_host.split('.')[0] }}"
+        username: "{{ mgmt_vcenter_user }}"
+        password: "{{ mgmt_vcenter_password }}"
+        cluster: "{{ mgmt_cluster }}"
+        name: "vdc-lablon{{lab_number}}-cpvsp1"
+        state: poweredoff
+        datacenter: "{{ mgmt_datacenter }}"
+        template: "{{ lab_vcenter_tpl }}"
+      ignore_errors: True
+      delegate_to: localhost
+      tags:
+        #- redeploy_vcenter
+        #- clean_up
+        - stop
+        - stop_vcenter
+
+    - name: Delete all the mgmt vms in the lab
+      vmware_guest_mod:
+        validate_certs: False
+        hostname: "{{ mgmt_vcenter }}"
+        username: "{{ mgmt_vcenter_user }}"
+        password: "{{ mgmt_vcenter_password }}"
+        cluster: "{{ mgmt_datacenter }}"
+        name: "{{ inventory_hostname.split('.')[0] }}"
         state: absent
-        #folder: "{{ folder }}"
-        datacenter: "{{ datacenter }}"
-        networks: "{{ lab_networks }}"
+        datacenter: "{{ mgmt_datacenter }}"
+        template: "{{ linux_template }}"
       ignore_errors: True
       delegate_to: localhost
       tags:
         - clean_up
+        - delete_linux
 
-    - name: DEbug
-      debug:
-        var: customize
-      tags:
-        - debug
 
-    - name: DEbug
-      debug:
-        var: "{{ lookup('dig', inventory_hostname) }}"
-      tags:
-        - debug
-
-    - name: create the management server vms
-      with_items:
-        - "{{ management_vms }}"
+    - name: Delete the VCenter VM
+      when: "'cpvsp1' in inventory_hostname"
       vmware_guest_mod:
         validate_certs: False
         hostname: "{{ mgmt_vcenter }}"
-        username: "{{ vcenter_user }}"
-        password: "{{ vcenter_password }}"
-        cluster: "VDC-LABLON09"
+        username: "{{ mgmt_vcenter_user }}"
+        password: "{{ mgmt_vcenter_password }}"
+        cluster: "{{ mgmt_cluster }}"
+        name: "vdc-lablon{{lab_number}}-cpvsp1"
+        state: absent
+        datacenter: "{{ mgmt_datacenter }}"
+        template: "{{ lab_vcenter_tpl }}"
+      ignore_errors: True
+      delegate_to: localhost
+      tags:
+        - clean_up
+        - delete_vcenter
+        - redeploy_vcenter
+
+    - name: deploy the linux server vms
+      when: "'cpvsp1' not in inventory_hostname"
+      vmware_guest_mod:
+        validate_certs: False
+        hostname: "{{ mgmt_vcenter }}"
+        username: "{{ mgmt_vcenter_user }}"
+        password: "{{ mgmt_vcenter_password }}"
+        cluster: "{{ mgmt_cluster }}"
         domain: "{{ domain }}"
-        #name: "{{ cpman1_name }}"
-        #name: "{{ item.name }}"
         name: "{{ inventory_hostname.split('.')[0] }}"
         state: poweredon
-        #folder: "{{ folder }}"
-        #template: "{{ cpman1_template }}"
-        template: "{{ item.template }}"
-        datacenter: "{{ datacenter }}"
-        customize:  "{{ customize }}"
+        template: "{{ linux_template }}"
+        datacenter: "{{ mgmt_datacenter }}"
+        customize: True
         dns_servers: "{{ dns_servers }}"
-        ips: "{{ lookup('dig', inventory_hostname) }}"
+        #ips: "{{ lookup('dig', inventory_hostname) }}"
+        ips: "{{ nameips[ inventory_hostname.split('.')[0].split('-')[2] ] }}"
         networks: "{{ lab_networks }}"
-        #networks: 
-        #    '10.220.122.0/25':
-        #        address: "{{ mgmt_network_address }}"
-        #        network: "{{ mgmt_network_name }}"
-        #        gateway: "{{ mgmt_network_gateway }}"
         wait_for_ip_address: True
       delegate_to: localhost
       ignore_errors: True
       tags:
-        - deploy_vms
+        - deploy_all
+        - deploy_linux
+        - start
+
+    - name: deploy the vcenter server vm
+      when: "'cpvsp1' in inventory_hostname"
+      vmware_guest_mod:
+        validate_certs: False
+        hostname: "{{ mgmt_vcenter }}"
+        username: "{{ mgmt_vcenter_user }}"
+        password: "{{ mgmt_vcenter_password }}"
+        cluster: "{{ mgmt_cluster }}"
+        domain: "{{ domain }}"
+        name: "vdc-lablon{{lab_number}}-cpvsp1"
+        state: poweredon
+        template: "{{ lab_vcenter_tpl }}"
+        datacenter: "{{ mgmt_datacenter }}"
+        customize: False
+        dns_servers: "{{ dns_servers }}"
+        #ips: "{{ lookup('dig', inventory_hostname) }}"
+        #networks: "{{ lab_networks }}"
+        wait_for_ip_address: True
+      delegate_to: localhost
+      ignore_errors: True
+      tags:
+        - start
+        - deploy_all
+        - deploy_vcenter
+        - redeploy_vcenter

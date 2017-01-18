@@ -1,12 +1,18 @@
 ---
 
     - include_vars: blades.yml
+      tags:
+        - new_hosts
+        - existing_hosts
 
     - name: Show variables from include
       with_subelements:
          - "{{ clusters }}"
          - blades
       debug: msg=" {{ bladenames[item.1] }}   -  10.220.{{ nfs_octet }}.{{ bladeipsupper[item.1] }}"
+      tags:
+        - new_hosts
+        - existing_hosts
 
     - name: Create Datacenter
       vmware_datacenter:
@@ -16,6 +22,9 @@
             password: "{{ vcenter_password }}"
             validate_certs: False
             state: present
+      tags:
+        - new_hosts
+        - existing_hosts
 
     - name: Create VMwareCluster
       with_items:
@@ -31,6 +40,9 @@
             enable_ha: True
             enable_vsan: False
             state: present
+      tags:
+        - new_hosts
+        - existing_hosts
 
     - name: Add ESXi Host to VC
       with_subelements:
@@ -48,6 +60,9 @@
             password: "{{ vcenter_password }}"
             validate_certs: False
             state: present
+      tags:
+        - new_hosts
+        - existing_hosts
 
     - name: Create distributed vSwitches
       when: switch_type == "dvs"
@@ -64,6 +79,9 @@
             password: "{{ vcenter_password }}"
             validate_certs: False
             state: present
+      tags:
+        - new_hosts
+        - existing_hosts
 
     # hardcoded swtichnames. Didn't find a way to loop over the switches too
     - name: Add hosts to the storage dvs
@@ -82,6 +100,10 @@
             password: "{{ vcenter_password }}"
             validate_certs: False
             state: present
+      ignore_errors: True
+      tags:
+        - new_hosts
+        - existing_hosts
 
     # hardcoded swtichnames. Didn't find a way to loop over the switches too
     - name: Add hosts to the external dvs
@@ -99,6 +121,10 @@
             password: "{{ vcenter_password }}"
             validate_certs: False
             state: present
+      ignore_errors: True
+      tags:
+        - new_hosts
+        - existing_hosts
 
     - name: Create dvs port_groups
       when: switch_type == "dvs"
@@ -116,6 +142,9 @@
             password: "{{ vcenter_password }}"
             validate_certs: False
             state: present
+      tags:
+        - new_hosts
+        - existing_hosts
 
     # Try to configure iSCSI portgroups with a single uplink
     - name: Configure only one uplink to dvs portgroup iSCSI1
@@ -131,6 +160,9 @@
             password: "{{ vcenter_password }}"
             validate_certs: False
             state: present
+      tags:
+        - new_hosts
+        - existing_hosts
             
     - name: Configure only one uplink to dvs portgroup iSCSI2
       when: switch_type == "dvs"
@@ -145,6 +177,9 @@
             password: "{{ vcenter_password }}"
             validate_certs: False
             state: present
+      tags:
+        - new_hosts
+        - existing_hosts
             
     - name: Migrate management to external portgroup
       when: switch_type == "dvs"
@@ -165,7 +200,7 @@
       # We ignore the errors not to fail the second time around
       ignore_errors: True
       tags:
-        - initial_dvs_setup
+        - new_hosts
 
     - name: Create vmkernel ports NFS
       when: switch_type == "dvs"
@@ -184,6 +219,9 @@
             validate_certs: False
             portgroup_name: "VMk-NFS"
             state: present
+      ignore_errors: True
+      tags:
+        - new_hosts
 
     - name: Create vmkernel ports vMotion
       when: switch_type == "dvs"
@@ -203,6 +241,10 @@
             portgroup_name: "VMk-vMotion"
             service_type: 'vmotion'
             state: present
+      # We ignore the errors not to fail the second time around
+      ignore_errors: True
+      tags:
+        - new_hosts
 
     - name: Create vmkernel ports iSCSI1
       when: switch_type == "dvs"
@@ -221,6 +263,10 @@
             validate_certs: False
             portgroup_name: "VMk-iSCSI-1"
             state: present
+      # We ignore the errors not to fail the second time around
+      ignore_errors: True
+      tags:
+        - new_hosts
 
     - name: Create vmkernel ports iSCSI2
       when: switch_type == "dvs"
@@ -239,6 +285,10 @@
             validate_certs: False
             portgroup_name: "VMk-iSCSI-2"
             state: present
+      # We ignore the errors not to fail the second time around
+      ignore_errors: True
+      tags:
+        - new_hosts
 
     # Delete vSwitch0
     - name: Delete vSwitch0 to free up vmnic0
@@ -257,7 +307,7 @@
       # We ignore the errors not to fail the second time around
       ignore_errors: True
       tags:
-        - initial_dvs_setup
+        - new_hosts
 
     # Add vmnic0 to external vswitch
     - name: Add hosts to the external dvs
@@ -279,7 +329,7 @@
       # We ignore the errors not to fail the second time around
       ignore_errors: True
       tags:
-        - initial_dvs_setup
+        - new_hosts
 
     # Recreate vSwitch0
     - name: Recreate vSwitch0 because of cloudstack reasons with vmnic2
@@ -298,7 +348,7 @@
       # We ignore the errors not to fail the second time around
       ignore_errors: True
       tags:
-        - initial_dvs_setup
+        - new_hosts
 
     - name: Create a portgroup "VM Network"
       when: switch_type == "dvs"
@@ -307,14 +357,15 @@
         - blades
       vmware_portgroup:
             hostname: "{{ bladenames[item.1] }}"
-            porgroup_name: "vmnic2"
-            #vlan_id: "{{lab_number| integer*100}"
+            portgroup_name: "VM Network"
+            # Dummy vlan id
+            vlan_id: "{{lab_number| int*100 }}"
             switch_name: "vSwitch0"
             username: "{{ esxi_username }}"
             password: "{{ esxi_password }}"
             validate_certs: False
-            state: present
+            #state: present
       # We ignore the errors not to fail the second time around
       ignore_errors: True 
       tags:
-        - initial_dvs_setup
+        - new_hosts

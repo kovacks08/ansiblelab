@@ -19,15 +19,15 @@ vdc-ll15-cpvsp1.lablon15.cp.vdc
 [lablon15-vc]
 
 [lablon16-cpman]
-vdc-lablon16-cpman1.lablon16.cp.vdc customize=True
-vdc-lablon16-cpman2.lablon16.cp.vdc customize=True
+vdc-lablon16-cpman1.lablon16.cp.vdc
+vdc-lablon16-cpman2.lablon16.cp.vdc
 [lablon16-db]
-vdc-lablon16-cpdb1.lablon16.cp.vdc  customize=True
+vdc-lablon16-cpdb1.lablon16.cp.vdc
 [lablon16-dns]
-vdc-lablon16-dns1.lablon16.cp.vdc  customize=True
-vdc-lablon16-dns2.lablon16.cp.vdc  customize=True
+vdc-lablon16-dns1.lablon16.cp.vdc
+vdc-lablon16-dns2.lablon16.cp.vdc
 [lablon16-vc]
-vdc-ll16-cpvsp1.lablon16.cp.vdc  customize=False
+vdc-ll16-cpvsp1.lablon16.cp.vdc customize=False
 
 [lablon16:children]
 lablon16-cpman

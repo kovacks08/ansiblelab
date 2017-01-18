@@ -1,7 +1,9 @@
 ---
 mgmt_vcenter: "VDC-LABLON09-VM.vdclab.internal"
-vcenter_user: "gilil50"
-vcenter_password: "Interoute01"
+mgmt_vcenter_user: "gilil50"
+mgmt_vcenter_password: "Interoute01"
+mgmt_datacenter: "VDC-LABLON09" 
+mgmt_cluster: "VDC-LABLON09" 
 
 lab_name: "lablon{{lab_number}}"
 
@@ -12,15 +14,11 @@ nfs_octet: "{{ ip_octet | int + 2 }}"
 mgmt_octet: "{{ ip_octet | int + 2 }}"
 iscsi_octet: "{{ ip_octet | int + 4 }}"
 
-mgmt_network:  "10.220.{{mgmt_octet}}.0/25"
-
 dns_servers:
     - "10.220.{{mgmt_octet}}.107"
     - "10.220.58.101"
-    
 
 folder: "LABLON-{{ lab_number }}"
-datacenter: "VDC-LABLON09" 
 mgmt_network: "10.220.{{mgmt_octet}}.0/25"
 mgmt_network_address: "{{ mgmt_network | ipaddr }}"
 mgmt_network_name:  "ll{{ lab_number }}-management"
@@ -28,6 +26,8 @@ mgmt_network_gateway: "10.220.{{mgmt_octet}}.126"
 
 name_base: vdc-lablon{{ lab_number }}
 name_short: vdc-ll{{ lab_number }}
+linux_template: "Centos7Shapeblue5"   
+lab_vcenter_tpl: "{{name_base}}-cpvsp1-tpl"
 
 domain: "{{lab_name}}.cp.vdc"
 
@@ -64,9 +64,17 @@ management_vms:
       ip1: "10.220.{{mgmt_octet}}.116"
       customize: False
 
-cpman1_name: "vdc-test{{ lab_number }}_cpman1"
-cpman1_template: 'Centos7ShapeBlue5'
-cpman1_ip1: "10.220.{{mgmt_octet}}.111"
+nameips:
+    "cpman1": "10.220.{{mgmt_octet}}.111"
+    "cpman2": "10.220.{{mgmt_octet}}.113"
+    "dns1": "10.220.{{mgmt_octet}}.107"
+    "dns2": "10.220.{{mgmt_octet}}.108"
+    "cpdb1": "10.220.{{mgmt_octet}}.112"
+
+
+#cpman1_name: "vdc-test{{ lab_number }}_cpman1"
+#cpman1_template: 'Centos7ShapeBlue5'
+#cpman1_ip1: "10.220.{{mgmt_octet}}.111"
 
 #cpman_template_name: "Centos7-Shapeblue5"
 #ip1: '10.220.122.99'

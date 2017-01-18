@@ -21,7 +21,7 @@
         - { name: '/mnt/secondary' , src: "vdc-{{lab_name}}-sa02.nfs.{{lab_name}}.cp.vdc:/vol/LL{{lab_number}}_CPSecondary" }
 
     - name: Clean remote directories
-      shell: rm -Rf {{ item }}
+      shell: rm -Rf /mnt/{{ item }}/*
       with_items:
         - primary
         - ebs

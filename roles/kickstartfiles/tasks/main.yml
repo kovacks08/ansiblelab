@@ -1,5 +1,7 @@
 ---
     - include_vars: blades.yml
+      tags:
+        - always
     
 
     # Gather the blade data only when the blade is mentioned in the cluster list
