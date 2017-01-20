@@ -1,6 +1,5 @@
 ---
 -   hosts: lablon16 
-    #connection: local
     gather_facts: False
     vars_files:
        -  vars/lab16.yml

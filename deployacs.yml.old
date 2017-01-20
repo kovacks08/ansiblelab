@@ -1,0 +1,21 @@
+---
+-   hosts: lablon16-dns
+    pre_tasks:
+       - setup:
+            filter: ansible_*
+    vars_files:
+       -  vars/lab16.yml
+    roles:
+      - { role: installacsdns } 
+
+-   hosts: lablon16-db
+    vars_files:
+       -  vars/lab16.yml
+    roles:
+       - { role: installacsdb } 
+
+-   hosts: lablon16-cpman
+    vars_files:
+       -  vars/lab16.yml
+    roles:
+       - { role: installacsman }

@@ -1,0 +1,36 @@
+---
+    - name: Ensure selinux python bindings are installed
+      yum: name=libselinux-python state=present
+      tags: always
+
+    - name: Ensure the Apache Cloudstack Repo file exists as per template
+      template: src=cloudstack.repo.j2 dest=/etc/yum.repos.d/Cloudstack.repo
+      tags: always
+
+    - name: Ensure selinux is in permissive mode
+      command: setenforce permissive
+      tags: always
+
+    - name: Ensure selinux is set permanently
+      selinux: policy=targeted state=permissive
+      tags: always
+
+    - name: Ensure Packages are installed
+      yum: name="{{ item }}" state=present
+      with_items: 
+        - "{{ yum_packages }}"
+      tags: always
+
+    - name: Install CloudMonkey
+      pip:
+        name: cloudmonkey
+      tags: always
+
+    - name: Make sure Cloudstack is stopped
+      systemd:
+        name: "{{ item }}"
+        state: stopped
+      with_items:
+        - "cloudstack-management"
+        - "cloudstack-usage"
+      tags: always

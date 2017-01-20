@@ -1,9 +1,12 @@
 ---
 
-    - include_vars: blades.yml
-      tags:
-        - new_hosts
-        - existing_hosts
+    #- include_vars: blades.yml
+    #  tags:
+    #    - always
+
+    #- include_vars: vmware.yml
+      #tags:
+        #- always
 
     - name: Show variables from include
       with_subelements:
@@ -29,7 +32,7 @@
     - name: Create VMwareCluster
       with_items:
         - "{{ clusters }}"
-      vmware_cluster:
+      vmware_cluster_mod:
             cluster_name: "{{ item.name }}"
             datacenter_name: "{{ dc_name }}"
             hostname: "{{ vc_name }}"

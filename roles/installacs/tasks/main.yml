@@ -1,0 +1,11 @@
+---
+  - include: dns1.yml
+    when: '"dns1" in ansible_hostname'
+  - include: dns2.yml
+    when:  '"dns2" in ansible_hostname'
+  - include: db1.yml
+    when:  '"db1" in ansible_hostname'
+  - include: cpman1.yml
+    when:  '"cpman1" in ansible_hostname'
+  - include: cpman2.yml
+    when:  '"cpman2" in ansible_hostname'

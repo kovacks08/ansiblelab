@@ -1,0 +1,119 @@
+//
+// named.conf
+//
+// Provided by Red Hat bind package to configure the ISC BIND named(8) DNS
+// server as a caching only nameserver (as a localhost DNS resolver only).
+//
+// See /usr/share/doc/bind*/sample/ for example named configuration files.
+//
+
+options {
+        listen-on port 53 { any; };
+        listen-on-v6 port 53 { ::1; };
+        directory       "/var/named";
+        dump-file       "/var/named/data/cache_dump.db";
+        statistics-file "/var/named/data/named_stats.txt";
+        memstatistics-file "/var/named/data/named_mem_stats.txt";
+        allow-query     { any; };
+        recursion yes;
+        forwarders { 10.220.58.101; 10.42.42.53; };
+
+        dnssec-enable no;
+        dnssec-validation no;
+        dnssec-lookaside auto;
+
+        /* Path to ISC DLV key */
+        bindkeys-file "/etc/named.iscdlv.key";
+        managed-keys-directory "/var/named/dynamic";
+};
+
+logging {
+        channel default_debug {
+                file "data/named.run";
+                severity dynamic;
+        };
+};
+
+zone "." IN {
+        type hint;
+        file "named.ca";
+};
+
+
+include "/etc/named.rfc1912.zones";
+include "/etc/named.root.key";
+
+/////// VDCLAB //////
+
+zone "praguelab.internal" IN {
+        type forward;
+        forwarders {10.42.42.53; 10.42.42.54;};
+};
+
+zone "vdclab.cp.vdc" IN {
+        type forward;
+        forwarders {10.220.58.101; 10.220.58.102;};
+};
+
+zone "vdclab.internal" IN {
+        type forward;
+        forwarders {10.220.58.101; 10.220.58.102;};
+};
+
+
+//////// MASTER ////////
+
+// MASTER - forward - {{lab_name}}
+// configured with sub-domains for esx, kvm, xen, nfs, iscsi1, iscsi2
+zone "{{lab_name}}.cp.vdc" IN {
+  type                  master;
+  file                  "/var/named/master/{{lab_name}}/fwd.{{lab_name}}.cp.vdc";
+  allow-update          { none; };
+  allow-transfer        { any; };
+  allow-query           { any; };
+};
+
+// MASTER - reverse - {{lab_name}} - mgmt and nfs
+zone "{{mgmt_octet}}.220.10.in-addr.arpa" IN {
+  type                  master;
+  file                  "/var/named/master/{{lab_name}}/rev.mgmtnfs.{{lab_name}}.cp.vdc";
+  allow-transfer        { any; };
+  allow-query           { any; };
+};
+
+// MASTER - reverse - {{lab_name}}  - esx
+zone "{{esx_octet}}.220.10.in-addr.arpa" IN {
+  type                  master;
+  file                  "/var/named/master/{{lab_name}}/rev.esx.{{lab_name}}.cp.vdc";
+  allow-transfer        { any; };
+  allow-query           { any; };
+};
+
+// MASTER - reverse - lablon13 - kvm and xen
+zone "{{kvm_octet}}.220.10.in-addr.arpa" IN {
+  type                  master;
+  file                  "/var/named/master/{{lab_name}}/rev.kvmxen.{{lab_name}}.cp.vdc";
+  allow-transfer        { any; };
+  allow-query           { any; };
+};
+
+// MASTER - reverse - lablon13 - iscsi1 and iscsi2
+zone "{{iscsi_octet}}.220.10.in-addr.arpa" IN {
+  type                  master;
+  file                  "/var/named/master/{{lab_name}}/rev.iscsi.{{lab_name}}.cp.vdc";
+  allow-transfer        { any; };
+  allow-query           { any; };
+};
+
+
+//////// SLAVE ////////
+
+// SLAVE - forward - cp.vdc
+zone "cp.vdc" IN {
+  type                  slave;
+  masters               { 10.42.155.107;10.42.155.108; };
+  file                  "/var/named/slave/fwd.cp.vdc";
+  allow-transfer        { any; };
+  allow-query           { any; };
+
+};

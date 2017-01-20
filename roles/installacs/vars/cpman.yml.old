@@ -1,0 +1,32 @@
+---
+#password: "Interoute01"
+#lab_name: "lablon{{lab_number}}"
+db_server: "vdc-lablon{{lab_number}}-cpdb1.lablon{{lab_number}}.cp.vdc"
+cpman_server: "vdc-lablon{{lab_number}}-cpman1.lablon{{lab_number}}.cp.vdc"
+yum_packages:
+    - "python-pip"
+    - "cloudstack-management"
+    - "cloudstack-usage"
+
+ip_octet: "{{ ip_range.split('.')[2] }}"
+esx_octet: "{{ ip_octet | int }}"
+nfs_octet: "{{ ip_octet | int + 2 }}"
+mgmt_octet: "{{ ip_octet | int + 2 }}"
+iscsi_octet: "{{ ip_octet | int + 4 }}"
+
+mgmt_network:  "10.220.{{mgmt_octet}}.0/25"
+
+mgmt_network_address: "10.220.{{mgmt_octet}}.0"
+mgmt_network_name:  "ll{{ lab_number }}-management"
+mgmt_network_gateway: "10.220.{{mgmt_octet}}.126"
+
+name_base: vdc-lablon{{ lab_number }}
+name_short: vdc-ll{{ lab_number }}
+
+domain: "lablon{{lab_number}}.cp.vdc"
+
+cpman1_name: "vdc-lablon{{ lab_number }}-cpman1"
+cpman2_name: "vdc-lablon{{ lab_number }}-cpman2"
+cpman1_template: 'Centos7ShapeBlue5'
+cpman1_ip1: "10.220.{{mgmt_octet}}.111"
+cpman2_ip1: "10.220.{{mgmt_octet}}.113"

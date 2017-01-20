@@ -1,0 +1,15 @@
+---
+
+- name: Debug
+  debug:
+    var: 
+        - inventory_hostname
+        - ansible_hostname
+  tags: always
+
+- include: dns1.yml
+  when: '"107" in inventory_hostname' 
+- include: cpman.yml
+  when: ('"111" in inventory_hostname' ) or ('"113" in inventory_hostname')
+- include: db1.yml
+  when: '"112" in inventory_hostname' 

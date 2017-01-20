@@ -1,0 +1,69 @@
+---
+#vc_name: "vdc-ll{{lab_number}}-cpvsp1.lablon{{lab_number}}.cp.vdc" 
+#dc_name: "lablon{{lab_number}}"
+#vcenter_user: "cloudplatform"
+#vcenter_password: "Interoute01"
+
+#ip_octet: "{{ ip_range.split('.')[2] }}"
+#nfs_octet: "{{ ip_octet | int + 2 }}"
+#mgmt_octet: "{{ ip_octet | int + 2 }}"
+#iscsi_octet: "{{ ip_octet | int + 4 }}"
+
+#lab_dc: "lablon{{lab_number}}"
+#lab_cluster: "ESX{{lab_number}}Clustertest"
+
+vmware_dvs:
+    storage:
+        name: storage
+        mtu: 9000
+        uplink_quantity: 2
+        numPorts: 128
+        discovery_protocol: "cdp"
+        discovery_operation: "both"
+        portgroups:
+            - name: "VMk-NFS"
+              port_binding: "dynamic"
+              portgroup_type: "earlyBinding"
+              port_allocation: "elastic"
+              numPorts: 64
+              vlan: "{{lab_number}}07"
+              mtu: 9000
+              vmkipdiff: 2
+              subnet_mask: "255.255.255.128" 
+            - name: "VMk-iSCSI-1"
+              port_binding: "dynamic"
+              portgroup_type: "earlyBinding"
+              port_allocation: "elastic"
+              numPorts: 64
+              vlan: "{{lab_number}}04"
+            - name: "VMk-iSCSI-2"
+              port_binding: "dynamic"
+              portgroup_type: "earlyBinding"
+              port_allocation: "elastic"
+              numPorts: 64
+              vlan: "{{lab_number}}04"
+            - name: "VMk-vMotion"
+              port_binding: "dynamic"
+              portgroup_type: "earlyBinding"
+              port_allocation: "elastic"
+              numPorts: 64
+              vlan: "{{lab_number}}07"
+    external:
+        name: external
+        mtu: 9000
+        uplink_quantity: 2
+        numPorts: 128
+        discovery_protocol: "cdp"
+        discovery_operation: "both"
+        portgroups:
+           - name: 'Management Network'
+             port_binding: "dynamic"
+             portgroup_type: "earlyBinding"
+             port_allocation: "elastic"
+             numPorts: 64
+             vlan: "{{lab_number}}11"
+
+
+esxi_username: "root"
+esxi_password: "Interoute01"
+

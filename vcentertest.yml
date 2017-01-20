@@ -1,5 +1,5 @@
 ---
--   hosts: localhost
+-   hosts: lablon16-vc
     connection: local 
     gather_facts: False
     vars:

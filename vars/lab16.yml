@@ -11,23 +11,21 @@ kernel_version: "esxi55u3"
 # Vmware vswitch type
 switch_type: "dvs"
 
+# VDCAPI virtual environment location
+vdcapi_venv: "/root/cpapi/api/" 
+
 vcenter_user: cloudplatform
 vcenter_password: Interoute01
 mgmt_vc_name: 'VDC-LABLON09-VM.vdclab.internal'
 
 # Starting IP range
 ip_range: "10.220.120.0"
-#cpman_server: 'vdc-lablon16-cpman1'
 
 # Repository version in server 10.42.42.55 for Cloudstack
 repo_version: "4.6.1-shapeblue5"
 
 # Location of the system vm file 
 system_vm_template: "http://10.220.2.77/systemvm64template-master-4.6.0-vmware.ova"
-
-#dns_servers:
-    #- '10.220.122.107'
-    #- '10.220.122.108'
 
 # Configuration of the clusters (Cluster names + blades numbered blade01 to blade16)
 clusters:

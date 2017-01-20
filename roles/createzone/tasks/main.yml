@@ -73,3 +73,7 @@
       shell: "/usr/local/bin/deploy_cloudstack.sh -c /root/.cloudmonkey/config -z zone_{{lab_number}}.cfg" 
       args:
         chdir: /root/
+
+    - name: Use precheck python script from an existing virtualenv to create basic offferings
+      delegate_to: localhost
+      shell: "{{ vdcapi_venv }}/precheck_zone.simple.py -z lablon{{lab_number}}  -c .vdcapi.lablon{{mgmt_lab_number}}"

@@ -1,0 +1,25 @@
+[core]
+profile = local
+asyncblock = true
+paramcompletion = true
+history_file = /root/.cloudmonkey/history
+cache_file = /root/.cloudmonkey/cache
+log_file = /root/.cloudmonkey/log
+
+[ui]
+color = false
+prompt = vdc-lonlab{{lab_number}}-cpman1>
+display = default
+
+[local]
+username = admin
+domain = /
+apikey =
+url = http://{{cpman1_ip1}}:8080/client/api
+expires = 600
+signatureversion = 3
+secretkey =
+timeout = 3600
+password = password
+verifysslcert = true
+

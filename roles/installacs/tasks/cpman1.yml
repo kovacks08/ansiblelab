@@ -1,0 +1,207 @@
+---
+    - include: cpman_pre.yml
+
+    - name: Cloudstack Setup Databases cpman1
+      command: "/usr/bin/cloudstack-setup-databases cloud:{{password}}@{{db_server}} --deploy-as=root:{{password}}  -e file -m {{password}} -k {{password}} -i {{ansible_hostname}}"
+      tags:
+        - initial_install
+        - reinstall
+
+    - name: Cloudstack Setup Tomcat
+      command: "/usr/bin/cloudstack-setup-management --tomcat7"
+      tags:
+        - initial_install
+        - reinstall
+
+    - name: Ensure Firewalld service is stopped
+      systemd: 
+        name: firewalld
+        state: stopped
+        enabled: False
+      tags:
+        - initial_install
+        - reinstall
+
+    - name: Ensure Iptables service is stopped
+      systemd:
+        name: iptables
+        state: stopped
+        enabled: False
+      tags:
+        - initial_install
+        - reinstall
+
+    - name: Start Cloudstack Service
+      systemd:
+        name: cloudstack-management
+        enabled: True
+        state: restarted
+      tags:
+        - initial_install
+        - reinstall
+
+    - name: Wait for the actual app to respond
+      wait_for:
+        port: 8080
+        delay: 60
+      tags:
+        - initial_install
+        - reinstall
+        - test
+
+    - name: Wait for Cloudtack to start
+      uri:
+        url: "http://{{ansible_hostname}}:8080/client" 
+        status_code: 200
+        timeout: 300
+        async: 300
+        poll: 10
+      tags:
+        - initial_install
+        - reinstall
+        - test
+
+    - name: Create some directories
+      with_items:
+        - "/usr/local/bin"
+        - "/root/.cloudmonkey"
+      file:
+        path: "{{ item }}"
+        state: directory
+      tags:
+        - initial_install
+        - reinstall
+        - test
+
+    - name: Create the cloudmonkey file with no keys
+      template:
+        src: "cloudmonkey.config.nokeys.j2"
+        dest: "/root/.cloudmonkey/config.nokeys"
+      tags:
+        - initial_install
+        - reinstall
+        - test
+
+    - name: Create /usr/local/bin
+      file:
+        path: "/usr/local/bin"
+        state: directory
+      tags:
+        - initial_install
+        - reinstall
+        - test
+        
+    - name: Copy the script to get initial keys
+      tags:
+        - initial_install
+        - reinstall
+        - test
+      copy:
+            src: "getinitialkeys.sh"
+            dest: "/usr/local/bin/getinitialkeys.sh"
+            mode: 0755
+    
+    - name: Create the keys
+      tags:
+        - initial_install
+        - reinstall
+        - test
+      command: /usr/local/bin/getinitialkeys.sh
+      register: adminkeypair
+    
+    - name: Set facts for apikeys
+      tags:
+        - initial_install
+        - reinstall
+        - test
+      set_fact:
+        admin_api_key: "{{ adminkeypair.stdout.split(':')[0] }}"
+        admin_secret_key: "{{ adminkeypair.stdout.split(':')[1] }}"
+        admin_id: "{{ adminkeypair.stdout.split(':')[2] }}"
+    
+    - name: Create cloudmonkey configuration file remotely
+      tags:
+        - initial_install
+        - reinstall
+        - test
+      template:
+            src: "cloudmonkey.config.j2"
+            dest: "/root/.cloudmonkey/config"
+
+    - name: Set the password to the default
+      tags:
+        - initial_install
+        - reinstall
+        - test
+      command: "cloudmonkey update user id={{admin_id}} password={{password}}"
+
+    - name: Fetch the actual cloudmonkey file
+      tags:
+        - initial_install
+        - reinstall
+        - test
+      fetch:
+            src: "/root/.cloudmonkey/config"
+            dest: "/root/.cloudmonkey/config.lab{{lab_number}}"
+            flat: yes
+    
+    - name: Create a VDCAPI file
+      tags:
+        - initial_install
+        - reinstall
+        - test
+      template:
+            src: "vdcapi.lablonxx.j2"
+            dest: "/root/.vdcapi" 
+   
+    - name: Fetch the actual cloudmonkey file
+      tags:
+        - initial_install
+        - reinstall
+        - test
+      fetch:
+            src: "/root/.vdcapi"
+            dest: "/root/.vdcapi.{{lab_name}}"
+            flat: yes
+    
+    - name: Create Global Settings configuration file remotely
+      tags:
+        - initial_install
+        - reinstall
+        - test
+      template:
+            src: "global.settings.j2"
+            dest: "/root/global.settings"
+    
+    - name: Apply global settings
+      tags:
+        - initial_install
+        - reinstall
+        - test
+      shell: while read line; do cloudmonkey  $line; done < /root/global.settings
+      args:
+             chdir: /root/
+    
+    - name: Restart Cloudstack
+      tags:
+        - initial_install
+        - reinstall
+        - test
+      systemd:
+            name: "{{ item }}"
+            state: restarted
+      with_items:
+            - "cloudstack-management"
+            - "cloudstack-usage"
+
+    - name: Ensure Firewalld and iptables ervice is stopped
+      systemd:
+        name:  "{{ item }}"
+        state: stopped
+        enabled: False
+      with_items:
+        - iptables
+        - firewalld
+      tags:
+        - initial_install
+        - reinstall

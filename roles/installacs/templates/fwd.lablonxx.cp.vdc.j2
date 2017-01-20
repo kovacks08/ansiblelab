@@ -1,0 +1,902 @@
+$TTL 86400
+@       IN SOA     masterdns.{{lab_name}}.cp.vdc. root.{{lab_name}}.cp.vdc. (
+        {{date}}01   ;Serial
+        3600        ;Refresh
+        1800        ;Retry
+        604800      ;Expire
+        10          ;Minimum TTL
+)
+
+        IN NS      masterdns.{{lab_name}}.cp.vdc.
+
+;; MGMT         {{lab_name}}.cp.vdc        10.220.{{mgmt_octet}}.0/25
+$ORIGIN {{lab_name}}.cp.vdc.
+masterdns                       IN A    10.220.{{mgmt_octet}}.107
+; Hypervisors
+vdc-{{lab_name}}-vh00            IN A    10.220.{{esx_octet}}.1
+vdc-{{lab_name}}-vh01            IN A    10.220.{{esx_octet}}.2
+vdc-{{lab_name}}-vh02            IN A    10.220.{{esx_octet}}.3
+vdc-{{lab_name}}-vh03            IN A    10.220.{{esx_octet}}.4
+vdc-{{lab_name}}-vh04            IN A    10.220.{{esx_octet}}.5
+vdc-{{lab_name}}-vh05            IN A    10.220.{{esx_octet}}.6
+vdc-{{lab_name}}-vh06            IN A    10.220.{{esx_octet}}.7
+vdc-{{lab_name}}-vh07            IN A    10.220.{{esx_octet}}.8
+vdc-{{lab_name}}-vh08            IN A    10.220.{{esx_octet}}.9
+vdc-{{lab_name}}-vh09            IN A    10.220.{{esx_octet}}.10
+vdc-{{lab_name}}-vh0a            IN A    10.220.{{esx_octet}}.11
+vdc-{{lab_name}}-vh0b            IN A    10.220.{{esx_octet}}.12
+vdc-{{lab_name}}-vh0c            IN A    10.220.{{esx_octet}}.13
+vdc-{{lab_name}}-vh0d            IN A    10.220.{{esx_octet}}.14
+vdc-{{lab_name}}-vh0e            IN A    10.220.{{esx_octet}}.15
+vdc-{{lab_name}}-vh0f            IN A    10.220.{{esx_octet}}.16
+vdc-{{lab_name}}-vh10            IN A    10.220.{{esx_octet}}.17
+vdc-{{lab_name}}-vh11            IN A    10.220.{{esx_octet}}.18
+vdc-{{lab_name}}-vh12            IN A    10.220.{{esx_octet}}.19
+vdc-{{lab_name}}-vh13            IN A    10.220.{{esx_octet}}.20
+vdc-{{lab_name}}-vh14            IN A    10.220.{{esx_octet}}.21
+vdc-{{lab_name}}-vh15            IN A    10.220.{{esx_octet}}.22
+vdc-{{lab_name}}-vh16            IN A    10.220.{{esx_octet}}.23
+vdc-{{lab_name}}-vh17            IN A    10.220.{{esx_octet}}.24
+vdc-{{lab_name}}-vh18            IN A    10.220.{{esx_octet}}.25
+vdc-{{lab_name}}-vh19            IN A    10.220.{{esx_octet}}.26
+vdc-{{lab_name}}-vh1a            IN A    10.220.{{esx_octet}}.27
+vdc-{{lab_name}}-vh1b            IN A    10.220.{{esx_octet}}.28
+vdc-{{lab_name}}-vh1c            IN A    10.220.{{esx_octet}}.29
+vdc-{{lab_name}}-vh1d            IN A    10.220.{{esx_octet}}.30
+vdc-{{lab_name}}-vh1e            IN A    10.220.{{esx_octet}}.31
+vdc-{{lab_name}}-vh1f            IN A    10.220.{{esx_octet}}.32
+vdc-{{lab_name}}-vh20            IN A    10.220.{{esx_octet}}.33
+vdc-{{lab_name}}-vh21            IN A    10.220.{{esx_octet}}.34
+vdc-{{lab_name}}-vh22            IN A    10.220.{{esx_octet}}.35
+vdc-{{lab_name}}-vh23            IN A    10.220.{{esx_octet}}.36
+vdc-{{lab_name}}-vh24            IN A    10.220.{{esx_octet}}.37
+vdc-{{lab_name}}-vh25            IN A    10.220.{{esx_octet}}.38
+vdc-{{lab_name}}-vh26            IN A    10.220.{{esx_octet}}.39
+vdc-{{lab_name}}-vh27            IN A    10.220.{{esx_octet}}.40
+vdc-{{lab_name}}-vh28            IN A    10.220.{{esx_octet}}.41
+vdc-{{lab_name}}-vh29            IN A    10.220.{{esx_octet}}.42
+vdc-{{lab_name}}-vh2a            IN A    10.220.{{esx_octet}}.43
+vdc-{{lab_name}}-vh2b            IN A    10.220.{{esx_octet}}.44
+vdc-{{lab_name}}-vh2c            IN A    10.220.{{esx_octet}}.45
+vdc-{{lab_name}}-vh2d            IN A    10.220.{{esx_octet}}.46
+vdc-{{lab_name}}-vh2e            IN A    10.220.{{esx_octet}}.47
+vdc-{{lab_name}}-vh2f            IN A    10.220.{{esx_octet}}.48
+vdc-{{lab_name}}-vh30            IN A    10.220.{{esx_octet}}.49
+vdc-{{lab_name}}-vh31            IN A    10.220.{{esx_octet}}.50
+vdc-{{lab_name}}-vh32            IN A    10.220.{{esx_octet}}.51
+vdc-{{lab_name}}-vh33            IN A    10.220.{{esx_octet}}.52
+vdc-{{lab_name}}-vh34            IN A    10.220.{{esx_octet}}.53
+vdc-{{lab_name}}-vh35            IN A    10.220.{{esx_octet}}.54
+vdc-{{lab_name}}-vh36            IN A    10.220.{{esx_octet}}.55
+vdc-{{lab_name}}-vh37            IN A    10.220.{{esx_octet}}.56
+vdc-{{lab_name}}-vh38            IN A    10.220.{{esx_octet}}.57
+vdc-{{lab_name}}-vh39            IN A    10.220.{{esx_octet}}.58
+vdc-{{lab_name}}-vh3a            IN A    10.220.{{esx_octet}}.59
+vdc-{{lab_name}}-vh3b            IN A    10.220.{{esx_octet}}.60
+vdc-{{lab_name}}-vh3c            IN A    10.220.{{esx_octet}}.61
+vdc-{{lab_name}}-vh3d            IN A    10.220.{{esx_octet}}.62
+vdc-{{lab_name}}-vh3e            IN A    10.220.{{esx_octet}}.63
+vdc-{{lab_name}}-vh3f            IN A    10.220.{{esx_octet}}.64
+vdc-{{lab_name}}-vh40            IN A    10.220.{{esx_octet}}.65
+vdc-{{lab_name}}-vh41            IN A    10.220.{{esx_octet}}.66
+vdc-{{lab_name}}-vh42            IN A    10.220.{{esx_octet}}.67
+vdc-{{lab_name}}-vh43            IN A    10.220.{{esx_octet}}.68
+vdc-{{lab_name}}-vh44            IN A    10.220.{{esx_octet}}.69
+vdc-{{lab_name}}-vh45            IN A    10.220.{{esx_octet}}.70
+vdc-{{lab_name}}-vh46            IN A    10.220.{{esx_octet}}.71
+vdc-{{lab_name}}-vh47            IN A    10.220.{{esx_octet}}.72
+vdc-{{lab_name}}-vh48            IN A    10.220.{{esx_octet}}.73
+vdc-{{lab_name}}-vh49            IN A    10.220.{{esx_octet}}.74
+vdc-{{lab_name}}-vh4a            IN A    10.220.{{esx_octet}}.75
+vdc-{{lab_name}}-vh4b            IN A    10.220.{{esx_octet}}.76
+vdc-{{lab_name}}-vh4c            IN A    10.220.{{esx_octet}}.77
+vdc-{{lab_name}}-vh4d            IN A    10.220.{{esx_octet}}.78
+vdc-{{lab_name}}-vh4e            IN A    10.220.{{esx_octet}}.79
+vdc-{{lab_name}}-vh4f            IN A    10.220.{{esx_octet}}.80
+vdc-{{lab_name}}-vh50            IN A    10.220.{{esx_octet}}.81
+vdc-{{lab_name}}-vh51            IN A    10.220.{{esx_octet}}.82
+vdc-{{lab_name}}-vh52            IN A    10.220.{{esx_octet}}.83
+vdc-{{lab_name}}-vh53            IN A    10.220.{{esx_octet}}.84
+vdc-{{lab_name}}-vh54            IN A    10.220.{{esx_octet}}.85
+vdc-{{lab_name}}-vh55            IN A    10.220.{{esx_octet}}.86
+vdc-{{lab_name}}-vh56            IN A    10.220.{{esx_octet}}.87
+vdc-{{lab_name}}-vh57            IN A    10.220.{{esx_octet}}.88
+vdc-{{lab_name}}-vh58            IN A    10.220.{{esx_octet}}.89
+vdc-{{lab_name}}-vh59            IN A    10.220.{{esx_octet}}.90
+vdc-{{lab_name}}-vh5a            IN A    10.220.{{esx_octet}}.91
+vdc-{{lab_name}}-vh5b            IN A    10.220.{{esx_octet}}.92
+vdc-{{lab_name}}-vh5c            IN A    10.220.{{esx_octet}}.93
+vdc-{{lab_name}}-vh5d            IN A    10.220.{{esx_octet}}.94
+vdc-{{lab_name}}-vh5e            IN A    10.220.{{esx_octet}}.95
+vdc-{{lab_name}}-vh5f            IN A    10.220.{{esx_octet}}.96
+
+; Management VMs and Storage
+vdc-{{lab_name}}-zlb-vip         IN A    10.220.{{mgmt_octet}}.123
+vdc-{{lab_name}}-zlb2            IN A    10.220.{{mgmt_octet}}.122
+vdc-{{lab_name}}-zlb1            IN A    10.220.{{mgmt_octet}}.121
+vdc-{{lab_name}}-sa02            IN A    10.220.{{mgmt_octet}}.120
+vdc-{{lab_name}}-sa01            IN A    10.220.{{mgmt_octet}}.119
+vdc-{{lab_name}}-sam1            IN A    10.220.{{mgmt_octet}}.118
+vdc-{{lab_name}}-ad1             IN A    10.220.{{mgmt_octet}}.117
+vdc-{{lab_name}}-cpvsp1          IN A    10.220.{{mgmt_octet}}.116
+vdc-{{lab_name}}-gate1           IN A    10.220.{{mgmt_octet}}.115
+vdc-{{lab_name}}-cpdb2           IN A    10.220.{{mgmt_octet}}.114
+vdc-{{lab_name}}-cpman2          IN A    10.220.{{mgmt_octet}}.113
+vdc-{{lab_name}}-cpdb1           IN A    10.220.{{mgmt_octet}}.112
+vdc-{{lab_name}}-cpman1          IN A    10.220.{{mgmt_octet}}.111
+vdc-{{lab_name}}-log1            IN A    10.220.{{mgmt_octet}}.110
+vdc-{{lab_name}}-dply1           IN A    10.220.{{mgmt_octet}}.109
+vdc-{{lab_name}}-dns2            IN A    10.220.{{mgmt_octet}}.108
+vdc-{{lab_name}}-dns1            IN A    10.220.{{mgmt_octet}}.107
+;vdc-{{lab_name}}-                IN A    10.220.{{mgmt_octet}}.106
+vdc-{{lab_name}}-vmvc1           IN A    10.220.{{mgmt_octet}}.105
+;vdc-{{lab_name}}-                IN A    10.220.{{mgmt_octet}}.104
+;vdc-{{lab_name}}-                IN A    10.220.{{mgmt_octet}}.103
+;vdc-{{lab_name}}-                IN A    10.220.{{mgmt_octet}}.102
+;vdc-{{lab_name}}-                IN A    10.220.{{mgmt_octet}}.101
+;vdc-{{lab_name}}-                IN A    10.220.{{mgmt_octet}}.100
+
+;; Shortnames
+; Hypervisors
+vh00                      CNAME   vdc-{{lab_name}}-vh00.{{lab_name}}.cp.vdc.
+vh01                      CNAME   vdc-{{lab_name}}-vh01.{{lab_name}}.cp.vdc.
+vh02                      CNAME   vdc-{{lab_name}}-vh02.{{lab_name}}.cp.vdc.
+vh03                      CNAME   vdc-{{lab_name}}-vh03.{{lab_name}}.cp.vdc.
+vh04                      CNAME   vdc-{{lab_name}}-vh04.{{lab_name}}.cp.vdc.
+vh05                      CNAME   vdc-{{lab_name}}-vh05.{{lab_name}}.cp.vdc.
+vh06                      CNAME   vdc-{{lab_name}}-vh06.{{lab_name}}.cp.vdc.
+vh07                      CNAME   vdc-{{lab_name}}-vh07.{{lab_name}}.cp.vdc.
+vh08                      CNAME   vdc-{{lab_name}}-vh08.{{lab_name}}.cp.vdc.
+vh09                      CNAME   vdc-{{lab_name}}-vh09.{{lab_name}}.cp.vdc.
+vh0a                      CNAME   vdc-{{lab_name}}-vh0a.{{lab_name}}.cp.vdc.
+vh0b                      CNAME   vdc-{{lab_name}}-vh0b.{{lab_name}}.cp.vdc.
+vh0c                      CNAME   vdc-{{lab_name}}-vh0c.{{lab_name}}.cp.vdc.
+vh0d                      CNAME   vdc-{{lab_name}}-vh0d.{{lab_name}}.cp.vdc.
+vh0e                      CNAME   vdc-{{lab_name}}-vh0e.{{lab_name}}.cp.vdc.
+vh0f                      CNAME   vdc-{{lab_name}}-vh0f.{{lab_name}}.cp.vdc.
+vh10                      CNAME   vdc-{{lab_name}}-vh10.{{lab_name}}.cp.vdc.
+vh11                      CNAME   vdc-{{lab_name}}-vh11.{{lab_name}}.cp.vdc.
+vh12                      CNAME   vdc-{{lab_name}}-vh12.{{lab_name}}.cp.vdc.
+vh13                      CNAME   vdc-{{lab_name}}-vh13.{{lab_name}}.cp.vdc.
+vh14                      CNAME   vdc-{{lab_name}}-vh14.{{lab_name}}.cp.vdc.
+vh15                      CNAME   vdc-{{lab_name}}-vh15.{{lab_name}}.cp.vdc.
+vh16                      CNAME   vdc-{{lab_name}}-vh16.{{lab_name}}.cp.vdc.
+vh17                      CNAME   vdc-{{lab_name}}-vh17.{{lab_name}}.cp.vdc.
+vh18                      CNAME   vdc-{{lab_name}}-vh18.{{lab_name}}.cp.vdc.
+vh19                      CNAME   vdc-{{lab_name}}-vh19.{{lab_name}}.cp.vdc.
+vh1a                      CNAME   vdc-{{lab_name}}-vh1a.{{lab_name}}.cp.vdc.
+vh1b                      CNAME   vdc-{{lab_name}}-vh1b.{{lab_name}}.cp.vdc.
+vh1c                      CNAME   vdc-{{lab_name}}-vh1c.{{lab_name}}.cp.vdc.
+vh1d                      CNAME   vdc-{{lab_name}}-vh1d.{{lab_name}}.cp.vdc.
+vh1e                      CNAME   vdc-{{lab_name}}-vh1e.{{lab_name}}.cp.vdc.
+vh1f                      CNAME   vdc-{{lab_name}}-vh1f.{{lab_name}}.cp.vdc.
+vh20                      CNAME   vdc-{{lab_name}}-vh20.{{lab_name}}.cp.vdc.
+vh21                      CNAME   vdc-{{lab_name}}-vh21.{{lab_name}}.cp.vdc.
+vh22                      CNAME   vdc-{{lab_name}}-vh22.{{lab_name}}.cp.vdc.
+vh23                      CNAME   vdc-{{lab_name}}-vh23.{{lab_name}}.cp.vdc.
+vh24                      CNAME   vdc-{{lab_name}}-vh24.{{lab_name}}.cp.vdc.
+vh25                      CNAME   vdc-{{lab_name}}-vh25.{{lab_name}}.cp.vdc.
+vh26                      CNAME   vdc-{{lab_name}}-vh26.{{lab_name}}.cp.vdc.
+vh27                      CNAME   vdc-{{lab_name}}-vh27.{{lab_name}}.cp.vdc.
+vh28                      CNAME   vdc-{{lab_name}}-vh28.{{lab_name}}.cp.vdc.
+vh29                      CNAME   vdc-{{lab_name}}-vh29.{{lab_name}}.cp.vdc.
+vh2a                      CNAME   vdc-{{lab_name}}-vh2a.{{lab_name}}.cp.vdc.
+vh2b                      CNAME   vdc-{{lab_name}}-vh2b.{{lab_name}}.cp.vdc.
+vh2c                      CNAME   vdc-{{lab_name}}-vh2c.{{lab_name}}.cp.vdc.
+vh2d                      CNAME   vdc-{{lab_name}}-vh2d.{{lab_name}}.cp.vdc.
+vh2e                      CNAME   vdc-{{lab_name}}-vh2e.{{lab_name}}.cp.vdc.
+vh2f                      CNAME   vdc-{{lab_name}}-vh2f.{{lab_name}}.cp.vdc.
+vh30                      CNAME   vdc-{{lab_name}}-vh30.{{lab_name}}.cp.vdc.
+vh31                      CNAME   vdc-{{lab_name}}-vh31.{{lab_name}}.cp.vdc.
+vh32                      CNAME   vdc-{{lab_name}}-vh32.{{lab_name}}.cp.vdc.
+vh33                      CNAME   vdc-{{lab_name}}-vh33.{{lab_name}}.cp.vdc.
+vh34                      CNAME   vdc-{{lab_name}}-vh34.{{lab_name}}.cp.vdc.
+vh35                      CNAME   vdc-{{lab_name}}-vh35.{{lab_name}}.cp.vdc.
+vh36                      CNAME   vdc-{{lab_name}}-vh36.{{lab_name}}.cp.vdc.
+vh37                      CNAME   vdc-{{lab_name}}-vh37.{{lab_name}}.cp.vdc.
+vh38                      CNAME   vdc-{{lab_name}}-vh38.{{lab_name}}.cp.vdc.
+vh39                      CNAME   vdc-{{lab_name}}-vh39.{{lab_name}}.cp.vdc.
+vh3a                      CNAME   vdc-{{lab_name}}-vh3a.{{lab_name}}.cp.vdc.
+vh3b                      CNAME   vdc-{{lab_name}}-vh3b.{{lab_name}}.cp.vdc.
+vh3c                      CNAME   vdc-{{lab_name}}-vh3c.{{lab_name}}.cp.vdc.
+vh3d                      CNAME   vdc-{{lab_name}}-vh3d.{{lab_name}}.cp.vdc.
+vh3e                      CNAME   vdc-{{lab_name}}-vh3e.{{lab_name}}.cp.vdc.
+vh3f                      CNAME   vdc-{{lab_name}}-vh3f.{{lab_name}}.cp.vdc.
+vh40                      CNAME   vdc-{{lab_name}}-vh40.{{lab_name}}.cp.vdc.
+vh41                      CNAME   vdc-{{lab_name}}-vh41.{{lab_name}}.cp.vdc.
+vh42                      CNAME   vdc-{{lab_name}}-vh42.{{lab_name}}.cp.vdc.
+vh43                      CNAME   vdc-{{lab_name}}-vh43.{{lab_name}}.cp.vdc.
+vh44                      CNAME   vdc-{{lab_name}}-vh44.{{lab_name}}.cp.vdc.
+vh45                      CNAME   vdc-{{lab_name}}-vh45.{{lab_name}}.cp.vdc.
+vh46                      CNAME   vdc-{{lab_name}}-vh46.{{lab_name}}.cp.vdc.
+vh47                      CNAME   vdc-{{lab_name}}-vh47.{{lab_name}}.cp.vdc.
+vh48                      CNAME   vdc-{{lab_name}}-vh48.{{lab_name}}.cp.vdc.
+vh49                      CNAME   vdc-{{lab_name}}-vh49.{{lab_name}}.cp.vdc.
+vh4a                      CNAME   vdc-{{lab_name}}-vh4a.{{lab_name}}.cp.vdc.
+vh4b                      CNAME   vdc-{{lab_name}}-vh4b.{{lab_name}}.cp.vdc.
+vh4c                      CNAME   vdc-{{lab_name}}-vh4c.{{lab_name}}.cp.vdc.
+vh4d                      CNAME   vdc-{{lab_name}}-vh4d.{{lab_name}}.cp.vdc.
+vh4e                      CNAME   vdc-{{lab_name}}-vh4e.{{lab_name}}.cp.vdc.
+vh4f                      CNAME   vdc-{{lab_name}}-vh4f.{{lab_name}}.cp.vdc.
+vh50                      CNAME   vdc-{{lab_name}}-vh50.{{lab_name}}.cp.vdc.
+vh51                      CNAME   vdc-{{lab_name}}-vh51.{{lab_name}}.cp.vdc.
+vh52                      CNAME   vdc-{{lab_name}}-vh52.{{lab_name}}.cp.vdc.
+vh53                      CNAME   vdc-{{lab_name}}-vh53.{{lab_name}}.cp.vdc.
+vh54                      CNAME   vdc-{{lab_name}}-vh54.{{lab_name}}.cp.vdc.
+vh55                      CNAME   vdc-{{lab_name}}-vh55.{{lab_name}}.cp.vdc.
+vh56                      CNAME   vdc-{{lab_name}}-vh56.{{lab_name}}.cp.vdc.
+vh57                      CNAME   vdc-{{lab_name}}-vh57.{{lab_name}}.cp.vdc.
+vh58                      CNAME   vdc-{{lab_name}}-vh58.{{lab_name}}.cp.vdc.
+vh59                      CNAME   vdc-{{lab_name}}-vh59.{{lab_name}}.cp.vdc.
+vh5a                      CNAME   vdc-{{lab_name}}-vh5a.{{lab_name}}.cp.vdc.
+vh5b                      CNAME   vdc-{{lab_name}}-vh5b.{{lab_name}}.cp.vdc.
+vh5c                      CNAME   vdc-{{lab_name}}-vh5c.{{lab_name}}.cp.vdc.
+vh5d                      CNAME   vdc-{{lab_name}}-vh5d.{{lab_name}}.cp.vdc.
+vh5e                      CNAME   vdc-{{lab_name}}-vh5e.{{lab_name}}.cp.vdc.
+vh5f                      CNAME   vdc-{{lab_name}}-vh5f.{{lab_name}}.cp.vdc.
+
+; Management VMs and Storage
+zlb-vip                   CNAME   vdc-{{lab_name}}-zlb-vip.{{lab_name}}.cp.vdc.
+zlb2                      CNAME   vdc-{{lab_name}}-zlb2.{{lab_name}}.cp.vdc.
+zlb1                      CNAME   vdc-{{lab_name}}-zlb1.{{lab_name}}.cp.vdc.
+sa02                      CNAME   vdc-{{lab_name}}-sa02.{{lab_name}}.cp.vdc.
+sa01                      CNAME   vdc-{{lab_name}}-sa01.{{lab_name}}.cp.vdc.
+sam1                      CNAME   vdc-{{lab_name}}-sam1.{{lab_name}}.cp.vdc.
+ad1                       CNAME   vdc-{{lab_name}}-ad1.{{lab_name}}.cp.vdc.
+cpvsp1                    CNAME   vdc-{{lab_name}}-cpvsp1.{{lab_name}}.cp.vdc.
+vdc-ll{{lab_number}}-cpvsp1           CNAME   vdc-{{lab_name}}-cpvsp1.{{lab_name}}.cp.vdc.
+vdc-{{lab_name}}-cpman           CNAME   vdc-{{lab_name}}-cpman1.{{lab_name}}.cp.vdc.
+cpman1                    CNAME   vdc-{{lab_name}}-cpman1.{{lab_name}}.cp.vdc.
+cpdb2                     CNAME   vdc-{{lab_name}}-cpdb2.{{lab_name}}.cp.vdc.
+cpman2                    CNAME   vdc-{{lab_name}}-cpman2.{{lab_name}}.cp.vdc.
+cpdb1                     CNAME   vdc-{{lab_name}}-cpdb1.{{lab_name}}.cp.vdc.
+;                          CNAME   vdc-{{lab_name}}-.{{lab_name}}.cp.vdc.
+log1                      CNAME   vdc-{{lab_name}}-log1.{{lab_name}}.cp.vdc.
+dply1                     CNAME   vdc-{{lab_name}}-dply1.{{lab_name}}.cp.vdc.
+dns2                      CNAME   vdc-{{lab_name}}-dns2.{{lab_name}}.cp.vdc.
+dns1                      CNAME   vdc-{{lab_name}}-dns1.{{lab_name}}.cp.vdc.
+;                          CNAME   vdc-{{lab_name}}-.{{lab_name}}.cp.vdc.
+;                          CNAME   vdc-{{lab_name}}-.{{lab_name}}.cp.vdc.
+;                          CNAME   vdc-{{lab_name}}-.{{lab_name}}.cp.vdc.
+;                          CNAME   vdc-{{lab_name}}-.{{lab_name}}.cp.vdc.
+;                          CNAME   vdc-{{lab_name}}-.{{lab_name}}.cp.vdc.
+
+
+
+;; NFS          nfs.{{lab_name}}.cp.vdc    10.220.{{mgmt_octet}}.128/25
+$ORIGIN nfs.{{lab_name}}.cp.vdc.
+vdc-{{lab_name}}-vh00            IN A    10.220.{{mgmt_octet}}.129
+vdc-{{lab_name}}-vh01            IN A    10.220.{{mgmt_octet}}.130
+vdc-{{lab_name}}-vh02            IN A    10.220.{{mgmt_octet}}.131
+vdc-{{lab_name}}-vh03            IN A    10.220.{{mgmt_octet}}.132
+vdc-{{lab_name}}-vh04            IN A    10.220.{{mgmt_octet}}.133
+vdc-{{lab_name}}-vh05            IN A    10.220.{{mgmt_octet}}.134
+vdc-{{lab_name}}-vh06            IN A    10.220.{{mgmt_octet}}.135
+vdc-{{lab_name}}-vh07            IN A    10.220.{{mgmt_octet}}.136
+vdc-{{lab_name}}-vh08            IN A    10.220.{{mgmt_octet}}.137
+vdc-{{lab_name}}-vh09            IN A    10.220.{{mgmt_octet}}.138
+vdc-{{lab_name}}-vh0a            IN A    10.220.{{mgmt_octet}}.139
+vdc-{{lab_name}}-vh0b            IN A    10.220.{{mgmt_octet}}.140
+vdc-{{lab_name}}-vh0c            IN A    10.220.{{mgmt_octet}}.141
+vdc-{{lab_name}}-vh0d            IN A    10.220.{{mgmt_octet}}.142
+vdc-{{lab_name}}-vh0e            IN A    10.220.{{mgmt_octet}}.143
+vdc-{{lab_name}}-vh0f            IN A    10.220.{{mgmt_octet}}.144
+vdc-{{lab_name}}-vh10            IN A    10.220.{{mgmt_octet}}.145
+vdc-{{lab_name}}-vh11            IN A    10.220.{{mgmt_octet}}.146
+vdc-{{lab_name}}-vh12            IN A    10.220.{{mgmt_octet}}.147
+vdc-{{lab_name}}-vh13            IN A    10.220.{{mgmt_octet}}.148
+vdc-{{lab_name}}-vh14            IN A    10.220.{{mgmt_octet}}.149
+vdc-{{lab_name}}-vh15            IN A    10.220.{{mgmt_octet}}.150
+vdc-{{lab_name}}-vh16            IN A    10.220.{{mgmt_octet}}.151
+vdc-{{lab_name}}-vh17            IN A    10.220.{{mgmt_octet}}.152
+vdc-{{lab_name}}-vh18            IN A    10.220.{{mgmt_octet}}.153
+vdc-{{lab_name}}-vh19            IN A    10.220.{{mgmt_octet}}.154
+vdc-{{lab_name}}-vh1a            IN A    10.220.{{mgmt_octet}}.155
+vdc-{{lab_name}}-vh1b            IN A    10.220.{{mgmt_octet}}.156
+vdc-{{lab_name}}-vh1c            IN A    10.220.{{mgmt_octet}}.157
+vdc-{{lab_name}}-vh1d            IN A    10.220.{{mgmt_octet}}.158
+vdc-{{lab_name}}-vh1e            IN A    10.220.{{mgmt_octet}}.159
+vdc-{{lab_name}}-vh1f            IN A    10.220.{{mgmt_octet}}.160
+vdc-{{lab_name}}-vh20            IN A    10.220.{{mgmt_octet}}.161
+vdc-{{lab_name}}-vh21            IN A    10.220.{{mgmt_octet}}.162
+vdc-{{lab_name}}-vh22            IN A    10.220.{{mgmt_octet}}.163
+vdc-{{lab_name}}-vh23            IN A    10.220.{{mgmt_octet}}.164
+vdc-{{lab_name}}-vh24            IN A    10.220.{{mgmt_octet}}.165
+vdc-{{lab_name}}-vh25            IN A    10.220.{{mgmt_octet}}.166
+vdc-{{lab_name}}-vh26            IN A    10.220.{{mgmt_octet}}.167
+vdc-{{lab_name}}-vh27            IN A    10.220.{{mgmt_octet}}.168
+vdc-{{lab_name}}-vh28            IN A    10.220.{{mgmt_octet}}.169
+vdc-{{lab_name}}-vh29            IN A    10.220.{{mgmt_octet}}.170
+vdc-{{lab_name}}-vh2a            IN A    10.220.{{mgmt_octet}}.171
+vdc-{{lab_name}}-vh2b            IN A    10.220.{{mgmt_octet}}.172
+vdc-{{lab_name}}-vh2c            IN A    10.220.{{mgmt_octet}}.173
+vdc-{{lab_name}}-vh2d            IN A    10.220.{{mgmt_octet}}.174
+vdc-{{lab_name}}-vh2e            IN A    10.220.{{mgmt_octet}}.175
+vdc-{{lab_name}}-vh2f            IN A    10.220.{{mgmt_octet}}.176
+vdc-{{lab_name}}-vh30            IN A    10.220.{{mgmt_octet}}.177
+vdc-{{lab_name}}-vh31            IN A    10.220.{{mgmt_octet}}.178
+vdc-{{lab_name}}-vh32            IN A    10.220.{{mgmt_octet}}.179
+vdc-{{lab_name}}-vh33            IN A    10.220.{{mgmt_octet}}.180
+vdc-{{lab_name}}-vh34            IN A    10.220.{{mgmt_octet}}.181
+vdc-{{lab_name}}-vh35            IN A    10.220.{{mgmt_octet}}.182
+vdc-{{lab_name}}-vh36            IN A    10.220.{{mgmt_octet}}.183
+vdc-{{lab_name}}-vh37            IN A    10.220.{{mgmt_octet}}.184
+vdc-{{lab_name}}-vh38            IN A    10.220.{{mgmt_octet}}.185
+vdc-{{lab_name}}-vh39            IN A    10.220.{{mgmt_octet}}.186
+vdc-{{lab_name}}-vh3a            IN A    10.220.{{mgmt_octet}}.187
+vdc-{{lab_name}}-vh3b            IN A    10.220.{{mgmt_octet}}.188
+vdc-{{lab_name}}-vh3c            IN A    10.220.{{mgmt_octet}}.189
+vdc-{{lab_name}}-vh3d            IN A    10.220.{{mgmt_octet}}.190
+vdc-{{lab_name}}-vh3e            IN A    10.220.{{mgmt_octet}}.191
+vdc-{{lab_name}}-vh3f            IN A    10.220.{{mgmt_octet}}.192
+vdc-{{lab_name}}-vh40            IN A    10.220.{{mgmt_octet}}.193
+vdc-{{lab_name}}-vh41            IN A    10.220.{{mgmt_octet}}.194
+vdc-{{lab_name}}-vh42            IN A    10.220.{{mgmt_octet}}.195
+vdc-{{lab_name}}-vh43            IN A    10.220.{{mgmt_octet}}.196
+vdc-{{lab_name}}-vh44            IN A    10.220.{{mgmt_octet}}.197
+vdc-{{lab_name}}-vh45            IN A    10.220.{{mgmt_octet}}.198
+vdc-{{lab_name}}-vh46            IN A    10.220.{{mgmt_octet}}.199
+vdc-{{lab_name}}-vh47            IN A    10.220.{{mgmt_octet}}.200
+vdc-{{lab_name}}-vh48            IN A    10.220.{{mgmt_octet}}.201
+vdc-{{lab_name}}-vh49            IN A    10.220.{{mgmt_octet}}.202
+vdc-{{lab_name}}-vh4a            IN A    10.220.{{mgmt_octet}}.203
+vdc-{{lab_name}}-vh4b            IN A    10.220.{{mgmt_octet}}.204
+vdc-{{lab_name}}-vh4c            IN A    10.220.{{mgmt_octet}}.205
+vdc-{{lab_name}}-vh4d            IN A    10.220.{{mgmt_octet}}.206
+vdc-{{lab_name}}-vh4e            IN A    10.220.{{mgmt_octet}}.207
+vdc-{{lab_name}}-vh4f            IN A    10.220.{{mgmt_octet}}.208
+vdc-{{lab_name}}-vh50            IN A    10.220.{{mgmt_octet}}.209
+vdc-{{lab_name}}-vh51            IN A    10.220.{{mgmt_octet}}.210
+vdc-{{lab_name}}-vh52            IN A    10.220.{{mgmt_octet}}.211
+vdc-{{lab_name}}-vh53            IN A    10.220.{{mgmt_octet}}.212
+vdc-{{lab_name}}-vh54            IN A    10.220.{{mgmt_octet}}.213
+vdc-{{lab_name}}-vh55            IN A    10.220.{{mgmt_octet}}.214
+vdc-{{lab_name}}-vh56            IN A    10.220.{{mgmt_octet}}.215
+vdc-{{lab_name}}-vh57            IN A    10.220.{{mgmt_octet}}.216
+vdc-{{lab_name}}-vh58            IN A    10.220.{{mgmt_octet}}.217
+vdc-{{lab_name}}-vh59            IN A    10.220.{{mgmt_octet}}.218
+; NFS: 219 left spare, 220-227 for 1st zone's secondary storage VMs, 228-235 for 2nd zone's secondary storage VMs, 236 left spare, from 237 for man servers and storage devices
+;vdc-{{lab_name}}-vh5a            IN A    10.220.{{mgmt_octet}}.219
+;vdc-{{lab_name}}-vh5b            IN A    10.220.{{mgmt_octet}}.220
+;vdc-{{lab_name}}-vh5c            IN A    10.220.{{mgmt_octet}}.221
+;vdc-{{lab_name}}-vh5d            IN A    10.220.{{mgmt_octet}}.222
+;vdc-{{lab_name}}-vh5e            IN A    10.220.{{mgmt_octet}}.223
+;vdc-{{lab_name}}-vh5f            IN A    10.220.{{mgmt_octet}}.224
+
+vdc-{{lab_name}}-cpman1          IN A    10.220.{{mgmt_octet}}.237
+vdc-{{lab_name}}-cpman2          IN A    10.220.{{mgmt_octet}}.238
+vdc-{{lab_name}}-sa01            IN A    10.220.{{mgmt_octet}}.241
+vdc-{{lab_name}}-sa02            IN A    10.220.{{mgmt_octet}}.242
+vdc-{{lab_name}}-sa03            IN A    10.220.{{mgmt_octet}}.243
+vdc-{{lab_name}}-sa04            IN A    10.220.{{mgmt_octet}}.244
+vdc-{{lab_name}}-sa05            IN A    10.220.{{mgmt_octet}}.245
+vdc-{{lab_name}}-sa06            IN A    10.220.{{mgmt_octet}}.246
+vdc-{{lab_name}}-sa07            IN A    10.220.{{mgmt_octet}}.247
+vdc-{{lab_name}}-sa08            IN A    10.220.{{mgmt_octet}}.248
+vdc-{{lab_name}}-sa09            IN A    10.220.{{mgmt_octet}}.249
+vdc-{{lab_name}}-sa10            IN A    10.220.{{mgmt_octet}}.250
+
+
+;; ESX          esx.{{lab_name}}.cp.vdc    10.220.{{esx_octet}}.0/22
+$ORIGIN esx.{{lab_name}}.cp.vdc.
+vdc-{{lab_name}}-vh00            IN A    10.220.{{esx_octet}}.1
+vdc-{{lab_name}}-vh01            IN A    10.220.{{esx_octet}}.2
+vdc-{{lab_name}}-vh02            IN A    10.220.{{esx_octet}}.3
+vdc-{{lab_name}}-vh03            IN A    10.220.{{esx_octet}}.4
+vdc-{{lab_name}}-vh04            IN A    10.220.{{esx_octet}}.5
+vdc-{{lab_name}}-vh05            IN A    10.220.{{esx_octet}}.6
+vdc-{{lab_name}}-vh06            IN A    10.220.{{esx_octet}}.7
+vdc-{{lab_name}}-vh07            IN A    10.220.{{esx_octet}}.8
+vdc-{{lab_name}}-vh08            IN A    10.220.{{esx_octet}}.9
+vdc-{{lab_name}}-vh09            IN A    10.220.{{esx_octet}}.10
+vdc-{{lab_name}}-vh0a            IN A    10.220.{{esx_octet}}.11
+vdc-{{lab_name}}-vh0b            IN A    10.220.{{esx_octet}}.12
+vdc-{{lab_name}}-vh0c            IN A    10.220.{{esx_octet}}.13
+vdc-{{lab_name}}-vh0d            IN A    10.220.{{esx_octet}}.14
+vdc-{{lab_name}}-vh0e            IN A    10.220.{{esx_octet}}.15
+vdc-{{lab_name}}-vh0f            IN A    10.220.{{esx_octet}}.16
+vdc-{{lab_name}}-vh10            IN A    10.220.{{esx_octet}}.17
+vdc-{{lab_name}}-vh11            IN A    10.220.{{esx_octet}}.18
+vdc-{{lab_name}}-vh12            IN A    10.220.{{esx_octet}}.19
+vdc-{{lab_name}}-vh13            IN A    10.220.{{esx_octet}}.20
+vdc-{{lab_name}}-vh14            IN A    10.220.{{esx_octet}}.21
+vdc-{{lab_name}}-vh15            IN A    10.220.{{esx_octet}}.22
+vdc-{{lab_name}}-vh16            IN A    10.220.{{esx_octet}}.23
+vdc-{{lab_name}}-vh17            IN A    10.220.{{esx_octet}}.24
+vdc-{{lab_name}}-vh18            IN A    10.220.{{esx_octet}}.25
+vdc-{{lab_name}}-vh19            IN A    10.220.{{esx_octet}}.26
+vdc-{{lab_name}}-vh1a            IN A    10.220.{{esx_octet}}.27
+vdc-{{lab_name}}-vh1b            IN A    10.220.{{esx_octet}}.28
+vdc-{{lab_name}}-vh1c            IN A    10.220.{{esx_octet}}.29
+vdc-{{lab_name}}-vh1d            IN A    10.220.{{esx_octet}}.30
+vdc-{{lab_name}}-vh1e            IN A    10.220.{{esx_octet}}.31
+vdc-{{lab_name}}-vh1f            IN A    10.220.{{esx_octet}}.32
+vdc-{{lab_name}}-vh20            IN A    10.220.{{esx_octet}}.33
+vdc-{{lab_name}}-vh21            IN A    10.220.{{esx_octet}}.34
+vdc-{{lab_name}}-vh22            IN A    10.220.{{esx_octet}}.35
+vdc-{{lab_name}}-vh23            IN A    10.220.{{esx_octet}}.36
+vdc-{{lab_name}}-vh24            IN A    10.220.{{esx_octet}}.37
+vdc-{{lab_name}}-vh25            IN A    10.220.{{esx_octet}}.38
+vdc-{{lab_name}}-vh26            IN A    10.220.{{esx_octet}}.39
+vdc-{{lab_name}}-vh27            IN A    10.220.{{esx_octet}}.40
+vdc-{{lab_name}}-vh28            IN A    10.220.{{esx_octet}}.41
+vdc-{{lab_name}}-vh29            IN A    10.220.{{esx_octet}}.42
+vdc-{{lab_name}}-vh2a            IN A    10.220.{{esx_octet}}.43
+vdc-{{lab_name}}-vh2b            IN A    10.220.{{esx_octet}}.44
+vdc-{{lab_name}}-vh2c            IN A    10.220.{{esx_octet}}.45
+vdc-{{lab_name}}-vh2d            IN A    10.220.{{esx_octet}}.46
+vdc-{{lab_name}}-vh2e            IN A    10.220.{{esx_octet}}.47
+vdc-{{lab_name}}-vh2f            IN A    10.220.{{esx_octet}}.48
+vdc-{{lab_name}}-vh30            IN A    10.220.{{esx_octet}}.49
+vdc-{{lab_name}}-vh31            IN A    10.220.{{esx_octet}}.50
+vdc-{{lab_name}}-vh32            IN A    10.220.{{esx_octet}}.51
+vdc-{{lab_name}}-vh33            IN A    10.220.{{esx_octet}}.52
+vdc-{{lab_name}}-vh34            IN A    10.220.{{esx_octet}}.53
+vdc-{{lab_name}}-vh35            IN A    10.220.{{esx_octet}}.54
+vdc-{{lab_name}}-vh36            IN A    10.220.{{esx_octet}}.55
+vdc-{{lab_name}}-vh37            IN A    10.220.{{esx_octet}}.56
+vdc-{{lab_name}}-vh38            IN A    10.220.{{esx_octet}}.57
+vdc-{{lab_name}}-vh39            IN A    10.220.{{esx_octet}}.58
+vdc-{{lab_name}}-vh3a            IN A    10.220.{{esx_octet}}.59
+vdc-{{lab_name}}-vh3b            IN A    10.220.{{esx_octet}}.60
+vdc-{{lab_name}}-vh3c            IN A    10.220.{{esx_octet}}.61
+vdc-{{lab_name}}-vh3d            IN A    10.220.{{esx_octet}}.62
+vdc-{{lab_name}}-vh3e            IN A    10.220.{{esx_octet}}.63
+vdc-{{lab_name}}-vh3f            IN A    10.220.{{esx_octet}}.64
+vdc-{{lab_name}}-vh40            IN A    10.220.{{esx_octet}}.65
+vdc-{{lab_name}}-vh41            IN A    10.220.{{esx_octet}}.66
+vdc-{{lab_name}}-vh42            IN A    10.220.{{esx_octet}}.67
+vdc-{{lab_name}}-vh43            IN A    10.220.{{esx_octet}}.68
+vdc-{{lab_name}}-vh44            IN A    10.220.{{esx_octet}}.69
+vdc-{{lab_name}}-vh45            IN A    10.220.{{esx_octet}}.70
+vdc-{{lab_name}}-vh46            IN A    10.220.{{esx_octet}}.71
+vdc-{{lab_name}}-vh47            IN A    10.220.{{esx_octet}}.72
+vdc-{{lab_name}}-vh48            IN A    10.220.{{esx_octet}}.73
+vdc-{{lab_name}}-vh49            IN A    10.220.{{esx_octet}}.74
+vdc-{{lab_name}}-vh4a            IN A    10.220.{{esx_octet}}.75
+vdc-{{lab_name}}-vh4b            IN A    10.220.{{esx_octet}}.76
+vdc-{{lab_name}}-vh4c            IN A    10.220.{{esx_octet}}.77
+vdc-{{lab_name}}-vh4d            IN A    10.220.{{esx_octet}}.78
+vdc-{{lab_name}}-vh4e            IN A    10.220.{{esx_octet}}.79
+vdc-{{lab_name}}-vh4f            IN A    10.220.{{esx_octet}}.80
+vdc-{{lab_name}}-vh50            IN A    10.220.{{esx_octet}}.81
+vdc-{{lab_name}}-vh51            IN A    10.220.{{esx_octet}}.82
+vdc-{{lab_name}}-vh52            IN A    10.220.{{esx_octet}}.83
+vdc-{{lab_name}}-vh53            IN A    10.220.{{esx_octet}}.84
+vdc-{{lab_name}}-vh54            IN A    10.220.{{esx_octet}}.85
+vdc-{{lab_name}}-vh55            IN A    10.220.{{esx_octet}}.86
+vdc-{{lab_name}}-vh56            IN A    10.220.{{esx_octet}}.87
+vdc-{{lab_name}}-vh57            IN A    10.220.{{esx_octet}}.88
+vdc-{{lab_name}}-vh58            IN A    10.220.{{esx_octet}}.89
+vdc-{{lab_name}}-vh59            IN A    10.220.{{esx_octet}}.90
+vdc-{{lab_name}}-vh5a            IN A    10.220.{{esx_octet}}.91
+vdc-{{lab_name}}-vh5b            IN A    10.220.{{esx_octet}}.92
+vdc-{{lab_name}}-vh5c            IN A    10.220.{{esx_octet}}.93
+vdc-{{lab_name}}-vh5d            IN A    10.220.{{esx_octet}}.94
+vdc-{{lab_name}}-vh5e            IN A    10.220.{{esx_octet}}.95
+vdc-{{lab_name}}-vh5f            IN A    10.220.{{esx_octet}}.96
+
+
+
+;; KVM          kvm.{{lab_name}}.cp.vdc    10.220.{{kvm_octet}}.0/25
+$ORIGIN kvm.{{lab_name}}.cp.vdc.
+vdc-{{lab_name}}-vh00            IN A    10.220.{{kvm_octet}}.1
+vdc-{{lab_name}}-vh01            IN A    10.220.{{kvm_octet}}.2
+vdc-{{lab_name}}-vh02            IN A    10.220.{{kvm_octet}}.3
+vdc-{{lab_name}}-vh03            IN A    10.220.{{kvm_octet}}.4
+vdc-{{lab_name}}-vh04            IN A    10.220.{{kvm_octet}}.5
+vdc-{{lab_name}}-vh05            IN A    10.220.{{kvm_octet}}.6
+vdc-{{lab_name}}-vh06            IN A    10.220.{{kvm_octet}}.7
+vdc-{{lab_name}}-vh07            IN A    10.220.{{kvm_octet}}.8
+vdc-{{lab_name}}-vh08            IN A    10.220.{{kvm_octet}}.9
+vdc-{{lab_name}}-vh09            IN A    10.220.{{kvm_octet}}.10
+vdc-{{lab_name}}-vh0a            IN A    10.220.{{kvm_octet}}.11
+vdc-{{lab_name}}-vh0b            IN A    10.220.{{kvm_octet}}.12
+vdc-{{lab_name}}-vh0c            IN A    10.220.{{kvm_octet}}.13
+vdc-{{lab_name}}-vh0d            IN A    10.220.{{kvm_octet}}.14
+vdc-{{lab_name}}-vh0e            IN A    10.220.{{kvm_octet}}.15
+vdc-{{lab_name}}-vh0f            IN A    10.220.{{kvm_octet}}.16
+vdc-{{lab_name}}-vh10            IN A    10.220.{{kvm_octet}}.17
+vdc-{{lab_name}}-vh11            IN A    10.220.{{kvm_octet}}.18
+vdc-{{lab_name}}-vh12            IN A    10.220.{{kvm_octet}}.19
+vdc-{{lab_name}}-vh13            IN A    10.220.{{kvm_octet}}.20
+vdc-{{lab_name}}-vh14            IN A    10.220.{{kvm_octet}}.21
+vdc-{{lab_name}}-vh15            IN A    10.220.{{kvm_octet}}.22
+vdc-{{lab_name}}-vh16            IN A    10.220.{{kvm_octet}}.23
+vdc-{{lab_name}}-vh17            IN A    10.220.{{kvm_octet}}.24
+vdc-{{lab_name}}-vh18            IN A    10.220.{{kvm_octet}}.25
+vdc-{{lab_name}}-vh19            IN A    10.220.{{kvm_octet}}.26
+vdc-{{lab_name}}-vh1a            IN A    10.220.{{kvm_octet}}.27
+vdc-{{lab_name}}-vh1b            IN A    10.220.{{kvm_octet}}.28
+vdc-{{lab_name}}-vh1c            IN A    10.220.{{kvm_octet}}.29
+vdc-{{lab_name}}-vh1d            IN A    10.220.{{kvm_octet}}.30
+vdc-{{lab_name}}-vh1e            IN A    10.220.{{kvm_octet}}.31
+vdc-{{lab_name}}-vh1f            IN A    10.220.{{kvm_octet}}.32
+vdc-{{lab_name}}-vh20            IN A    10.220.{{kvm_octet}}.33
+vdc-{{lab_name}}-vh21            IN A    10.220.{{kvm_octet}}.34
+vdc-{{lab_name}}-vh22            IN A    10.220.{{kvm_octet}}.35
+vdc-{{lab_name}}-vh23            IN A    10.220.{{kvm_octet}}.36
+vdc-{{lab_name}}-vh24            IN A    10.220.{{kvm_octet}}.37
+vdc-{{lab_name}}-vh25            IN A    10.220.{{kvm_octet}}.38
+vdc-{{lab_name}}-vh26            IN A    10.220.{{kvm_octet}}.39
+vdc-{{lab_name}}-vh27            IN A    10.220.{{kvm_octet}}.40
+vdc-{{lab_name}}-vh28            IN A    10.220.{{kvm_octet}}.41
+vdc-{{lab_name}}-vh29            IN A    10.220.{{kvm_octet}}.42
+vdc-{{lab_name}}-vh2a            IN A    10.220.{{kvm_octet}}.43
+vdc-{{lab_name}}-vh2b            IN A    10.220.{{kvm_octet}}.44
+vdc-{{lab_name}}-vh2c            IN A    10.220.{{kvm_octet}}.45
+vdc-{{lab_name}}-vh2d            IN A    10.220.{{kvm_octet}}.46
+vdc-{{lab_name}}-vh2e            IN A    10.220.{{kvm_octet}}.47
+vdc-{{lab_name}}-vh2f            IN A    10.220.{{kvm_octet}}.48
+vdc-{{lab_name}}-vh30            IN A    10.220.{{kvm_octet}}.49
+vdc-{{lab_name}}-vh31            IN A    10.220.{{kvm_octet}}.50
+vdc-{{lab_name}}-vh32            IN A    10.220.{{kvm_octet}}.51
+vdc-{{lab_name}}-vh33            IN A    10.220.{{kvm_octet}}.52
+vdc-{{lab_name}}-vh34            IN A    10.220.{{kvm_octet}}.53
+vdc-{{lab_name}}-vh35            IN A    10.220.{{kvm_octet}}.54
+vdc-{{lab_name}}-vh36            IN A    10.220.{{kvm_octet}}.55
+vdc-{{lab_name}}-vh37            IN A    10.220.{{kvm_octet}}.56
+vdc-{{lab_name}}-vh38            IN A    10.220.{{kvm_octet}}.57
+vdc-{{lab_name}}-vh39            IN A    10.220.{{kvm_octet}}.58
+vdc-{{lab_name}}-vh3a            IN A    10.220.{{kvm_octet}}.59
+vdc-{{lab_name}}-vh3b            IN A    10.220.{{kvm_octet}}.60
+vdc-{{lab_name}}-vh3c            IN A    10.220.{{kvm_octet}}.61
+vdc-{{lab_name}}-vh3d            IN A    10.220.{{kvm_octet}}.62
+vdc-{{lab_name}}-vh3e            IN A    10.220.{{kvm_octet}}.63
+vdc-{{lab_name}}-vh3f            IN A    10.220.{{kvm_octet}}.64
+vdc-{{lab_name}}-vh40            IN A    10.220.{{kvm_octet}}.65
+vdc-{{lab_name}}-vh41            IN A    10.220.{{kvm_octet}}.66
+vdc-{{lab_name}}-vh42            IN A    10.220.{{kvm_octet}}.67
+vdc-{{lab_name}}-vh43            IN A    10.220.{{kvm_octet}}.68
+vdc-{{lab_name}}-vh44            IN A    10.220.{{kvm_octet}}.69
+vdc-{{lab_name}}-vh45            IN A    10.220.{{kvm_octet}}.70
+vdc-{{lab_name}}-vh46            IN A    10.220.{{kvm_octet}}.71
+vdc-{{lab_name}}-vh47            IN A    10.220.{{kvm_octet}}.72
+vdc-{{lab_name}}-vh48            IN A    10.220.{{kvm_octet}}.73
+vdc-{{lab_name}}-vh49            IN A    10.220.{{kvm_octet}}.74
+vdc-{{lab_name}}-vh4a            IN A    10.220.{{kvm_octet}}.75
+vdc-{{lab_name}}-vh4b            IN A    10.220.{{kvm_octet}}.76
+vdc-{{lab_name}}-vh4c            IN A    10.220.{{kvm_octet}}.77
+vdc-{{lab_name}}-vh4d            IN A    10.220.{{kvm_octet}}.78
+vdc-{{lab_name}}-vh4e            IN A    10.220.{{kvm_octet}}.79
+vdc-{{lab_name}}-vh4f            IN A    10.220.{{kvm_octet}}.80
+vdc-{{lab_name}}-vh50            IN A    10.220.{{kvm_octet}}.81
+vdc-{{lab_name}}-vh51            IN A    10.220.{{kvm_octet}}.82
+vdc-{{lab_name}}-vh52            IN A    10.220.{{kvm_octet}}.83
+vdc-{{lab_name}}-vh53            IN A    10.220.{{kvm_octet}}.84
+vdc-{{lab_name}}-vh54            IN A    10.220.{{kvm_octet}}.85
+vdc-{{lab_name}}-vh55            IN A    10.220.{{kvm_octet}}.86
+vdc-{{lab_name}}-vh56            IN A    10.220.{{kvm_octet}}.87
+vdc-{{lab_name}}-vh57            IN A    10.220.{{kvm_octet}}.88
+vdc-{{lab_name}}-vh58            IN A    10.220.{{kvm_octet}}.89
+vdc-{{lab_name}}-vh59            IN A    10.220.{{kvm_octet}}.90
+vdc-{{lab_name}}-vh5a            IN A    10.220.{{kvm_octet}}.91
+vdc-{{lab_name}}-vh5b            IN A    10.220.{{kvm_octet}}.92
+vdc-{{lab_name}}-vh5c            IN A    10.220.{{kvm_octet}}.93
+vdc-{{lab_name}}-vh5d            IN A    10.220.{{kvm_octet}}.94
+vdc-{{lab_name}}-vh5e            IN A    10.220.{{kvm_octet}}.95
+vdc-{{lab_name}}-vh5f            IN A    10.220.{{kvm_octet}}.96
+
+
+
+;; XEN          xen.{{lab_name}}.cp.vdc    10.220.{{xen_octet}}.128/25
+$ORIGIN xen.{{lab_name}}.cp.vdc.
+vdc-{{lab_name}}-vh00            IN A    10.220.{{xen_octet}}.129
+vdc-{{lab_name}}-vh01            IN A    10.220.{{xen_octet}}.130
+vdc-{{lab_name}}-vh02            IN A    10.220.{{xen_octet}}.131
+vdc-{{lab_name}}-vh03            IN A    10.220.{{xen_octet}}.132
+vdc-{{lab_name}}-vh04            IN A    10.220.{{xen_octet}}.133
+vdc-{{lab_name}}-vh05            IN A    10.220.{{xen_octet}}.134
+vdc-{{lab_name}}-vh06            IN A    10.220.{{xen_octet}}.135
+vdc-{{lab_name}}-vh07            IN A    10.220.{{xen_octet}}.136
+vdc-{{lab_name}}-vh08            IN A    10.220.{{xen_octet}}.137
+vdc-{{lab_name}}-vh09            IN A    10.220.{{xen_octet}}.138
+vdc-{{lab_name}}-vh0a            IN A    10.220.{{xen_octet}}.139
+vdc-{{lab_name}}-vh0b            IN A    10.220.{{xen_octet}}.140
+vdc-{{lab_name}}-vh0c            IN A    10.220.{{xen_octet}}.141
+vdc-{{lab_name}}-vh0d            IN A    10.220.{{xen_octet}}.142
+vdc-{{lab_name}}-vh0e            IN A    10.220.{{xen_octet}}.143
+vdc-{{lab_name}}-vh0f            IN A    10.220.{{xen_octet}}.144
+vdc-{{lab_name}}-vh10            IN A    10.220.{{xen_octet}}.145
+vdc-{{lab_name}}-vh11            IN A    10.220.{{xen_octet}}.146
+vdc-{{lab_name}}-vh12            IN A    10.220.{{xen_octet}}.147
+vdc-{{lab_name}}-vh13            IN A    10.220.{{xen_octet}}.148
+vdc-{{lab_name}}-vh14            IN A    10.220.{{xen_octet}}.149
+vdc-{{lab_name}}-vh15            IN A    10.220.{{xen_octet}}.150
+vdc-{{lab_name}}-vh16            IN A    10.220.{{xen_octet}}.151
+vdc-{{lab_name}}-vh17            IN A    10.220.{{xen_octet}}.152
+vdc-{{lab_name}}-vh18            IN A    10.220.{{xen_octet}}.153
+vdc-{{lab_name}}-vh19            IN A    10.220.{{xen_octet}}.154
+vdc-{{lab_name}}-vh1a            IN A    10.220.{{xen_octet}}.155
+vdc-{{lab_name}}-vh1b            IN A    10.220.{{xen_octet}}.156
+vdc-{{lab_name}}-vh1c            IN A    10.220.{{xen_octet}}.157
+vdc-{{lab_name}}-vh1d            IN A    10.220.{{xen_octet}}.158
+vdc-{{lab_name}}-vh1e            IN A    10.220.{{xen_octet}}.159
+vdc-{{lab_name}}-vh1f            IN A    10.220.{{xen_octet}}.160
+vdc-{{lab_name}}-vh20            IN A    10.220.{{xen_octet}}.161
+vdc-{{lab_name}}-vh21            IN A    10.220.{{xen_octet}}.162
+vdc-{{lab_name}}-vh22            IN A    10.220.{{xen_octet}}.163
+vdc-{{lab_name}}-vh23            IN A    10.220.{{xen_octet}}.164
+vdc-{{lab_name}}-vh24            IN A    10.220.{{xen_octet}}.165
+vdc-{{lab_name}}-vh25            IN A    10.220.{{xen_octet}}.166
+vdc-{{lab_name}}-vh26            IN A    10.220.{{xen_octet}}.167
+vdc-{{lab_name}}-vh27            IN A    10.220.{{xen_octet}}.168
+vdc-{{lab_name}}-vh28            IN A    10.220.{{xen_octet}}.169
+vdc-{{lab_name}}-vh29            IN A    10.220.{{xen_octet}}.170
+vdc-{{lab_name}}-vh2a            IN A    10.220.{{xen_octet}}.171
+vdc-{{lab_name}}-vh2b            IN A    10.220.{{xen_octet}}.172
+vdc-{{lab_name}}-vh2c            IN A    10.220.{{xen_octet}}.173
+vdc-{{lab_name}}-vh2d            IN A    10.220.{{xen_octet}}.174
+vdc-{{lab_name}}-vh2e            IN A    10.220.{{xen_octet}}.175
+vdc-{{lab_name}}-vh2f            IN A    10.220.{{xen_octet}}.176
+vdc-{{lab_name}}-vh30            IN A    10.220.{{xen_octet}}.177
+vdc-{{lab_name}}-vh31            IN A    10.220.{{xen_octet}}.178
+vdc-{{lab_name}}-vh32            IN A    10.220.{{xen_octet}}.179
+vdc-{{lab_name}}-vh33            IN A    10.220.{{xen_octet}}.180
+vdc-{{lab_name}}-vh34            IN A    10.220.{{xen_octet}}.181
+vdc-{{lab_name}}-vh35            IN A    10.220.{{xen_octet}}.182
+vdc-{{lab_name}}-vh36            IN A    10.220.{{xen_octet}}.183
+vdc-{{lab_name}}-vh37            IN A    10.220.{{xen_octet}}.184
+vdc-{{lab_name}}-vh38            IN A    10.220.{{xen_octet}}.185
+vdc-{{lab_name}}-vh39            IN A    10.220.{{xen_octet}}.186
+vdc-{{lab_name}}-vh3a            IN A    10.220.{{xen_octet}}.187
+vdc-{{lab_name}}-vh3b            IN A    10.220.{{xen_octet}}.188
+vdc-{{lab_name}}-vh3c            IN A    10.220.{{xen_octet}}.189
+vdc-{{lab_name}}-vh3d            IN A    10.220.{{xen_octet}}.190
+vdc-{{lab_name}}-vh3e            IN A    10.220.{{xen_octet}}.191
+vdc-{{lab_name}}-vh3f            IN A    10.220.{{xen_octet}}.192
+vdc-{{lab_name}}-vh40            IN A    10.220.{{xen_octet}}.193
+vdc-{{lab_name}}-vh41            IN A    10.220.{{xen_octet}}.194
+vdc-{{lab_name}}-vh42            IN A    10.220.{{xen_octet}}.195
+vdc-{{lab_name}}-vh43            IN A    10.220.{{xen_octet}}.196
+vdc-{{lab_name}}-vh44            IN A    10.220.{{xen_octet}}.197
+vdc-{{lab_name}}-vh45            IN A    10.220.{{xen_octet}}.198
+vdc-{{lab_name}}-vh46            IN A    10.220.{{xen_octet}}.199
+vdc-{{lab_name}}-vh47            IN A    10.220.{{xen_octet}}.200
+vdc-{{lab_name}}-vh48            IN A    10.220.{{xen_octet}}.201
+vdc-{{lab_name}}-vh49            IN A    10.220.{{xen_octet}}.202
+vdc-{{lab_name}}-vh4a            IN A    10.220.{{xen_octet}}.203
+vdc-{{lab_name}}-vh4b            IN A    10.220.{{xen_octet}}.204
+vdc-{{lab_name}}-vh4c            IN A    10.220.{{xen_octet}}.205
+vdc-{{lab_name}}-vh4d            IN A    10.220.{{xen_octet}}.206
+vdc-{{lab_name}}-vh4e            IN A    10.220.{{xen_octet}}.207
+vdc-{{lab_name}}-vh4f            IN A    10.220.{{xen_octet}}.208
+vdc-{{lab_name}}-vh50            IN A    10.220.{{xen_octet}}.209
+vdc-{{lab_name}}-vh51            IN A    10.220.{{xen_octet}}.210
+vdc-{{lab_name}}-vh52            IN A    10.220.{{xen_octet}}.211
+vdc-{{lab_name}}-vh53            IN A    10.220.{{xen_octet}}.212
+vdc-{{lab_name}}-vh54            IN A    10.220.{{xen_octet}}.213
+vdc-{{lab_name}}-vh55            IN A    10.220.{{xen_octet}}.214
+vdc-{{lab_name}}-vh56            IN A    10.220.{{xen_octet}}.215
+vdc-{{lab_name}}-vh57            IN A    10.220.{{xen_octet}}.216
+vdc-{{lab_name}}-vh58            IN A    10.220.{{xen_octet}}.217
+vdc-{{lab_name}}-vh59            IN A    10.220.{{xen_octet}}.218
+vdc-{{lab_name}}-vh5a            IN A    10.220.{{xen_octet}}.219
+vdc-{{lab_name}}-vh5b            IN A    10.220.{{xen_octet}}.220
+vdc-{{lab_name}}-vh5c            IN A    10.220.{{xen_octet}}.221
+vdc-{{lab_name}}-vh5d            IN A    10.220.{{xen_octet}}.222
+vdc-{{lab_name}}-vh5e            IN A    10.220.{{xen_octet}}.223
+vdc-{{lab_name}}-vh5f            IN A    10.220.{{xen_octet}}.224
+
+
+;; iSCSI1       iscs1.{{lab_name}}.cp.vdc  10.220.{{iscsi_octet}}.0/25
+$ORIGIN iscsi1.{{lab_name}}.cp.vdc.
+vdc-{{lab_name}}-vh00            IN A    10.220.{{iscsi_octet}}.1
+vdc-{{lab_name}}-vh01            IN A    10.220.{{iscsi_octet}}.2
+vdc-{{lab_name}}-vh02            IN A    10.220.{{iscsi_octet}}.3
+vdc-{{lab_name}}-vh03            IN A    10.220.{{iscsi_octet}}.4
+vdc-{{lab_name}}-vh04            IN A    10.220.{{iscsi_octet}}.5
+vdc-{{lab_name}}-vh05            IN A    10.220.{{iscsi_octet}}.6
+vdc-{{lab_name}}-vh06            IN A    10.220.{{iscsi_octet}}.7
+vdc-{{lab_name}}-vh07            IN A    10.220.{{iscsi_octet}}.8
+vdc-{{lab_name}}-vh08            IN A    10.220.{{iscsi_octet}}.9
+vdc-{{lab_name}}-vh09            IN A    10.220.{{iscsi_octet}}.10
+vdc-{{lab_name}}-vh0a            IN A    10.220.{{iscsi_octet}}.11
+vdc-{{lab_name}}-vh0b            IN A    10.220.{{iscsi_octet}}.12
+vdc-{{lab_name}}-vh0c            IN A    10.220.{{iscsi_octet}}.13
+vdc-{{lab_name}}-vh0d            IN A    10.220.{{iscsi_octet}}.14
+vdc-{{lab_name}}-vh0e            IN A    10.220.{{iscsi_octet}}.15
+vdc-{{lab_name}}-vh0f            IN A    10.220.{{iscsi_octet}}.16
+vdc-{{lab_name}}-vh10            IN A    10.220.{{iscsi_octet}}.17
+vdc-{{lab_name}}-vh11            IN A    10.220.{{iscsi_octet}}.18
+vdc-{{lab_name}}-vh12            IN A    10.220.{{iscsi_octet}}.19
+vdc-{{lab_name}}-vh13            IN A    10.220.{{iscsi_octet}}.20
+vdc-{{lab_name}}-vh14            IN A    10.220.{{iscsi_octet}}.21
+vdc-{{lab_name}}-vh15            IN A    10.220.{{iscsi_octet}}.22
+vdc-{{lab_name}}-vh16            IN A    10.220.{{iscsi_octet}}.23
+vdc-{{lab_name}}-vh17            IN A    10.220.{{iscsi_octet}}.24
+vdc-{{lab_name}}-vh18            IN A    10.220.{{iscsi_octet}}.25
+vdc-{{lab_name}}-vh19            IN A    10.220.{{iscsi_octet}}.26
+vdc-{{lab_name}}-vh1a            IN A    10.220.{{iscsi_octet}}.27
+vdc-{{lab_name}}-vh1b            IN A    10.220.{{iscsi_octet}}.28
+vdc-{{lab_name}}-vh1c            IN A    10.220.{{iscsi_octet}}.29
+vdc-{{lab_name}}-vh1d            IN A    10.220.{{iscsi_octet}}.30
+vdc-{{lab_name}}-vh1e            IN A    10.220.{{iscsi_octet}}.31
+vdc-{{lab_name}}-vh1f            IN A    10.220.{{iscsi_octet}}.32
+vdc-{{lab_name}}-vh20            IN A    10.220.{{iscsi_octet}}.33
+vdc-{{lab_name}}-vh21            IN A    10.220.{{iscsi_octet}}.34
+vdc-{{lab_name}}-vh22            IN A    10.220.{{iscsi_octet}}.35
+vdc-{{lab_name}}-vh23            IN A    10.220.{{iscsi_octet}}.36
+vdc-{{lab_name}}-vh24            IN A    10.220.{{iscsi_octet}}.37
+vdc-{{lab_name}}-vh25            IN A    10.220.{{iscsi_octet}}.38
+vdc-{{lab_name}}-vh26            IN A    10.220.{{iscsi_octet}}.39
+vdc-{{lab_name}}-vh27            IN A    10.220.{{iscsi_octet}}.40
+vdc-{{lab_name}}-vh28            IN A    10.220.{{iscsi_octet}}.41
+vdc-{{lab_name}}-vh29            IN A    10.220.{{iscsi_octet}}.42
+vdc-{{lab_name}}-vh2a            IN A    10.220.{{iscsi_octet}}.43
+vdc-{{lab_name}}-vh2b            IN A    10.220.{{iscsi_octet}}.44
+vdc-{{lab_name}}-vh2c            IN A    10.220.{{iscsi_octet}}.45
+vdc-{{lab_name}}-vh2d            IN A    10.220.{{iscsi_octet}}.46
+vdc-{{lab_name}}-vh2e            IN A    10.220.{{iscsi_octet}}.47
+vdc-{{lab_name}}-vh2f            IN A    10.220.{{iscsi_octet}}.48
+vdc-{{lab_name}}-vh30            IN A    10.220.{{iscsi_octet}}.49
+vdc-{{lab_name}}-vh31            IN A    10.220.{{iscsi_octet}}.50
+vdc-{{lab_name}}-vh32            IN A    10.220.{{iscsi_octet}}.51
+vdc-{{lab_name}}-vh33            IN A    10.220.{{iscsi_octet}}.52
+vdc-{{lab_name}}-vh34            IN A    10.220.{{iscsi_octet}}.53
+vdc-{{lab_name}}-vh35            IN A    10.220.{{iscsi_octet}}.54
+vdc-{{lab_name}}-vh36            IN A    10.220.{{iscsi_octet}}.55
+vdc-{{lab_name}}-vh37            IN A    10.220.{{iscsi_octet}}.56
+vdc-{{lab_name}}-vh38            IN A    10.220.{{iscsi_octet}}.57
+vdc-{{lab_name}}-vh39            IN A    10.220.{{iscsi_octet}}.58
+vdc-{{lab_name}}-vh3a            IN A    10.220.{{iscsi_octet}}.59
+vdc-{{lab_name}}-vh3b            IN A    10.220.{{iscsi_octet}}.60
+vdc-{{lab_name}}-vh3c            IN A    10.220.{{iscsi_octet}}.61
+vdc-{{lab_name}}-vh3d            IN A    10.220.{{iscsi_octet}}.62
+vdc-{{lab_name}}-vh3e            IN A    10.220.{{iscsi_octet}}.63
+vdc-{{lab_name}}-vh3f            IN A    10.220.{{iscsi_octet}}.64
+vdc-{{lab_name}}-vh40            IN A    10.220.{{iscsi_octet}}.65
+vdc-{{lab_name}}-vh41            IN A    10.220.{{iscsi_octet}}.66
+vdc-{{lab_name}}-vh42            IN A    10.220.{{iscsi_octet}}.67
+vdc-{{lab_name}}-vh43            IN A    10.220.{{iscsi_octet}}.68
+vdc-{{lab_name}}-vh44            IN A    10.220.{{iscsi_octet}}.69
+vdc-{{lab_name}}-vh45            IN A    10.220.{{iscsi_octet}}.70
+vdc-{{lab_name}}-vh46            IN A    10.220.{{iscsi_octet}}.71
+vdc-{{lab_name}}-vh47            IN A    10.220.{{iscsi_octet}}.72
+vdc-{{lab_name}}-vh48            IN A    10.220.{{iscsi_octet}}.73
+vdc-{{lab_name}}-vh49            IN A    10.220.{{iscsi_octet}}.74
+vdc-{{lab_name}}-vh4a            IN A    10.220.{{iscsi_octet}}.75
+vdc-{{lab_name}}-vh4b            IN A    10.220.{{iscsi_octet}}.76
+vdc-{{lab_name}}-vh4c            IN A    10.220.{{iscsi_octet}}.77
+vdc-{{lab_name}}-vh4d            IN A    10.220.{{iscsi_octet}}.78
+vdc-{{lab_name}}-vh4e            IN A    10.220.{{iscsi_octet}}.79
+vdc-{{lab_name}}-vh4f            IN A    10.220.{{iscsi_octet}}.80
+vdc-{{lab_name}}-vh50            IN A    10.220.{{iscsi_octet}}.81
+vdc-{{lab_name}}-vh51            IN A    10.220.{{iscsi_octet}}.82
+vdc-{{lab_name}}-vh52            IN A    10.220.{{iscsi_octet}}.83
+vdc-{{lab_name}}-vh53            IN A    10.220.{{iscsi_octet}}.84
+vdc-{{lab_name}}-vh54            IN A    10.220.{{iscsi_octet}}.85
+vdc-{{lab_name}}-vh55            IN A    10.220.{{iscsi_octet}}.86
+vdc-{{lab_name}}-vh56            IN A    10.220.{{iscsi_octet}}.87
+vdc-{{lab_name}}-vh57            IN A    10.220.{{iscsi_octet}}.88
+vdc-{{lab_name}}-vh58            IN A    10.220.{{iscsi_octet}}.89
+vdc-{{lab_name}}-vh59            IN A    10.220.{{iscsi_octet}}.90
+vdc-{{lab_name}}-vh5a            IN A    10.220.{{iscsi_octet}}.91
+vdc-{{lab_name}}-vh5b            IN A    10.220.{{iscsi_octet}}.92
+vdc-{{lab_name}}-vh5c            IN A    10.220.{{iscsi_octet}}.93
+vdc-{{lab_name}}-vh5d            IN A    10.220.{{iscsi_octet}}.94
+vdc-{{lab_name}}-vh5e            IN A    10.220.{{iscsi_octet}}.95
+vdc-{{lab_name}}-vh5f            IN A    10.220.{{iscsi_octet}}.96
+
+vdc-{{lab_name}}-sa01            IN A    10.220.{{iscsi_octet}}.113
+vdc-{{lab_name}}-sa02            IN A    10.220.{{iscsi_octet}}.114
+vdc-{{lab_name}}-sa03            IN A    10.220.{{iscsi_octet}}.115
+vdc-{{lab_name}}-sa04            IN A    10.220.{{iscsi_octet}}.116
+vdc-{{lab_name}}-sa05            IN A    10.220.{{iscsi_octet}}.117
+vdc-{{lab_name}}-sa06            IN A    10.220.{{iscsi_octet}}.118
+vdc-{{lab_name}}-sa07            IN A    10.220.{{iscsi_octet}}.119
+vdc-{{lab_name}}-sa08            IN A    10.220.{{iscsi_octet}}.120
+vdc-{{lab_name}}-sa09            IN A    10.220.{{iscsi_octet}}.121
+vdc-{{lab_name}}-sa10            IN A    10.220.{{iscsi_octet}}.122
+
+
+;; iSCSI2       iscsi2.{{lab_name}}.cp.vdc 10.220.{{iscsi_octet}}.128/25
+$ORIGIN iscsi2.{{lab_name}}.cp.vdc.
+vdc-{{lab_name}}-vh00            IN A    10.220.{{iscsi_octet}}.129
+vdc-{{lab_name}}-vh01            IN A    10.220.{{iscsi_octet}}.130
+vdc-{{lab_name}}-vh02            IN A    10.220.{{iscsi_octet}}.131
+vdc-{{lab_name}}-vh03            IN A    10.220.{{iscsi_octet}}.132
+vdc-{{lab_name}}-vh04            IN A    10.220.{{iscsi_octet}}.133
+vdc-{{lab_name}}-vh05            IN A    10.220.{{iscsi_octet}}.134
+vdc-{{lab_name}}-vh06            IN A    10.220.{{iscsi_octet}}.135
+vdc-{{lab_name}}-vh07            IN A    10.220.{{iscsi_octet}}.136
+vdc-{{lab_name}}-vh08            IN A    10.220.{{iscsi_octet}}.137
+vdc-{{lab_name}}-vh09            IN A    10.220.{{iscsi_octet}}.138
+vdc-{{lab_name}}-vh0a            IN A    10.220.{{iscsi_octet}}.139
+vdc-{{lab_name}}-vh0b            IN A    10.220.{{iscsi_octet}}.140
+vdc-{{lab_name}}-vh0c            IN A    10.220.{{iscsi_octet}}.141
+vdc-{{lab_name}}-vh0d            IN A    10.220.{{iscsi_octet}}.142
+vdc-{{lab_name}}-vh0e            IN A    10.220.{{iscsi_octet}}.143
+vdc-{{lab_name}}-vh0f            IN A    10.220.{{iscsi_octet}}.144
+vdc-{{lab_name}}-vh10            IN A    10.220.{{iscsi_octet}}.145
+vdc-{{lab_name}}-vh11            IN A    10.220.{{iscsi_octet}}.146
+vdc-{{lab_name}}-vh12            IN A    10.220.{{iscsi_octet}}.147
+vdc-{{lab_name}}-vh13            IN A    10.220.{{iscsi_octet}}.148
+vdc-{{lab_name}}-vh14            IN A    10.220.{{iscsi_octet}}.149
+vdc-{{lab_name}}-vh15            IN A    10.220.{{iscsi_octet}}.150
+vdc-{{lab_name}}-vh16            IN A    10.220.{{iscsi_octet}}.151
+vdc-{{lab_name}}-vh17            IN A    10.220.{{iscsi_octet}}.152
+vdc-{{lab_name}}-vh18            IN A    10.220.{{iscsi_octet}}.153
+vdc-{{lab_name}}-vh19            IN A    10.220.{{iscsi_octet}}.154
+vdc-{{lab_name}}-vh1a            IN A    10.220.{{iscsi_octet}}.155
+vdc-{{lab_name}}-vh1b            IN A    10.220.{{iscsi_octet}}.156
+vdc-{{lab_name}}-vh1c            IN A    10.220.{{iscsi_octet}}.157
+vdc-{{lab_name}}-vh1d            IN A    10.220.{{iscsi_octet}}.158
+vdc-{{lab_name}}-vh1e            IN A    10.220.{{iscsi_octet}}.159
+vdc-{{lab_name}}-vh1f            IN A    10.220.{{iscsi_octet}}.160
+vdc-{{lab_name}}-vh20            IN A    10.220.{{iscsi_octet}}.161
+vdc-{{lab_name}}-vh21            IN A    10.220.{{iscsi_octet}}.162
+vdc-{{lab_name}}-vh22            IN A    10.220.{{iscsi_octet}}.163
+vdc-{{lab_name}}-vh23            IN A    10.220.{{iscsi_octet}}.164
+vdc-{{lab_name}}-vh24            IN A    10.220.{{iscsi_octet}}.165
+vdc-{{lab_name}}-vh25            IN A    10.220.{{iscsi_octet}}.166
+vdc-{{lab_name}}-vh26            IN A    10.220.{{iscsi_octet}}.167
+vdc-{{lab_name}}-vh27            IN A    10.220.{{iscsi_octet}}.168
+vdc-{{lab_name}}-vh28            IN A    10.220.{{iscsi_octet}}.169
+vdc-{{lab_name}}-vh29            IN A    10.220.{{iscsi_octet}}.170
+vdc-{{lab_name}}-vh2a            IN A    10.220.{{iscsi_octet}}.171
+vdc-{{lab_name}}-vh2b            IN A    10.220.{{iscsi_octet}}.172
+vdc-{{lab_name}}-vh2c            IN A    10.220.{{iscsi_octet}}.173
+vdc-{{lab_name}}-vh2d            IN A    10.220.{{iscsi_octet}}.174
+vdc-{{lab_name}}-vh2e            IN A    10.220.{{iscsi_octet}}.175
+vdc-{{lab_name}}-vh2f            IN A    10.220.{{iscsi_octet}}.176
+vdc-{{lab_name}}-vh30            IN A    10.220.{{iscsi_octet}}.177
+vdc-{{lab_name}}-vh31            IN A    10.220.{{iscsi_octet}}.178
+vdc-{{lab_name}}-vh32            IN A    10.220.{{iscsi_octet}}.179
+vdc-{{lab_name}}-vh33            IN A    10.220.{{iscsi_octet}}.180
+vdc-{{lab_name}}-vh34            IN A    10.220.{{iscsi_octet}}.181
+vdc-{{lab_name}}-vh35            IN A    10.220.{{iscsi_octet}}.182
+vdc-{{lab_name}}-vh36            IN A    10.220.{{iscsi_octet}}.183
+vdc-{{lab_name}}-vh37            IN A    10.220.{{iscsi_octet}}.184
+vdc-{{lab_name}}-vh38            IN A    10.220.{{iscsi_octet}}.185
+vdc-{{lab_name}}-vh39            IN A    10.220.{{iscsi_octet}}.186
+vdc-{{lab_name}}-vh3a            IN A    10.220.{{iscsi_octet}}.187
+vdc-{{lab_name}}-vh3b            IN A    10.220.{{iscsi_octet}}.188
+vdc-{{lab_name}}-vh3c            IN A    10.220.{{iscsi_octet}}.189
+vdc-{{lab_name}}-vh3d            IN A    10.220.{{iscsi_octet}}.190
+vdc-{{lab_name}}-vh3e            IN A    10.220.{{iscsi_octet}}.191
+vdc-{{lab_name}}-vh3f            IN A    10.220.{{iscsi_octet}}.192
+vdc-{{lab_name}}-vh40            IN A    10.220.{{iscsi_octet}}.193
+vdc-{{lab_name}}-vh41            IN A    10.220.{{iscsi_octet}}.194
+vdc-{{lab_name}}-vh42            IN A    10.220.{{iscsi_octet}}.195
+vdc-{{lab_name}}-vh43            IN A    10.220.{{iscsi_octet}}.196
+vdc-{{lab_name}}-vh44            IN A    10.220.{{iscsi_octet}}.197
+vdc-{{lab_name}}-vh45            IN A    10.220.{{iscsi_octet}}.198
+vdc-{{lab_name}}-vh46            IN A    10.220.{{iscsi_octet}}.199
+vdc-{{lab_name}}-vh47            IN A    10.220.{{iscsi_octet}}.200
+vdc-{{lab_name}}-vh48            IN A    10.220.{{iscsi_octet}}.201
+vdc-{{lab_name}}-vh49            IN A    10.220.{{iscsi_octet}}.202
+vdc-{{lab_name}}-vh4a            IN A    10.220.{{iscsi_octet}}.203
+vdc-{{lab_name}}-vh4b            IN A    10.220.{{iscsi_octet}}.204
+vdc-{{lab_name}}-vh4c            IN A    10.220.{{iscsi_octet}}.205
+vdc-{{lab_name}}-vh4d            IN A    10.220.{{iscsi_octet}}.206
+vdc-{{lab_name}}-vh4e            IN A    10.220.{{iscsi_octet}}.207
+vdc-{{lab_name}}-vh4f            IN A    10.220.{{iscsi_octet}}.208
+vdc-{{lab_name}}-vh50            IN A    10.220.{{iscsi_octet}}.209
+vdc-{{lab_name}}-vh51            IN A    10.220.{{iscsi_octet}}.210
+vdc-{{lab_name}}-vh52            IN A    10.220.{{iscsi_octet}}.211
+vdc-{{lab_name}}-vh53            IN A    10.220.{{iscsi_octet}}.212
+vdc-{{lab_name}}-vh54            IN A    10.220.{{iscsi_octet}}.213
+vdc-{{lab_name}}-vh55            IN A    10.220.{{iscsi_octet}}.214
+vdc-{{lab_name}}-vh56            IN A    10.220.{{iscsi_octet}}.215
+vdc-{{lab_name}}-vh57            IN A    10.220.{{iscsi_octet}}.216
+vdc-{{lab_name}}-vh58            IN A    10.220.{{iscsi_octet}}.217
+vdc-{{lab_name}}-vh59            IN A    10.220.{{iscsi_octet}}.218
+vdc-{{lab_name}}-vh5a            IN A    10.220.{{iscsi_octet}}.219
+vdc-{{lab_name}}-vh5b            IN A    10.220.{{iscsi_octet}}.220
+vdc-{{lab_name}}-vh5c            IN A    10.220.{{iscsi_octet}}.221
+vdc-{{lab_name}}-vh5d            IN A    10.220.{{iscsi_octet}}.222
+vdc-{{lab_name}}-vh5e            IN A    10.220.{{iscsi_octet}}.223
+vdc-{{lab_name}}-vh5f            IN A    10.220.{{iscsi_octet}}.224
+
+vdc-{{lab_name}}-sa01            IN A    10.220.{{iscsi_octet}}.241
+vdc-{{lab_name}}-sa02            IN A    10.220.{{iscsi_octet}}.242
+vdc-{{lab_name}}-sa03            IN A    10.220.{{iscsi_octet}}.243
+vdc-{{lab_name}}-sa04            IN A    10.220.{{iscsi_octet}}.244
+vdc-{{lab_name}}-sa05            IN A    10.220.{{iscsi_octet}}.245
+vdc-{{lab_name}}-sa06            IN A    10.220.{{iscsi_octet}}.246
+vdc-{{lab_name}}-sa07            IN A    10.220.{{iscsi_octet}}.247
+vdc-{{lab_name}}-sa08            IN A    10.220.{{iscsi_octet}}.248
+vdc-{{lab_name}}-sa09            IN A    10.220.{{iscsi_octet}}.249
+vdc-{{lab_name}}-sa10            IN A    10.220.{{iscsi_octet}}.250
+

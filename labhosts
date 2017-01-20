@@ -1,4 +1,6 @@
 cplabgate
+
+[kickstart]
 vdc-lablon10-ks1
 
 [lablon15-cpman]
@@ -7,16 +9,17 @@ vdc-lablon15-cpman2.lablon15.cp.vdc
 [lablon15-db]
 vdc-lablon15-cpdb1.lablon15.cp.vdc
 [lablon15-dns]
+#vdc-lablon15-dns1.lablon15.cp.vdc   ansible_host=10.220.114.107
 vdc-lablon15-dns1.lablon15.cp.vdc
 vdc-lablon15-dns2.lablon15.cp.vdc
 [lablon15-vc]
 vdc-ll15-cpvsp1.lablon15.cp.vdc
 
 [lablon15:children]
-[lablon15-cpman]
-[lablon15-db]
-[lablon15-dns]
-[lablon15-vc]
+lablon15-db
+lablon15-cpman
+lablon15-dns
+lablon15-vc
 
 [lablon16-cpman]
 vdc-lablon16-cpman1.lablon16.cp.vdc
@@ -65,6 +68,11 @@ lablon15-vc
 lablon16-vc
 lablon17-vc
 
+[dns:children]
+lablon15-dns
+lablon16-dns
+lablon17-dns
+
 [blades]
 blade01 ansible_host=10.1.115.37
 blade02 ansible_host=10.1.115.38
@@ -82,3 +90,11 @@ blade13 ansible_host=10.1.115.49
 blade14 ansible_host=10.1.115.50
 blade15 ansible_host=10.1.115.51
 blade16 ansible_host=10.1.115.52
+
+[global:children]
+dns
+cpman
+db
+vc
+blades
+kickstart

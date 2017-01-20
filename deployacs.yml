@@ -6,16 +6,12 @@
     vars_files:
        -  vars/lab16.yml
     roles:
-      - { role: installacsdns } 
+      - { role: installacs } 
 
--   hosts: lablon16-db
+-   hosts: 
+       - lablon16-db
+       - lablon16-cpman
     vars_files:
        -  vars/lab16.yml
     roles:
-       - { role: installacsdb } 
-
--   hosts: lablon16-cpman
-    vars_files:
-       -  vars/lab16.yml
-    roles:
-       - { role: installacsman }
+       - { role: installacs } 

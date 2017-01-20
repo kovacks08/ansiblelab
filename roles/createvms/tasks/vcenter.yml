@@ -1,0 +1,78 @@
+---
+    - name: Debug
+      debug:
+        var: nameips
+      tags:
+        - debug
+
+    - name: Debug
+      debug:
+        var: nameips["{{ inventory_hostname.split('.')[0].split('-')[2] }}"]
+      tags:
+        - debug
+
+    - name: Stop the VCenter VM
+      vmware_guest_mod:
+        validate_certs: False
+        hostname: "{{ mgmt_vcenter }}"
+        username: "{{ mgmt_vcenter_user }}"
+        password: "{{ mgmt_vcenter_password }}"
+        cluster: "{{ mgmt_cluster }}"
+        name: "vdc-lablon{{lab_number}}-cpvsp1"
+        state: poweredoff
+        datacenter: "{{ mgmt_datacenter }}"
+        template: "{{ lab_vcenter_tpl }}"
+      ignore_errors: True
+      delegate_to: localhost
+      tags:
+       # - clean_up
+        - stop
+        - stop_vcenter
+       # - delete_vcenter
+       # - deploy_vcenter
+       # - deploy_all
+
+    - name: Delete the VCenter VM
+      vmware_guest_mod:
+        validate_certs: False
+        hostname: "{{ mgmt_vcenter }}"
+        username: "{{ mgmt_vcenter_user }}"
+        password: "{{ mgmt_vcenter_password }}"
+        cluster: "{{ mgmt_cluster }}"
+        name: "vdc-lablon{{lab_number}}-cpvsp1"
+        state: absent
+        datacenter: "{{ mgmt_datacenter }}"
+        template: "{{ lab_vcenter_tpl }}"
+      ignore_errors: True
+      delegate_to: localhost
+      tags:
+        - clean_up
+        - delete_vcenter
+        - deploy_vcenter
+        - deploy_all
+
+    - name: deploy the vcenter server vm
+      vmware_guest_mod:
+        validate_certs: False
+        hostname: "{{ mgmt_vcenter }}"
+        username: "{{ mgmt_vcenter_user }}"
+        password: "{{ mgmt_vcenter_password }}"
+        cluster: "{{ mgmt_cluster }}"
+        domain: "{{ domain }}"
+        name: "vdc-lablon{{lab_number}}-cpvsp1"
+        state: poweredon
+        template: "{{ lab_vcenter_tpl }}"
+        datacenter: "{{ mgmt_datacenter }}"
+        customize: True
+        dns_servers: "{{ dns_servers }}"
+        #ips: "{{ lookup('dig', inventory_hostname) }}"
+        #networks: "{{ lab_networks }}"
+        ips: "{{ nameips[ inventory_hostname.split('.')[0].split('-')[2] ] }}"
+        networks: "{{ lab_networks }}"
+        wait_for_ip_address: True
+      delegate_to: localhost
+      ignore_errors: True
+      tags:
+        - start
+        - deploy_all
+        - deploy_vcenter

@@ -1,0 +1,11 @@
+---
+-   hosts: vdc-lablon15-dns1.lablon15.cp.vdc
+    gather_facts: False
+    pre_tasks:
+       - setup:
+            filter: ansible_*
+    vars_files:
+       -  vars/lab15.yml
+    roles:
+      - { role: installdns } 
+

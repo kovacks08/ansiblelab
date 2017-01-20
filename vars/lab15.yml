@@ -1,11 +1,30 @@
 lab_number: 15
+mgmt_lab_number: 16
 dc_name: "lablon15"
-vc_name: "vdc-ll15-cpvsp1.lablon15.cp.vdc"
 ip_range: "10.220.112.0"
+
+# Kickstart information
+kernel_name: "ESXi 5.5 update 3"
+kernel_version: "esxi55u3"
+
+# Vmware vswitch type
+switch_type: "dvs"
+
+# VDCAPI virtual environment location
+vdcapi_venv: "/root/cpapi/api/"
+
+vcenter_user: cloudplatform
+vcenter_password: Interoute01
+mgmt_vc_name: 'VDC-LABLON09-VM.vdclab.internal'
+
+# Repository version in server 10.42.42.55 for Cloudstack
+repo_version: "4.6.1-shapeblue5"
+
+# Location of the system vm file
+system_vm_template: "http://10.220.2.77/systemvm64template-master-4.6.0-vmware.ova"
+
+
 clusters:
-      - name: ESXCluster15a
+      - name: ESXCluster15
         blades:
-          - 'blade10'
-      - name: ESXCluster15b
-        blades: 
           - 'blade11'

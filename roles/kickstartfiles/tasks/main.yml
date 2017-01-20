@@ -1,8 +1,7 @@
 ---
-    - include_vars: blades.yml
-      tags:
-        - always
-    
+    #- include_vars: blades.yml
+      #tags:
+        #- always
 
     # Gather the blade data only when the blade is mentioned in the cluster list
     - name: Gather iLO facts
@@ -17,6 +16,7 @@
       delegate_to: cplabgate
       tags:
         - always
+
 
     # We use the mac_address as a key that we gathered the facts for those hosts
     - name: check ilo facts
@@ -98,8 +98,23 @@
     - name: Pause for a minute
       when: hw_eth0 is defined
       pause:
-        minutes: 1
+        minutes: 2
+      tags:
+        - reinstall_blade
 
+ # Gather the blade data only when the blade is mentioned in the cluster list
+    - name: Gather iLO facts again
+      with_subelements:
+        - "{{clusters}}"
+        - blades
+      when: item.1 == inventory_hostname
+      hpilo_facts:
+         host: "{{ ansible_host }}"
+         login: VDCAdmin
+         password: Interoute01
+      delegate_to: cplabgate
+      tags:
+        - reinstall_blade
 
     - name: Lets reboot the server
       when: hw_eth0 is defined

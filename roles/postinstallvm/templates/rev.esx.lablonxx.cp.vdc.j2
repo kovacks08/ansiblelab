@@ -1,0 +1,112 @@
+$TTL 86400
+@       IN SOA     masterdns.{{lab_name}}.cp.vdc. root.{{lab_name}}.cp.vdc. (
+        {{date}}01 ;Serial
+        3600        ;Refresh
+        1800        ;Retry
+        604800      ;Expire
+        30          ;Minimum TTL
+)
+
+        IN NS           masterdns.{{lab_name}}.cp.vdc.
+
+
+;; ESX          esx.{{lab_name}}.cp.vdc    10.220.{{esx_octet}}.0/22
+;only configured for            10.220.{{esx_octet}}.0/24
+$ORIGIN {{esx_octet}}.220.10.in-addr.arpa.
+1               IN PTR          vdc-{{lab_name}}-vh00.esx.{{lab_name}}.cp.vdc.
+2               IN PTR          vdc-{{lab_name}}-vh01.esx.{{lab_name}}.cp.vdc.
+3               IN PTR          vdc-{{lab_name}}-vh02.esx.{{lab_name}}.cp.vdc.
+4               IN PTR          vdc-{{lab_name}}-vh03.esx.{{lab_name}}.cp.vdc.
+5               IN PTR          vdc-{{lab_name}}-vh04.esx.{{lab_name}}.cp.vdc.
+6               IN PTR          vdc-{{lab_name}}-vh05.esx.{{lab_name}}.cp.vdc.
+7               IN PTR          vdc-{{lab_name}}-vh06.esx.{{lab_name}}.cp.vdc.
+8               IN PTR          vdc-{{lab_name}}-vh07.esx.{{lab_name}}.cp.vdc.
+9               IN PTR          vdc-{{lab_name}}-vh08.esx.{{lab_name}}.cp.vdc.
+10              IN PTR          vdc-{{lab_name}}-vh09.esx.{{lab_name}}.cp.vdc.
+11              IN PTR          vdc-{{lab_name}}-vh0a.esx.{{lab_name}}.cp.vdc.
+12              IN PTR          vdc-{{lab_name}}-vh0b.esx.{{lab_name}}.cp.vdc.
+13              IN PTR          vdc-{{lab_name}}-vh0c.esx.{{lab_name}}.cp.vdc.
+14              IN PTR          vdc-{{lab_name}}-vh0d.esx.{{lab_name}}.cp.vdc.
+15              IN PTR          vdc-{{lab_name}}-vh0e.esx.{{lab_name}}.cp.vdc.
+16              IN PTR          vdc-{{lab_name}}-vh0f.esx.{{lab_name}}.cp.vdc.
+17              IN PTR          vdc-{{lab_name}}-vh10.esx.{{lab_name}}.cp.vdc.
+18              IN PTR          vdc-{{lab_name}}-vh11.esx.{{lab_name}}.cp.vdc.
+19              IN PTR          vdc-{{lab_name}}-vh12.esx.{{lab_name}}.cp.vdc.
+20              IN PTR          vdc-{{lab_name}}-vh13.esx.{{lab_name}}.cp.vdc.
+21              IN PTR          vdc-{{lab_name}}-vh14.esx.{{lab_name}}.cp.vdc.
+22              IN PTR          vdc-{{lab_name}}-vh15.esx.{{lab_name}}.cp.vdc.
+23              IN PTR          vdc-{{lab_name}}-vh16.esx.{{lab_name}}.cp.vdc.
+24              IN PTR          vdc-{{lab_name}}-vh17.esx.{{lab_name}}.cp.vdc.
+25              IN PTR          vdc-{{lab_name}}-vh18.esx.{{lab_name}}.cp.vdc.
+26              IN PTR          vdc-{{lab_name}}-vh19.esx.{{lab_name}}.cp.vdc.
+27              IN PTR          vdc-{{lab_name}}-vh1a.esx.{{lab_name}}.cp.vdc.
+28              IN PTR          vdc-{{lab_name}}-vh1b.esx.{{lab_name}}.cp.vdc.
+29              IN PTR          vdc-{{lab_name}}-vh1c.esx.{{lab_name}}.cp.vdc.
+30              IN PTR          vdc-{{lab_name}}-vh1d.esx.{{lab_name}}.cp.vdc.
+31              IN PTR          vdc-{{lab_name}}-vh1e.esx.{{lab_name}}.cp.vdc.
+32              IN PTR          vdc-{{lab_name}}-vh1f.esx.{{lab_name}}.cp.vdc.
+33              IN PTR          vdc-{{lab_name}}-vh20.esx.{{lab_name}}.cp.vdc.
+34              IN PTR          vdc-{{lab_name}}-vh21.esx.{{lab_name}}.cp.vdc.
+35              IN PTR          vdc-{{lab_name}}-vh22.esx.{{lab_name}}.cp.vdc.
+36              IN PTR          vdc-{{lab_name}}-vh23.esx.{{lab_name}}.cp.vdc.
+37              IN PTR          vdc-{{lab_name}}-vh24.esx.{{lab_name}}.cp.vdc.
+38              IN PTR          vdc-{{lab_name}}-vh25.esx.{{lab_name}}.cp.vdc.
+39              IN PTR          vdc-{{lab_name}}-vh26.esx.{{lab_name}}.cp.vdc.
+40              IN PTR          vdc-{{lab_name}}-vh27.esx.{{lab_name}}.cp.vdc.
+41              IN PTR          vdc-{{lab_name}}-vh28.esx.{{lab_name}}.cp.vdc.
+42              IN PTR          vdc-{{lab_name}}-vh29.esx.{{lab_name}}.cp.vdc.
+43              IN PTR          vdc-{{lab_name}}-vh2a.esx.{{lab_name}}.cp.vdc.
+44              IN PTR          vdc-{{lab_name}}-vh2b.esx.{{lab_name}}.cp.vdc.
+45              IN PTR          vdc-{{lab_name}}-vh2c.esx.{{lab_name}}.cp.vdc.
+46              IN PTR          vdc-{{lab_name}}-vh2d.esx.{{lab_name}}.cp.vdc.
+47              IN PTR          vdc-{{lab_name}}-vh2e.esx.{{lab_name}}.cp.vdc.
+48              IN PTR          vdc-{{lab_name}}-vh2f.esx.{{lab_name}}.cp.vdc.
+49              IN PTR          vdc-{{lab_name}}-vh30.esx.{{lab_name}}.cp.vdc.
+50              IN PTR          vdc-{{lab_name}}-vh31.esx.{{lab_name}}.cp.vdc.
+51              IN PTR          vdc-{{lab_name}}-vh32.esx.{{lab_name}}.cp.vdc.
+52              IN PTR          vdc-{{lab_name}}-vh33.esx.{{lab_name}}.cp.vdc.
+53              IN PTR          vdc-{{lab_name}}-vh34.esx.{{lab_name}}.cp.vdc.
+54              IN PTR          vdc-{{lab_name}}-vh35.esx.{{lab_name}}.cp.vdc.
+55              IN PTR          vdc-{{lab_name}}-vh36.esx.{{lab_name}}.cp.vdc.
+56              IN PTR          vdc-{{lab_name}}-vh37.esx.{{lab_name}}.cp.vdc.
+57              IN PTR          vdc-{{lab_name}}-vh38.esx.{{lab_name}}.cp.vdc.
+58              IN PTR          vdc-{{lab_name}}-vh39.esx.{{lab_name}}.cp.vdc.
+59              IN PTR          vdc-{{lab_name}}-vh3a.esx.{{lab_name}}.cp.vdc.
+60              IN PTR          vdc-{{lab_name}}-vh3b.esx.{{lab_name}}.cp.vdc.
+61              IN PTR          vdc-{{lab_name}}-vh3c.esx.{{lab_name}}.cp.vdc.
+62              IN PTR          vdc-{{lab_name}}-vh3d.esx.{{lab_name}}.cp.vdc.
+63              IN PTR          vdc-{{lab_name}}-vh3e.esx.{{lab_name}}.cp.vdc.
+64              IN PTR          vdc-{{lab_name}}-vh3f.esx.{{lab_name}}.cp.vdc.
+65              IN PTR          vdc-{{lab_name}}-vh40.esx.{{lab_name}}.cp.vdc.
+66              IN PTR          vdc-{{lab_name}}-vh41.esx.{{lab_name}}.cp.vdc.
+67              IN PTR          vdc-{{lab_name}}-vh42.esx.{{lab_name}}.cp.vdc.
+68              IN PTR          vdc-{{lab_name}}-vh43.esx.{{lab_name}}.cp.vdc.
+69              IN PTR          vdc-{{lab_name}}-vh44.esx.{{lab_name}}.cp.vdc.
+70              IN PTR          vdc-{{lab_name}}-vh45.esx.{{lab_name}}.cp.vdc.
+71              IN PTR          vdc-{{lab_name}}-vh46.esx.{{lab_name}}.cp.vdc.
+72              IN PTR          vdc-{{lab_name}}-vh47.esx.{{lab_name}}.cp.vdc.
+73              IN PTR          vdc-{{lab_name}}-vh48.esx.{{lab_name}}.cp.vdc.
+74              IN PTR          vdc-{{lab_name}}-vh49.esx.{{lab_name}}.cp.vdc.
+75              IN PTR          vdc-{{lab_name}}-vh4a.esx.{{lab_name}}.cp.vdc.
+76              IN PTR          vdc-{{lab_name}}-vh4b.esx.{{lab_name}}.cp.vdc.
+77              IN PTR          vdc-{{lab_name}}-vh4c.esx.{{lab_name}}.cp.vdc.
+78              IN PTR          vdc-{{lab_name}}-vh4d.esx.{{lab_name}}.cp.vdc.
+79              IN PTR          vdc-{{lab_name}}-vh4e.esx.{{lab_name}}.cp.vdc.
+80              IN PTR          vdc-{{lab_name}}-vh4f.esx.{{lab_name}}.cp.vdc.
+81              IN PTR          vdc-{{lab_name}}-vh50.esx.{{lab_name}}.cp.vdc.
+82              IN PTR          vdc-{{lab_name}}-vh51.esx.{{lab_name}}.cp.vdc.
+83              IN PTR          vdc-{{lab_name}}-vh52.esx.{{lab_name}}.cp.vdc.
+84              IN PTR          vdc-{{lab_name}}-vh53.esx.{{lab_name}}.cp.vdc.
+85              IN PTR          vdc-{{lab_name}}-vh54.esx.{{lab_name}}.cp.vdc.
+86              IN PTR          vdc-{{lab_name}}-vh55.esx.{{lab_name}}.cp.vdc.
+87              IN PTR          vdc-{{lab_name}}-vh56.esx.{{lab_name}}.cp.vdc.
+88              IN PTR          vdc-{{lab_name}}-vh57.esx.{{lab_name}}.cp.vdc.
+89              IN PTR          vdc-{{lab_name}}-vh58.esx.{{lab_name}}.cp.vdc.
+90              IN PTR          vdc-{{lab_name}}-vh59.esx.{{lab_name}}.cp.vdc.
+91              IN PTR          vdc-{{lab_name}}-vh5a.esx.{{lab_name}}.cp.vdc.
+92              IN PTR          vdc-{{lab_name}}-vh5b.esx.{{lab_name}}.cp.vdc.
+93              IN PTR          vdc-{{lab_name}}-vh5c.esx.{{lab_name}}.cp.vdc.
+94              IN PTR          vdc-{{lab_name}}-vh5d.esx.{{lab_name}}.cp.vdc.
+95              IN PTR          vdc-{{lab_name}}-vh5e.esx.{{lab_name}}.cp.vdc.
+96              IN PTR          vdc-{{lab_name}}-vh5f.esx.{{lab_name}}.cp.vdc.
+

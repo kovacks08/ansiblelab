@@ -17,7 +17,7 @@ esxcli network vswitch standard uplink add -u vmnic0 -v "vSwitch0"
 esxcli network vswitch standard portgroup add -p "Management Network" -v "vSwitch0"
 esxcli network vswitch standard portgroup set -p "Management Network" -v {{ lab_number | int*100 + 11}}
 esxcli network ip interface add -i vmk0 -m 9000 -p "Management Network"
-esxcli network ip interface ipv4 set -t static -I 10.220.{{esxi_octet}}.10 -N 255.255.255.0 -i vmk0
+esxcli network ip interface ipv4 set -t static -I 10.220.{{esxi_octet}}.{{bladeips[inventory_hostname]}} -N 255.255.255.0 -i vmk0
 esxcfg-route 10.220.{{esxi_octet}}.254
 esxcli network ip interface tag add -i vmk0 -t Management
 
