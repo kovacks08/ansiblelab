@@ -48,10 +48,10 @@ vdc-lablon17-dns1.lablon17.cp.vdc
 vdc-lablon17-dns2.lablon17.cp.vdc
 
 [lablon17:children]
-[lablon17-cpman]
-[lablon17-db]
-[lablon17-dns]
-[lablon17-vc]
+lablon17-cpman
+lablon17-db
+lablon17-dns
+lablon17-vc
 
 [lablon18-cpman]
 vdc-lablon18-cpman1.lablon18.cp.vdc
@@ -63,10 +63,10 @@ vdc-lablon18-dns1.lablon18.cp.vdc
 vdc-lablon18-dns2.lablon18.cp.vdc
 
 [lablon18:children]
-[lablon18-cpman]
-[lablon18-db]
-[lablon18-dns]
-[lablon18-vc]
+lablon18-cpman
+lablon18-db
+lablon18-dns
+lablon18-vc
 
 [cpman:children]
 lablon15-cpman
