@@ -1,0 +1,17 @@
+---
+-   hosts: lablon18-dns
+    pre_tasks:
+       - setup:
+            filter: ansible_*
+    vars_files:
+       -  vars/lab18.yml
+    roles:
+      - { role: installacs } 
+
+-   hosts: 
+       - lablon18-db
+       - lablon18-cpman
+    vars_files:
+       -  vars/lab18.yml
+    roles:
+       - { role: installacs } 

@@ -1,18 +1,41 @@
 ---
     - name: Debug
       debug:
-        var: nameips
+        var: nameips["{{ inventory_hostname.split('.')[0].split('-')[2] }}"]
       tags:
         - debug
 
     - name: Debug
       debug:
-        var: nameips["{{ inventory_hostname.split('.')[0].split('-')[2] }}"]
+        var: lab_networks
       tags:
         - debug
 
+    - name: Get the status of the VM
+      vmware_guest:
+        validate_certs: False
+        hostname: "{{ mgmt_vcenter }}"
+        username: "{{ mgmt_vcenter_user }}"
+        password: "{{ mgmt_vcenter_password }}"
+        cluster: "{{ mgmt_datacenter }}"
+        name: "{{ inventory_hostname.split('.')[0] }}"
+      ignore_errors: True
+      register: facts
+      delegate_to: localhost
+      tags: 
+        - clean_up
+        - delete_linux
+
+    - name: Show information about deployed vms
+      debug:
+        var: facts
+      tags: 
+        - clean_up
+        - delete_linux
+
     - name: Stop linux mgmt vms in the lab
-      vmware_guest_mod:
+      when: facts.instance is defined
+      vmware_guest:
         validate_certs: False
         hostname: "{{ mgmt_vcenter }}"
         username: "{{ mgmt_vcenter_user }}"
@@ -34,8 +57,28 @@
         #- deploy_linux
         #- deploy_all
 
-    - name: Delete all the mgmt vms in the lab
-      vmware_guest_mod:
+
+    - name: We stop the vm if it's started
+      when: facts.instance.hw_power_status == "poweredOn" 
+      vmware_guest:
+        validate_certs: False
+        hostname: "{{ mgmt_vcenter }}"
+        username: "{{ mgmt_vcenter_user }}"
+        password: "{{ mgmt_vcenter_password }}"
+        cluster: "{{ mgmt_datacenter }}"
+        name: "{{ inventory_hostname.split('.')[0] }}"
+        datacenter: "{{ mgmt_datacenter }}"
+        template: "{{ linux_template }}"
+        state: poweredoff
+      ignore_errors: True
+      register: facts
+      delegate_to: localhost
+      tags:
+        - clean_up
+        - delete_linux
+
+    - name: Delete mgmt vms in the lab
+      vmware_guest:
         validate_certs: False
         hostname: "{{ mgmt_vcenter }}"
         username: "{{ mgmt_vcenter_user }}"
@@ -66,12 +109,17 @@
         state: poweredon
         template: "{{ linux_template }}"
         datacenter: "{{ mgmt_datacenter }}"
-        customize: True
+        customize: yes
         dns_servers: "{{ dns_servers }}"
         #ips: "{{ lookup('dig', inventory_hostname) }}"
         ips: "{{ nameips[ inventory_hostname.split('.')[0].split('-')[2] ] }}"
         networks: "{{ lab_networks }}"
-        wait_for_ip_address: True
+        #networks: 
+            #'10.220.114.0/25':
+                #gateway: "10.220.114.126"
+                #network: "ll15-management"
+                #network_address: "10.220.114.0/25"
+        wait_for_ip_address: yes
         #folder: "{{ folder }}"
         #resource_pool: "LL{{lab_number}}"
       delegate_to: localhost
@@ -85,14 +133,6 @@
     - name: Show information about deployed vms
       debug:
         var: deployedvm
-      tags:
-        - deploy_all
-        - deploy_linux
-
-
-    - name: Show information about deployed vms
-      debug:
-        var: ansible_play_hosts
       tags:
         - deploy_all
         - deploy_linux

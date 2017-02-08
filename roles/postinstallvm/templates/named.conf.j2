@@ -104,16 +104,3 @@ zone "{{iscsi_octet}}.220.10.in-addr.arpa" IN {
   allow-transfer        { any; };
   allow-query           { any; };
 };
-
-
-//////// SLAVE ////////
-
-// SLAVE - forward - cp.vdc
-zone "cp.vdc" IN {
-  type                  slave;
-  masters               { 10.42.155.107;10.42.155.108; };
-  file                  "/var/named/slave/fwd.cp.vdc";
-  allow-transfer        { any; };
-  allow-query           { any; };
-
-};

@@ -25,9 +25,6 @@ name_short: vdc-ll{{ mgmt_lab_number }}
 dns_ext1:  "10.220.{{mgmt_octet}}.107" 
 dns_ext2:  "10.220.58.101" 
 
-dns_ext1:  "10.220.{{mgmt_octet}}.107" 
-dns_ext2:  "10.220.58.101" 
-
 mgmt_traffic_vlan: "{{lab_number | int*100 + 11 }}"
 public_traffic_vlan: "{{lab_number | int*100 + 22 }}"
 storage_traffic_vlan: "{{lab_number | int*100 + 7 }}"
