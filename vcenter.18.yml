@@ -1,0 +1,11 @@
+---
+-   hosts: lablon18-vc
+    connection: local 
+    gather_facts: False
+    vars:
+       vcenter_user: cloudplatform
+       vcenter_password: Interoute01
+    vars_files:
+       -  vars/lab18.yml
+    roles:
+       - { role: labvcenter }

@@ -11,6 +11,28 @@
       tags:
         - debug
 
+    - name: Get the status of the VM
+      vmware_guest_mod:
+        validate_certs: False
+        hostname: "{{ mgmt_vcenter }}"
+        username: "{{ mgmt_vcenter_user }}"
+        password: "{{ mgmt_vcenter_password }}"
+        cluster: "{{ mgmt_datacenter }}"
+        name: "vdc-lablon{{lab_number}}-cpvsp1"
+      ignore_errors: True
+      register: facts
+      delegate_to: localhost
+      tags: 
+        - clean_up
+        - delete_vcenter
+
+    - name: Show information about deployed vms
+      debug:
+        var: facts
+      tags:
+        - clean_up
+        - delete_vcenter
+
     - name: Stop the VCenter VM
       vmware_guest_mod:
         validate_certs: False
@@ -32,6 +54,25 @@
        # - deploy_vcenter
        # - deploy_all
 
+    - name: We stop the vm if it's started
+      when: facts.instance.hw_power_status == "poweredOn"
+      vmware_guest_mod:
+        validate_certs: False
+        hostname: "{{ mgmt_vcenter }}"
+        username: "{{ mgmt_vcenter_user }}"
+        password: "{{ mgmt_vcenter_password }}"
+        cluster: "{{ mgmt_datacenter }}"
+        name: "vdc-lablon{{lab_number}}-cpvsp1"
+        datacenter: "{{ mgmt_datacenter }}"
+        template: "{{ lab_vcenter_tpl }}"
+        state: poweredoff
+      ignore_errors: True
+      register: facts
+      delegate_to: localhost
+      tags:
+        - clean_up
+        - delete_vcenter
+
     - name: Delete the VCenter VM
       vmware_guest_mod:
         validate_certs: False
@@ -48,10 +89,35 @@
       tags:
         - clean_up
         - delete_vcenter
-        - deploy_vcenter
-        - deploy_all
 
     - name: deploy the vcenter server vm
+      vmware_guest_mod:
+        validate_certs: False
+        hostname: "{{ mgmt_vcenter }}"
+        username: "{{ mgmt_vcenter_user }}"
+        password: "{{ mgmt_vcenter_password }}"
+        cluster: "{{ mgmt_cluster }}"
+        domain: "{{ domain }}"
+        name: "vdc-lablon{{lab_number}}-cpvsp1"
+        state: present
+        template: "{{ lab_vcenter_tpl }}"
+        datacenter: "{{ mgmt_datacenter }}"
+        customize: False
+        dns_servers: "{{ dns_servers }}"
+        ips: "{{ nameips[ inventory_hostname.split('.')[0].split('-')[2] ] }}"
+        networks: "{{ lab_networks }}"
+        wait_for_ip_address: False
+        #customization:
+        #autologon: True
+        #dns_servers:  "{{ dns_servers }}"
+        #password: "{{ password }}" 
+      delegate_to: localhost
+      ignore_errors: True
+      tags:
+        - deploy_all
+        - deploy_vcenter
+
+    - name: start the vcenter server vm
       vmware_guest_mod:
         validate_certs: False
         hostname: "{{ mgmt_vcenter }}"
@@ -63,13 +129,15 @@
         state: poweredon
         template: "{{ lab_vcenter_tpl }}"
         datacenter: "{{ mgmt_datacenter }}"
-        customize: True
+        customize: False
         dns_servers: "{{ dns_servers }}"
-        #ips: "{{ lookup('dig', inventory_hostname) }}"
-        #networks: "{{ lab_networks }}"
         ips: "{{ nameips[ inventory_hostname.split('.')[0].split('-')[2] ] }}"
         networks: "{{ lab_networks }}"
-        wait_for_ip_address: True
+        wait_for_ip_address: False
+        #customization:
+        #autologon: True
+        #dns_servers:  "{{ dns_servers }}"
+        #password: "{{ password }}" 
       delegate_to: localhost
       ignore_errors: True
       tags:

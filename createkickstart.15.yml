@@ -1,5 +1,7 @@
 ---
 -   hosts: blades
     gather_facts: False
+    vars_files:
+       -  vars/lab15.yml
     roles:
        - { role: kickstartfiles }

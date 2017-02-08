@@ -14,8 +14,8 @@
          - blades
       debug: msg=" {{ bladenames[item.1] }}   -  10.220.{{ nfs_octet }}.{{ bladeipsupper[item.1] }}"
       tags:
-        - new_hosts
-        - existing_hosts
+        - dvs
+        - svs
 
     - name: Create Datacenter
       vmware_datacenter:
@@ -26,8 +26,8 @@
             validate_certs: False
             state: present
       tags:
-        - new_hosts
-        - existing_hosts
+        - dvs
+        - svs
 
     - name: Create VMwareCluster
       with_items:
@@ -44,8 +44,8 @@
             enable_vsan: False
             state: present
       tags:
-        - new_hosts
-        - existing_hosts
+        - dvs
+        - svs
 
     - name: Add ESXi Host to VC
       with_subelements:
@@ -64,8 +64,8 @@
             validate_certs: False
             state: present
       tags:
-        - new_hosts
-        - existing_hosts
+        - dvs
+        - svs
 
     - name: Create distributed vSwitches
       when: switch_type == "dvs"
@@ -83,8 +83,7 @@
             validate_certs: False
             state: present
       tags:
-        - new_hosts
-        - existing_hosts
+        - dvs
 
     # hardcoded swtichnames. Didn't find a way to loop over the switches too
     - name: Add hosts to the storage dvs
@@ -105,8 +104,7 @@
             state: present
       ignore_errors: True
       tags:
-        - new_hosts
-        - existing_hosts
+        - dvs
 
     # hardcoded swtichnames. Didn't find a way to loop over the switches too
     - name: Add hosts to the external dvs
@@ -126,8 +124,7 @@
             state: present
       ignore_errors: True
       tags:
-        - new_hosts
-        - existing_hosts
+        - dvs 
 
     - name: Create dvs port_groups
       when: switch_type == "dvs"
@@ -146,8 +143,7 @@
             validate_certs: False
             state: present
       tags:
-        - new_hosts
-        - existing_hosts
+        - dvs
 
     # Try to configure iSCSI portgroups with a single uplink
     - name: Configure only one uplink to dvs portgroup iSCSI1
@@ -164,8 +160,7 @@
             validate_certs: False
             state: present
       tags:
-        - new_hosts
-        - existing_hosts
+        - dvs
             
     - name: Configure only one uplink to dvs portgroup iSCSI2
       when: switch_type == "dvs"
@@ -181,8 +176,7 @@
             validate_certs: False
             state: present
       tags:
-        - new_hosts
-        - existing_hosts
+        - dvs
             
     - name: Migrate management to external portgroup
       when: switch_type == "dvs"
@@ -203,7 +197,7 @@
       # We ignore the errors not to fail the second time around
       ignore_errors: True
       tags:
-        - new_hosts
+        - dvs
 
     - name: Create vmkernel ports NFS
       when: switch_type == "dvs"
@@ -224,7 +218,7 @@
             state: present
       ignore_errors: True
       tags:
-        - new_hosts
+        - dvs
 
     - name: Create vmkernel ports vMotion
       when: switch_type == "dvs"
@@ -247,7 +241,7 @@
       # We ignore the errors not to fail the second time around
       ignore_errors: True
       tags:
-        - new_hosts
+        - dvs
 
     - name: Create vmkernel ports iSCSI1
       when: switch_type == "dvs"
@@ -269,7 +263,7 @@
       # We ignore the errors not to fail the second time around
       ignore_errors: True
       tags:
-        - new_hosts
+        - dvs
 
     - name: Create vmkernel ports iSCSI2
       when: switch_type == "dvs"
@@ -291,7 +285,7 @@
       # We ignore the errors not to fail the second time around
       ignore_errors: True
       tags:
-        - new_hosts
+        - dvs
 
     # Delete vSwitch0
     - name: Delete vSwitch0 to free up vmnic0
@@ -310,7 +304,7 @@
       # We ignore the errors not to fail the second time around
       ignore_errors: True
       tags:
-        - new_hosts
+        - dvs
 
     # Add vmnic0 to external vswitch
     - name: Add hosts to the external dvs
@@ -332,7 +326,7 @@
       # We ignore the errors not to fail the second time around
       ignore_errors: True
       tags:
-        - new_hosts
+        - dvs
 
     # Recreate vSwitch0
     - name: Recreate vSwitch0 because of cloudstack reasons with vmnic2
@@ -351,7 +345,7 @@
       # We ignore the errors not to fail the second time around
       ignore_errors: True
       tags:
-        - new_hosts
+        - dvs
 
     - name: Create a portgroup "VM Network"
       when: switch_type == "dvs"
@@ -371,4 +365,4 @@
       # We ignore the errors not to fail the second time around
       ignore_errors: True 
       tags:
-        - new_hosts
+        - dvs

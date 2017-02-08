@@ -1,7 +1,7 @@
-lab_number: 16
-mgmt_lab_number: 16
+lab_number: 18
+mgmt_lab_number: 18
 
-dc_name: "lablon16"
+dc_name: "lablon18"
 
 # Kickstart information
 kernel_name: "ESXi 5.5 update 3"
@@ -14,20 +14,18 @@ switch_type: "dvs"
 vdcapi_venv: "/root/cpapi/api/" 
 
 # Starting IP range (Based on the IP range all IPs are calculated)
-ip_range: "10.220.120.0"
+ip_range: "10.220.136.0"
 
 # Repository version in server 10.42.42.55 for Cloudstack
 # Repository base is hardcoded as http://10.42.42.55
-repo_version: "4.6.1-shapeblue5"
+repo_version: "cloudstack-4.9"
 
 # Location of the system vm fileto upload to secondary storage
 system_vm_template: "http://10.220.2.77/systemvm64template-master-4.6.0-vmware.ova"
 
 # Configuration of the clusters (Cluster names + blades numbered blade01 to blade16)
 clusters:
-      - name: ESXCluster16
+      - name: ESXCluster18
         blades:
-          - 'blade10'
-      - name: ESXCluster16b
-        blades:
-          - 'blade16'
+          - 'blade13'
+          - 'blade14'

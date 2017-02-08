@@ -1,0 +1,6 @@
+---
+    - hosts: vdc-lablon18-cpman1.lablon18.cp.vdc
+      vars_files:
+        -  vars/lab18.yml
+      roles:
+        - { role: createzone }
